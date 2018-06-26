@@ -14,10 +14,14 @@ using System.Runtime.CompilerServices;
 namespace Leopotam.Ecs.Types {
     [Serializable]
     [StructLayout (LayoutKind.Sequential)]
-    public struct Int2 {
+    public struct Int4 {
         public int X;
 
         public int Y;
+
+        public int Z;
+
+        public int W;
 
 #if NET_4_6
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
@@ -25,66 +29,80 @@ namespace Leopotam.Ecs.Types {
         public void Neg () {
             X = -X;
             Y = -Y;
+            Z = -Z;
+            W = -W;
         }
 
 #if NET_4_6
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
-        public void Add (ref Int2 rhs) {
+        public void Add (ref Int4 rhs) {
             X += rhs.X;
             Y += rhs.Y;
+            Z += rhs.Z;
+            W += rhs.W;
         }
 
 #if NET_4_6
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
-        public void Add (int addX, int addY) {
+        public void Add (int addX, int addY, int addZ, int addW) {
             X += addX;
             Y += addY;
+            Z += addZ;
+            W += addW;
         }
 
 #if NET_4_6
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
-        public void Sub (ref Int2 rhs) {
+        public void Sub (ref Int4 rhs) {
             X -= rhs.X;
             Y -= rhs.Y;
+            Z -= rhs.Z;
+            W -= rhs.W;
         }
 #if NET_4_6
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
-        public static Int2 Add (ref Int2 lhs, ref Int2 rhs) {
-            Int2 res;
+        public static Int4 Add (ref Int4 lhs, ref Int4 rhs) {
+            Int4 res;
             res.X = lhs.X + rhs.X;
             res.Y = lhs.Y + rhs.Y;
+            res.Z = lhs.Z + rhs.Z;
+            res.W = lhs.W + rhs.W;
             return res;
         }
 
 #if NET_4_6
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
-        public static Int2 Sub (ref Int2 lhs, ref Int2 rhs) {
-            Int2 res;
+        public static Int4 Sub (ref Int4 lhs, ref Int4 rhs) {
+            Int4 res;
             res.X = lhs.X - rhs.X;
             res.Y = lhs.Y - rhs.Y;
+            res.Z = lhs.Z - rhs.Z;
+            res.W = lhs.W - rhs.W;
             return res;
         }
 
 #if NET_4_6
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
-        public static Int2 Neg (ref Int2 lhs) {
-            Int2 res;
+        public static Int4 Neg (ref Int4 lhs) {
+            Int4 res;
             res.X = -lhs.X;
             res.Y = -lhs.Y;
+            res.Z = -lhs.Z;
+            res.W = -lhs.W;
             return res;
         }
 
 #if NET_4_6
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
-        public static bool Equals (ref Int2 lhs, ref Int2 rhs) {
-            return lhs.X == rhs.X && lhs.Y == rhs.Y;
+        public static bool Equals (ref Int4 lhs, ref Int4 rhs) {
+            return lhs.X == rhs.X && lhs.Y == rhs.Y && lhs.Z == rhs.Z && lhs.W == rhs.W;
         }
     }
 }

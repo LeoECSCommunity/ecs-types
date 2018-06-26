@@ -14,32 +14,38 @@ using System.Runtime.CompilerServices;
 namespace Leopotam.Ecs.Types {
     [Serializable]
     [StructLayout (LayoutKind.Sequential)]
-    public struct Float2 {
+    public struct Float4 {
         public float X;
 
         public float Y;
+
+        public float Z;
+
+        public float W;
 
 #if NET_4_6
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
         public float SqrMagnitude () {
-            return X * X + Y * Y;
+            return X * X + Y * Y + Z * Z + W * W;
         }
 
 #if NET_4_6
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
         public float Magnitude () {
-            return (float) Math.Sqrt (X * X + Y * Y);
+            return (float) Math.Sqrt (X * X + Y * Y + Z * Z + W * W);
         }
 
 #if NET_4_6
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
         public void Normalize () {
-            var invMagnitude = 1f / (float) Math.Sqrt (X * X + Y * Y);
+            var invMagnitude = 1f / (float) Math.Sqrt (X * X + Y * Y + Z * Z + W * W);
             X *= invMagnitude;
             Y *= invMagnitude;
+            Z *= invMagnitude;
+            W *= invMagnitude;
         }
 
 #if NET_4_6
@@ -48,95 +54,115 @@ namespace Leopotam.Ecs.Types {
         public void Neg () {
             X = -X;
             Y = -Y;
+            Z = -Z;
+            W = -W;
         }
 
 #if NET_4_6
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
-        public void Add (ref Float2 rhs) {
+        public void Add (ref Float4 rhs) {
             X += rhs.X;
             Y += rhs.Y;
+            Z += rhs.Z;
+            W += rhs.W;
         }
 
 #if NET_4_6
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
-        public void Add (float addX, float addY) {
+        public void Add (float addX, float addY, float addZ, float addW) {
             X += addX;
             Y += addY;
+            Z += addZ;
+            W += addW;
         }
 
 #if NET_4_6
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
-        public void Sub (ref Float2 rhs) {
+        public void Sub (ref Float4 rhs) {
             X -= rhs.X;
             Y -= rhs.Y;
+            Z -= rhs.Z;
+            W -= rhs.W;
         }
 
 #if NET_4_6
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
-        public void Scale (float addX, float addY) {
+        public void Scale (float addX, float addY, float addZ, float addW) {
             X *= addX;
             Y *= addY;
+            Z *= addZ;
+            W *= addW;
         }
 
 #if NET_4_6
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
-        public static Float2 Add (ref Float2 lhs, ref Float2 rhs) {
-            Float2 res;
+        public static Float4 Add (ref Float4 lhs, ref Float4 rhs) {
+            Float4 res;
             res.X = lhs.X + rhs.X;
             res.Y = lhs.Y + rhs.Y;
+            res.Z = lhs.Z + rhs.Z;
+            res.W = lhs.W + rhs.W;
             return res;
         }
 
 #if NET_4_6
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
-        public static void Add (ref Float2 lhs, float addX, float addY, float addZ) {
-            Float2 res;
+        public static void Add (ref Float4 lhs, float addX, float addY, float addZ, float addW) {
+            Float4 res;
             res.X = lhs.X + addX;
             res.Y = lhs.Y + addY;
+            res.Z = lhs.Z + addZ;
+            res.W = lhs.W + addW;
         }
 
 #if NET_4_6
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
-        public static Float2 Sub (ref Float2 lhs, ref Float2 rhs) {
-            Float2 res;
+        public static Float4 Sub (ref Float4 lhs, ref Float4 rhs) {
+            Float4 res;
             res.X = lhs.X - rhs.X;
             res.Y = lhs.Y - rhs.Y;
+            res.Z = lhs.Z - rhs.Z;
+            res.W = lhs.W - rhs.W;
             return res;
         }
 
 #if NET_4_6
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
-        public static Float2 Scale (ref Float2 lhs, float scaleX, float scaleY, float scaleZ) {
-            Float2 res;
+        public static Float4 Scale (ref Float4 lhs, float scaleX, float scaleY, float scaleZ, float scaleW) {
+            Float4 res;
             res.X = lhs.X * scaleX;
             res.Y = lhs.Y * scaleY;
+            res.Z = lhs.Z * scaleZ;
+            res.W = lhs.W * scaleW;
             return res;
         }
 
 #if NET_4_6
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
-        public static Float2 Normalize (ref Float2 rhs) {
-            Float2 res;
-            var invMagnitude = 1f / (float) Math.Sqrt (rhs.X * rhs.X + rhs.Y * rhs.Y);
+        public static Float4 Normalize (ref Float4 rhs) {
+            Float4 res;
+            var invMagnitude = 1f / (float) Math.Sqrt (rhs.X * rhs.X + rhs.Y * rhs.Y + rhs.Z * rhs.Z + rhs.W * rhs.W);
             res.X = rhs.X * invMagnitude;
             res.Y = rhs.Y * invMagnitude;
+            res.Z = rhs.Z * invMagnitude;
+            res.W = rhs.W * invMagnitude;
             return res;
         }
 
 #if NET_4_6
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
-        public static bool Equals (ref Float2 lhs, ref Float2 rhs) {
-            return (lhs.X - rhs.X) * (lhs.X - rhs.X) + (lhs.Y - rhs.Y) * (lhs.Y - rhs.Y) < float.Epsilon * float.Epsilon;
+        public static bool Equals (ref Float4 lhs, ref Float4 rhs) {
+            return (lhs.X - rhs.X) * (lhs.X - rhs.X) + (lhs.Y - rhs.Y) * (lhs.Y - rhs.Y) + (lhs.Z - rhs.Z) * (lhs.Z - rhs.Z) + (lhs.W - rhs.W) * (lhs.W - rhs.W) < float.Epsilon * float.Epsilon;
         }
     }
 }
