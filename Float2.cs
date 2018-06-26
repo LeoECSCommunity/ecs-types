@@ -19,6 +19,19 @@ namespace Leopotam.Ecs.Types {
 
         public float Y;
 
+        public Float2 (float x, float y) {
+            X = x;
+            Y = y;
+        }
+
+#if NET_4_6
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+#endif
+        public void Neg () {
+            X = -X;
+            Y = -Y;
+        }
+
 #if NET_4_6
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
@@ -45,14 +58,6 @@ namespace Leopotam.Ecs.Types {
 #if NET_4_6
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
-        public void Neg () {
-            X = -X;
-            Y = -Y;
-        }
-
-#if NET_4_6
-        [MethodImpl (MethodImplOptions.AggressiveInlining)]
-#endif
         public void Add (ref Float2 rhs) {
             X += rhs.X;
             Y += rhs.Y;
@@ -61,9 +66,9 @@ namespace Leopotam.Ecs.Types {
 #if NET_4_6
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
-        public void Add (float addX, float addY) {
-            X += addX;
-            Y += addY;
+        public void Add (float x, float y) {
+            X += x;
+            Y += y;
         }
 
 #if NET_4_6
@@ -77,9 +82,33 @@ namespace Leopotam.Ecs.Types {
 #if NET_4_6
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
-        public void Scale (float addX, float addY) {
-            X *= addX;
-            Y *= addY;
+        public void Scale (float x, float y) {
+            X *= x;
+            Y *= y;
+        }
+
+#if NET_4_6
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float SqrMagnitude (ref Float2 lhs) {
+            return lhs.X * lhs.X + lhs.Y * lhs.Y;
+        }
+
+#if NET_4_6
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float Magnitude (ref Float2 lhs) {
+            return (float) Math.Sqrt (lhs.X * lhs.X + lhs.Y * lhs.Y);
+        }
+
+#if NET_4_6
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Float2 Neg (ref Float2 lhs) {
+            Float2 res;
+            res.X = -lhs.X;
+            res.Y = -lhs.Y;
+            return res;
         }
 
 #if NET_4_6
@@ -95,10 +124,10 @@ namespace Leopotam.Ecs.Types {
 #if NET_4_6
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
-        public static void Add (ref Float2 lhs, float addX, float addY, float addZ) {
+        public static void Add (ref Float2 lhs, float x, float y, float z) {
             Float2 res;
-            res.X = lhs.X + addX;
-            res.Y = lhs.Y + addY;
+            res.X = lhs.X + x;
+            res.Y = lhs.Y + y;
         }
 
 #if NET_4_6
@@ -114,10 +143,10 @@ namespace Leopotam.Ecs.Types {
 #if NET_4_6
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
-        public static Float2 Scale (ref Float2 lhs, float scaleX, float scaleY, float scaleZ) {
+        public static Float2 Scale (ref Float2 lhs, float x, float y) {
             Float2 res;
-            res.X = lhs.X * scaleX;
-            res.Y = lhs.Y * scaleY;
+            res.X = lhs.X * x;
+            res.Y = lhs.Y * y;
             return res;
         }
 

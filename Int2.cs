@@ -19,6 +19,11 @@ namespace Leopotam.Ecs.Types {
 
         public int Y;
 
+        public Int2 (int x, int y) {
+            X = x;
+            Y = y;
+        }
+
 #if NET_4_6
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif

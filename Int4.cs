@@ -23,6 +23,13 @@ namespace Leopotam.Ecs.Types {
 
         public int W;
 
+        public Int4 (int x, int y, int z, int w) {
+            X = x;
+            Y = y;
+            Z = z;
+            W = w;
+        }
+
 #if NET_4_6
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
