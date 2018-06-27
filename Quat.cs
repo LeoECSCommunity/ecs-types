@@ -52,41 +52,11 @@ namespace Leopotam.Ecs.Types {
             W *= invMagnitude;
         }
 
-        /// <summary>
-        /// Returns quaternion as Float4x4 matrix with zero translation.
-        /// </summary>
-#if NET_4_6
-        [MethodImpl (MethodImplOptions.AggressiveInlining)]
-#endif
-        public Float4x4 ToFloat4x4 () {
-            var xx = X * X;
-            var yy = Y * Y;
-            var zz = Z * Z;
-            var xy = X * Y;
-            var zw = Z * W;
-            var zx = Z * X;
-            var yw = Y * W;
-            var yz = Y * Z;
-            var xw = X * W;
-            Float4x4 mat;
-            mat.M11 = 1f - 2f * (yy + zz);
-            mat.M12 = 2f * (xy - zw);
-            mat.M13 = 2f * (zx + yw);
-            mat.M14 = 0f;
-            mat.M21 = 2f * (xy + zw);
-            mat.M22 = 1f - 2f * (zz + xx);
-            mat.M23 = 2f * (yz - xw);
-            mat.M24 = 0f;
-            mat.M31 = 2f * (zx - yw);
-            mat.M32 = 2f * (yz + xw);
-            mat.M33 = 1f - 2f * (yy + xx);
-            mat.M34 = 0f;
-            mat.M41 = 0f;
-            mat.M42 = 0f;
-            mat.M43 = 0f;
-            mat.M44 = 1f;
-            return mat;
+#if DEBUG
+        public override string ToString () {
+            return string.Format (System.Globalization.CultureInfo.InvariantCulture, "({0:F5}, {1:F5}, {2:F5}, {3:F5})", X, Y, Z, W);
         }
+#endif
 
         /// <summary>
         /// Returns identity quaternion.
@@ -102,19 +72,19 @@ namespace Leopotam.Ecs.Types {
         /// Creates new instance of quaternion from euler angles.
         /// </summary>
         /// <param name="x">Rotation around x-axis in degrees.</param>
-        /// <param name="y">Rotation around x-axis in degrees.</param>
-        /// <param name="z">Rotation around x-axis in degrees.</param>
+        /// <param name="y">Rotation around y-axis in degrees.</param>
+        /// <param name="z">Rotation around z-axis in degrees.</param>
 #if NET_4_6
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
         public static Quat Euler (float x, float y, float z) {
-            y *= TypeHelpers.Deg2Rad;
             x *= TypeHelpers.Deg2Rad;
+            y *= TypeHelpers.Deg2Rad;
             z *= TypeHelpers.Deg2Rad;
-            var yawHalf = y * 0.5f;
+            var yawHalf = x * 0.5f;
             var cosYawHalf = (float) System.Math.Cos (yawHalf);
             var sinYawHalf = (float) System.Math.Sin (yawHalf);
-            var pitchHalf = x * 0.5f;
+            var pitchHalf = y * 0.5f;
             var cosPitchHalf = (float) System.Math.Cos (pitchHalf);
             var sinPitchHalf = (float) System.Math.Sin (pitchHalf);
             var rollHalf = z * 0.5f;

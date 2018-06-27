@@ -13,7 +13,7 @@ using System.Runtime.CompilerServices;
 
 namespace Leopotam.Ecs.Types {
     /// <summary>
-    /// Matrix 4x4.
+    /// Matrix 4x4. Row-Column order compatible with unity Matrix4x4 class.
     /// </summary>
     [Serializable]
     [StructLayout (LayoutKind.Sequential)]
@@ -77,7 +77,13 @@ namespace Leopotam.Ecs.Types {
             M43 = m43;
             M44 = m44;
         }
-
+#if DEBUG
+        public override string ToString () {
+            return string.Format (System.Globalization.CultureInfo.InvariantCulture,
+                "{0:F5}\t{1:F5}\t{2:F5}\t{3:F5}\n{4:F5}\t{5:F5}\t{6:F5}\t{7:F5}\n{8:F5}\t{9:F5}\t{10:F5}\t{11:F5}\n{12:F5}\t{13:F5}\t{14:F5}\t{15:F5}\n",
+                M11, M12, M13, M14, M21, M22, M23, M24, M31, M32, M33, M34, M41, M42, M43, M44);
+        }
+#endif
         /// <summary>
         /// Transforms point with perspective correction.
         /// </summary>
@@ -165,7 +171,34 @@ namespace Leopotam.Ecs.Types {
         }
 
         /// <summary>
-        /// Creates matrix from euler angles.
+        /// Creates translate matrix from vector.
+        /// </summary>
+        /// <param name="scale">Translate vector.</param>
+        /// <returns></returns>
+        public static Float4x4 Translate (ref Float3 point) {
+            Float4x4 mat;
+            mat.M11 = 0f;
+            mat.M12 = 0f;
+            mat.M13 = 0f;
+            mat.M14 = point.X;
+            mat.M21 = 0f;
+            mat.M22 = 0f;
+            mat.M23 = 0f;
+            mat.M24 = point.Y;
+            mat.M31 = 0f;
+            mat.M32 = 0f;
+            mat.M33 = 0f;
+            mat.M33 = 0f;
+            mat.M34 = point.Z;
+            mat.M41 = 0f;
+            mat.M42 = 0f;
+            mat.M43 = 0f;
+            mat.M44 = 1f;
+            return mat;
+        }
+
+        /// <summary>
+        /// Creates rotation matrix from euler angles.
         /// </summary>
         /// <param name="x">Rotation around x-axis in degrees.</param>
         /// <param name="y">Rotation around y-axis in degrees.</param>
@@ -173,31 +206,101 @@ namespace Leopotam.Ecs.Types {
 #if NET_4_6
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
-        public static Float4x4 Euler (float x, float y, float z) {
-            x *= TypeHelpers.Deg2Rad;
-            y *= TypeHelpers.Deg2Rad;
-            z *= TypeHelpers.Deg2Rad;
-            var cr = (float) Math.Cos (x);
-            var sr = (float) Math.Sin (x);
-            var cp = (float) Math.Cos (y);
-            var sp = (float) Math.Sin (y);
-            var cy = (float) Math.Cos (z);
-            var sy = (float) Math.Sin (z);
-            var srsp = sr * sp;
-            var crsp = cr * sp;
+        public static Float4x4 Rotate (ref Quat rotate) {
+            var x = rotate.X * 2f;
+            var y = rotate.Y * 2f;
+            var z = rotate.Z * 2f;
+            var xx = rotate.X * x;
+            var yy = rotate.Y * y;
+            var zz = rotate.Z * z;
+            var xy = rotate.X * y;
+            var xz = rotate.X * z;
+            var yz = rotate.Y * z;
+            var wx = rotate.W * x;
+            var wy = rotate.W * y;
+            var wz = rotate.W * z;
             Float4x4 mat;
-            mat.M11 = cp * cy;
-            mat.M12 = cp * sy;
-            mat.M13 = -sp;
+            mat.M11 = 1f - (yy + zz);
+            mat.M12 = xy - wz;
+            mat.M13 = xz + wy;
             mat.M14 = 0f;
-            mat.M21 = srsp * cy - cr * sy;
-            mat.M22 = srsp * sy + cr * cy;
-            mat.M23 = sr * cp;
+            mat.M21 = xy + wz;
+            mat.M22 = 1f - (xx + zz);
+            mat.M23 = yz - wx;
             mat.M24 = 0f;
-            mat.M31 = crsp * cy + sr * sy;
-            mat.M32 = crsp * sy - sr * cy;
-            mat.M33 = cr * cp;
+            mat.M31 = xz - wy;
+            mat.M32 = yz + wx;
+            mat.M33 = 1f - (xx + yy);
             mat.M34 = 0f;
+            mat.M41 = 0f;
+            mat.M42 = 0f;
+            mat.M43 = 0f;
+            mat.M44 = 1f;
+            return mat;
+        }
+
+        /// <summary>
+        /// Creates scale matrix from vector.
+        /// </summary>
+        /// <param name="scale">Scale vector.</param>
+        /// <returns></returns>
+        public static Float4x4 Scale (ref Float3 scale) {
+            Float4x4 mat;
+            mat.M11 = scale.X;
+            mat.M12 = 0f;
+            mat.M13 = 0f;
+            mat.M14 = 0f;
+            mat.M21 = 0f;
+            mat.M22 = scale.Y;
+            mat.M23 = 0f;
+            mat.M24 = 0f;
+            mat.M31 = 0f;
+            mat.M32 = 0f;
+            mat.M33 = scale.Z;
+            mat.M33 = 0f;
+            mat.M34 = 0f;
+            mat.M41 = 0f;
+            mat.M42 = 0f;
+            mat.M43 = 0f;
+            mat.M44 = 1f;
+            return mat;
+        }
+
+        /// <summary>
+        /// Creates matrix from translate / rotate / scale components.
+        /// </summary>
+        /// <param name="translate">Translate vector.</param>
+        /// <param name="rotate">Quaternion.</param>
+        /// <param name="scale">Scale vector.</param>
+#if NET_4_6
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Float4x4 TranslateRotateScale (ref Float3 translate, ref Quat rotate, ref Float3 scale) {
+            var rotX = rotate.X;
+            var rotY = rotate.Y;
+            var rotZ = rotate.Z;
+            var xx = rotX * rotX;
+            var yy = rotY * rotY;
+            var zz = rotZ * rotZ;
+            var xy = rotX * rotY;
+            var zw = rotZ * rotate.W;
+            var zx = rotZ * rotX;
+            var yw = rotY * rotate.W;
+            var yz = rotY * rotZ;
+            var xw = rotX * rotate.W;
+            Float4x4 mat;
+            mat.M11 = (1f - 2f * (yy + zz)) * scale.X;
+            mat.M12 = (2f * (xy - zw)) * scale.Y;
+            mat.M13 = (2f * (zx + yw)) * scale.Z;
+            mat.M14 = translate.X;
+            mat.M21 = (2f * (xy + zw)) * scale.X;
+            mat.M22 = (1f - 2f * (zz + xx)) * scale.Y;
+            mat.M23 = (2f * (yz - xw)) * scale.Z;
+            mat.M24 = translate.Y;
+            mat.M31 = (2f * (zx - yw)) * scale.X;
+            mat.M32 = (2f * (yz + xw)) * scale.Y;
+            mat.M33 = (1f - 2f * (yy + xx)) * scale.Z;
+            mat.M34 = translate.Z;
             mat.M41 = 0f;
             mat.M42 = 0f;
             mat.M43 = 0f;

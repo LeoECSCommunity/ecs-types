@@ -100,20 +100,22 @@ namespace Leopotam.Ecs.Types {
         }
 
         /// <summary>
-        /// Scales (multipies) vector with factors inplace.
+        /// Scales (multipies) vector with scalar factor inplace.
         /// </summary>
-        /// <param name="x">X factor.</param>
-        /// <param name="y">Y factor.</param>
-        /// <param name="z">Z factor.</param>
+        /// <param name="scale">Scale factor.</param>
 #if NET_4_6
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
-        public void Scale (float x, float y, float z) {
-            X *= x;
-            Y *= y;
-            Z *= z;
+        public void Scale (float scale) {
+            X *= scale;
+            Y *= scale;
+            Z *= scale;
         }
-
+#if DEBUG
+        public override string ToString () {
+            return string.Format (System.Globalization.CultureInfo.InvariantCulture, "({0:F5}, {1:F5}, {2:F5})", X, Y, Z);
+        }
+#endif
         /// <summary>
         /// Returns square magnitude of vector.
         /// </summary>
@@ -222,20 +224,18 @@ namespace Leopotam.Ecs.Types {
         }
 
         /// <summary>
-        /// Returns scaled (multipled) vector with factors.
+        /// Returns scaled (multipled) vector with scalar factor.
         /// </summary>
         /// <param name="lhs">Vector.</param>
-        /// <param name="x">X factor.</param>
-        /// <param name="y">Y factor.</param>
-        /// <param name="z">Z factor.</param>
+        /// <param name="scale">Scale factor.</param>
 #if NET_4_6
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
-        public static Float3 Scale (ref Float3 lhs, float x, float y, float z) {
+        public static Float3 Scale (ref Float3 lhs, float scale) {
             Float3 res;
-            res.X = lhs.X * x;
-            res.Y = lhs.Y * y;
-            res.Z = lhs.Z * z;
+            res.X = lhs.X * scale;
+            res.Y = lhs.Y * scale;
+            res.Z = lhs.Z * scale;
             return res;
         }
 

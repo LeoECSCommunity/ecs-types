@@ -85,7 +85,11 @@ namespace Leopotam.Ecs.Types {
             Y -= rhs.Y;
             Z -= rhs.Z;
         }
-
+#if DEBUG
+        public override string ToString () {
+            return string.Format (System.Globalization.CultureInfo.InvariantCulture, "({0}, {1}, {2})", X, Y, Z);
+        }
+#endif
         /// <summary>
         /// Returns vector with reversed direction.
         /// </summary>
