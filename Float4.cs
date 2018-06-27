@@ -148,6 +148,16 @@ namespace Leopotam.Ecs.Types {
         }
 
         /// <summary>
+        /// Returns dot product of vectors.
+        /// </summary>
+#if NET_4_6
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float Dot (ref Float4 lhs, ref Float4 rhs) {
+            return lhs.X * rhs.X + lhs.Y * rhs.Y + lhs.Z * rhs.Z + lhs.W * rhs.W;
+        }
+
+        /// <summary>
         /// Returns vector with reversed direction.
         /// </summary>
         /// <param name="lhs">Vector.</param>

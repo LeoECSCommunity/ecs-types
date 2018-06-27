@@ -6,7 +6,14 @@
 
 namespace Leopotam.Ecs.Types {
     public static class TypeHelpers {
-        public const float Deg2Rad = 0f;
-        public const float Rad2Deg = 0f;
+        /// <summary>
+        /// Degrees to radians conversion multiplier.
+        /// </summary>
+        public const float Deg2Rad = (float) System.Math.PI / 180f;
+
+        /// <summary>
+        /// Radians to degrees conversion multiplier.
+        /// </summary>
+        public const float Rad2Deg = 1f / Deg2Rad;
     }
 }

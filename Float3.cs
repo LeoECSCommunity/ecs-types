@@ -137,6 +137,30 @@ namespace Leopotam.Ecs.Types {
         }
 
         /// <summary>
+        /// Returns dot product of vectors.
+        /// </summary>
+#if NET_4_6
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float Dot (ref Float3 lhs, ref Float3 rhs) {
+            return lhs.X * rhs.X + lhs.Y * rhs.Y + lhs.Z * rhs.Z;
+        }
+
+        /// <summary>
+        /// Returns cross product of vectors.
+        /// </summary>
+#if NET_4_6
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Float3 Cross (ref Float3 lhs, ref Float3 rhs) {
+            Float3 res;
+            res.X = lhs.Y * rhs.Z - lhs.Z * rhs.Y;
+            res.Y = lhs.Z * rhs.X - lhs.X * rhs.Z;
+            res.Z = lhs.X * rhs.Y - lhs.Y * rhs.X;
+            return res;
+        }
+
+        /// <summary>
         /// Returns vector with reversed direction.
         /// </summary>
         /// <param name="lhs">Vector.</param>
