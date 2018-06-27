@@ -53,7 +53,7 @@ namespace Leopotam.Ecs.Types {
         static readonly Float4x4 _identity = new Float4x4 (1f, 0f, 0f, 0f, 0f, 1f, 0f, 0f, 0f, 0f, 1f, 0f, 0f, 0f, 0f, 1f);
 
         /// <summary>
-        /// Creates new instance of Float4x4.
+        /// Creates new instance of matrix.
         /// </summary>
         public Float4x4 (
             float m11, float m12, float m13, float m14,
@@ -126,7 +126,7 @@ namespace Leopotam.Ecs.Types {
         }
 
         /// <summary>
-        /// Multiplies matrices.
+        /// Returns result of multiplied matrices.
         /// </summary>
         /// <param name="lhs">First matrix.</param>
         /// <param name="rhs">Second matrix.</param>
@@ -155,7 +155,7 @@ namespace Leopotam.Ecs.Types {
         }
 
         /// <summary>
-        /// Gets Identity matrix.
+        /// Returns identity matrix.
         /// </summary>
 #if NET_4_6
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
@@ -167,13 +167,16 @@ namespace Leopotam.Ecs.Types {
         /// <summary>
         /// Creates matrix from euler angles.
         /// </summary>
-        /// <param name="x">Rotation around x-axis in radians.</param>
-        /// <param name="y">Rotation around y-axis in radians.</param>
-        /// <param name="z">Rotation around z-axis in radians.</param>
+        /// <param name="x">Rotation around x-axis in degrees.</param>
+        /// <param name="y">Rotation around y-axis in degrees.</param>
+        /// <param name="z">Rotation around z-axis in degrees.</param>
 #if NET_4_6
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
-        public static Float4x4 FromEuler (float x, float y, float z) {
+        public static Float4x4 Euler (float x, float y, float z) {
+            x *= TypeHelpers.Deg2Rad;
+            y *= TypeHelpers.Deg2Rad;
+            z *= TypeHelpers.Deg2Rad;
             var cr = (float) Math.Cos (x);
             var sr = (float) Math.Sin (x);
             var cp = (float) Math.Cos (y);

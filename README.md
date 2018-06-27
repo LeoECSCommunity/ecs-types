@@ -4,3 +4,5 @@
 Unified engine independent types for using with [Entity Component System Framework](https://github.com/Leopotam/ecs).
 
 > Tested on unity 2018.1 (not dependent on it) and contains assembly definition for compiling to separate assembly file for performance reason.
+
+> **Its early work-in-progress stage, not recommended to use in real projects, any api / behaviour can change later.**

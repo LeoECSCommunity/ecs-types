@@ -12,6 +12,9 @@ using System.Runtime.CompilerServices;
 #endif
 
 namespace Leopotam.Ecs.Types {
+    /// <summary>
+    /// Quaternion.
+    /// </summary>
     [Serializable]
     [StructLayout (LayoutKind.Sequential)]
     public struct Quat {
@@ -23,6 +26,11 @@ namespace Leopotam.Ecs.Types {
 
         public float W;
 
+        static readonly Quat _identity = new Quat (0f, 0f, 0f, 1f);
+
+        /// <summary>
+        /// Creates new instance of vector.
+        /// </summary>
         public Quat (float x, float y, float z, float w) {
             X = x;
             Y = y;
@@ -30,21 +38,12 @@ namespace Leopotam.Ecs.Types {
             W = w;
         }
 
-        public Quat (float pitch, float yaw, float roll) {
-            var sinPitch = (float) Math.Sin (pitch * 0.5f);
-            var cosPitch = (float) Math.Cos (pitch * 0.5f);
-            var sinYaw = (float) Math.Sin (yaw * 0.5f);
-            var cosYaw = (float) Math.Cos (yaw * 0.5f);
-            var sinRoll = (float) Math.Sin (roll * 0.5f);
-            var cosRoll = (float) Math.Cos (roll * 0.5f);
-            var cosPitchCosYaw = cosPitch * cosYaw;
-            var sinPitchSinYaw = sinPitch * sinYaw;
-            X = (sinRoll * cosPitchCosYaw) - (cosRoll * sinPitchSinYaw);
-            Y = (cosRoll * sinPitch * cosYaw) + (sinRoll * cosPitch * sinYaw);
-            Z = (cosRoll * cosPitch * sinYaw) - (sinRoll * sinPitch * cosYaw);
-            W = (cosRoll * cosPitchCosYaw) + (sinRoll * sinPitchSinYaw);
-        }
-
+        /// <summary>
+        /// Normalizes vector inplace.
+        /// </summary>
+#if NET_4_6
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+#endif
         public void Normalize () {
             var invMagnitude = 1f / (float) Math.Sqrt (X * X + Y * Y + Z * Z + W * W);
             X *= invMagnitude;
@@ -53,7 +52,13 @@ namespace Leopotam.Ecs.Types {
             W *= invMagnitude;
         }
 
-        public Float4x4 ToMatrix () {
+        /// <summary>
+        /// Returns quaternion as Float4x4 matrix with zero translation.
+        /// </summary>
+#if NET_4_6
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+#endif
+        public Float4x4 ToFloat4x4 () {
             var xx = X * X;
             var yy = Y * Y;
             var zz = Z * Z;
@@ -83,6 +88,50 @@ namespace Leopotam.Ecs.Types {
             return mat;
         }
 
+        /// <summary>
+        /// Returns identity quaternion.
+        /// </summary>
+#if NET_4_6
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Quat Identity () {
+            return _identity;
+        }
+
+        /// <summary>
+        /// Creates new instance of quaternion from euler angles.
+        /// </summary>
+        /// <param name="x">Rotation around x-axis in degrees.</param>
+        /// <param name="y">Rotation around x-axis in degrees.</param>
+        /// <param name="z">Rotation around x-axis in degrees.</param>
+#if NET_4_6
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Quat Euler (float x, float y, float z) {
+            y *= TypeHelpers.Deg2Rad;
+            x *= TypeHelpers.Deg2Rad;
+            z *= TypeHelpers.Deg2Rad;
+            var yawHalf = y * 0.5f;
+            var cosYawHalf = (float) System.Math.Cos (yawHalf);
+            var sinYawHalf = (float) System.Math.Sin (yawHalf);
+            var pitchHalf = x * 0.5f;
+            var cosPitchHalf = (float) System.Math.Cos (pitchHalf);
+            var sinPitchHalf = (float) System.Math.Sin (pitchHalf);
+            var rollHalf = z * 0.5f;
+            var cosRollHalf = (float) System.Math.Cos (rollHalf);
+            var sinRollHalf = (float) System.Math.Sin (rollHalf);
+            Quat result;
+            result.X = sinYawHalf * cosPitchHalf * cosRollHalf + cosYawHalf * sinPitchHalf * sinRollHalf;
+            result.Y = cosYawHalf * sinPitchHalf * cosRollHalf - sinYawHalf * cosPitchHalf * sinRollHalf;
+            result.Z = cosYawHalf * cosPitchHalf * sinRollHalf - sinYawHalf * sinPitchHalf * cosRollHalf;
+            result.W = cosYawHalf * cosPitchHalf * cosRollHalf + sinYawHalf * sinPitchHalf * sinRollHalf;
+            return result;
+        }
+
+        /// <summary>
+        /// Returns conjugate version of quaternion.
+        /// </summary>
+        /// <param name="lhs">Quaternion.</param>
 #if NET_4_6
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
@@ -95,35 +144,69 @@ namespace Leopotam.Ecs.Types {
             return res;
         }
 
-        public static Quat Slerp (ref Quat start, Quat end, float factor) {
-            var cosTheta = start.X * end.X + start.Y * end.Y + start.Z * end.Z + start.W * end.W;
-            if (cosTheta < 0f) {
-                cosTheta = -cosTheta;
-                end.X = -end.X;
-                end.Y = -end.Y;
-                end.Z = -end.Z;
-                end.W = -end.W;
-            }
-
-            float a, b;
-            if ((1f - cosTheta) > float.Epsilon) {
-                var omega = (float) Math.Acos (cosTheta); //extract theta from the product's cos theta
-                var sinom = (float) Math.Sin (omega);
-                a = (float) Math.Sin ((1f - factor) * omega) / sinom;
-                b = (float) Math.Sin (factor * omega) / sinom;
+        /// <summary>
+        /// Returns linear interpolated quaternion between start and end quaternions.
+        /// </summary>
+        /// <param name="lhs">Start quaternion.</param>
+        /// <param name="rhs">End quaternion.</param>
+        /// <param name="t">Factor in range [0f,1f].</param>
+#if NET_4_6
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Quat Lerp (ref Quat lhs, Quat rhs, float t) {
+            if (t > 1f) {
+                return rhs;
             } else {
-                a = 1f - factor;
-                b = factor;
+                if (t < 0f) {
+                    return lhs;
+                }
             }
+            Quat res;
+            res.X = (rhs.X - lhs.X) * t + lhs.X;
+            res.Y = (rhs.Y - lhs.Y) * t + lhs.Y;
+            res.Z = (rhs.Z - lhs.Z) * t + lhs.Z;
+            res.W = (rhs.W - lhs.W) * t + lhs.W;
+            res.Normalize ();
+            return res;
+        }
 
+        /// <summary>
+        /// Returns result of multiplied quaternions.
+        /// </summary>
+        /// <param name="lhs">First quaternion.</param>
+        /// <param name="rhs">Second quaternion.</param>
+#if NET_4_6
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Quat Mul (ref Quat lhs, ref Quat rhs) {
             Quat q;
-            q.X = (a * start.X) + (b * end.X);
-            q.Y = (a * start.Y) + (b * end.Y);
-            q.Z = (a * start.Z) + (b * end.Z);
-            q.W = (a * start.W) + (b * end.W);
+            q.W = lhs.W * rhs.W - lhs.X * rhs.X - lhs.Y * rhs.Y - lhs.Z * rhs.Z;
+            q.X = lhs.W * rhs.X + lhs.X * rhs.W + lhs.Y * rhs.Z - lhs.Z * rhs.Y;
+            q.Y = lhs.W * rhs.Y + lhs.Y * rhs.W + lhs.Z * rhs.X - lhs.X * rhs.Z;
+            q.Z = lhs.W * rhs.Z + lhs.Z * rhs.W + lhs.X * rhs.Y - lhs.Y * rhs.X;
             return q;
         }
 
+        /// <summary>
+        /// Returns equality of quaternions.
+        /// </summary>
+        /// <param name="lhs">First quaternion.</param>
+        /// <param name="rhs">Second quaternion.</param>
+#if NET_4_6
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+#endif
+        public static bool Equals (ref Quat lhs, ref Quat rhs) {
+            return (lhs.X - rhs.X) * (lhs.X - rhs.X) + (lhs.Y - rhs.Y) * (lhs.Y - rhs.Y) + (lhs.Z - rhs.Z) * (lhs.Z - rhs.Z) + (lhs.W - rhs.W) * (lhs.W - rhs.W) < float.Epsilon * float.Epsilon;
+        }
+
+        /// <summary>
+        /// Transforms point with quaternion.
+        /// </summary>
+        /// <param name="quat">Quaternion.</param>
+        /// <param name="point">Point.</param>
+#if NET_4_6
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+#endif
         public static Float3 Transform (ref Quat quat, ref Float3 point) {
             var x2 = quat.X + quat.X;
             var y2 = quat.Y + quat.Y;
@@ -145,22 +228,6 @@ namespace Leopotam.Ecs.Types {
             v.Y = y;
             v.Z = z;
             return v;
-        }
-
-        public static Quat Mul (ref Quat a, ref Quat b) {
-            Quat q;
-            q.W = a.W * b.W - a.X * b.X - a.Y * b.Y - a.Z * b.Z;
-            q.X = a.W * b.X + a.X * b.W + a.Y * b.Z - a.Z * b.Y;
-            q.Y = a.W * b.Y + a.Y * b.W + a.Z * b.X - a.X * b.Z;
-            q.Z = a.W * b.Z + a.Z * b.W + a.X * b.Y - a.Y * b.X;
-            return q;
-        }
-
-#if NET_4_6
-        [MethodImpl (MethodImplOptions.AggressiveInlining)]
-#endif
-        public static bool Equals (ref Quat lhs, ref Quat rhs) {
-            return (lhs.X - rhs.X) * (lhs.X - rhs.X) + (lhs.Y - rhs.Y) * (lhs.Y - rhs.Y) + (lhs.Z - rhs.Z) * (lhs.Z - rhs.Z) + (lhs.W - rhs.W) * (lhs.W - rhs.W) < float.Epsilon * float.Epsilon;
         }
     }
 }

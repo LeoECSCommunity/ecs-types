@@ -12,6 +12,9 @@ using System.Runtime.CompilerServices;
 #endif
 
 namespace Leopotam.Ecs.Types {
+    /// <summary>
+    /// Vector with 2 integer components.
+    /// </summary>
     [Serializable]
     [StructLayout (LayoutKind.Sequential)]
     public struct Int2 {
@@ -19,11 +22,17 @@ namespace Leopotam.Ecs.Types {
 
         public int Y;
 
+        /// <summary>
+        /// Creates new instance of vector.
+        /// </summary>
         public Int2 (int x, int y) {
             X = x;
             Y = y;
         }
 
+        /// <summary>
+        /// Reverses vector direction inplace.
+        /// </summary>
 #if NET_4_6
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
@@ -32,6 +41,10 @@ namespace Leopotam.Ecs.Types {
             Y = -Y;
         }
 
+        /// <summary>
+        /// Adds new vector inplace.
+        /// </summary>
+        /// <param name="rhs">New vector.</param>
 #if NET_4_6
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
@@ -40,14 +53,23 @@ namespace Leopotam.Ecs.Types {
             Y += rhs.Y;
         }
 
+        /// <summary>
+        /// Adds offsets inplace.
+        /// </summary>
+        /// <param name="x">X offset.</param>
+        /// <param name="y">Y offset.</param>
 #if NET_4_6
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
-        public void Add (int addX, int addY) {
-            X += addX;
-            Y += addY;
+        public void Add (int x, int y) {
+            X += x;
+            Y += y;
         }
 
+        /// <summary>
+        /// Substracts new vector inplace.
+        /// </summary>
+        /// <param name="rhs">New vector.</param>
 #if NET_4_6
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
@@ -55,26 +77,11 @@ namespace Leopotam.Ecs.Types {
             X -= rhs.X;
             Y -= rhs.Y;
         }
-#if NET_4_6
-        [MethodImpl (MethodImplOptions.AggressiveInlining)]
-#endif
-        public static Int2 Add (ref Int2 lhs, ref Int2 rhs) {
-            Int2 res;
-            res.X = lhs.X + rhs.X;
-            res.Y = lhs.Y + rhs.Y;
-            return res;
-        }
 
-#if NET_4_6
-        [MethodImpl (MethodImplOptions.AggressiveInlining)]
-#endif
-        public static Int2 Sub (ref Int2 lhs, ref Int2 rhs) {
-            Int2 res;
-            res.X = lhs.X - rhs.X;
-            res.Y = lhs.Y - rhs.Y;
-            return res;
-        }
-
+        /// <summary>
+        /// Returns vector with reversed direction.
+        /// </summary>
+        /// <param name="lhs">Vector.</param>
 #if NET_4_6
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
@@ -85,6 +92,53 @@ namespace Leopotam.Ecs.Types {
             return res;
         }
 
+        /// <summary>
+        /// Returns sum of 2 vectors.
+        /// </summary>
+#if NET_4_6
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Int2 Add (ref Int2 lhs, ref Int2 rhs) {
+            Int2 res;
+            res.X = lhs.X + rhs.X;
+            res.Y = lhs.Y + rhs.Y;
+            return res;
+        }
+
+        /// <summary>
+        /// Returns sum of vector and offsets.
+        /// </summary>
+        /// <param name="lhs">Vector.</param>
+        /// <param name="x">X offset.</param>
+        /// <param name="y">Y offset.</param>
+#if NET_4_6
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Int2 Add (ref Int2 lhs, int x, int y) {
+            Int2 res;
+            res.X = lhs.X + x;
+            res.Y = lhs.Y + y;
+            return res;
+        }
+
+        /// <summary>
+        /// Returns substract of 2 vectors.
+        /// </summary>
+#if NET_4_6
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Int2 Sub (ref Int2 lhs, ref Int2 rhs) {
+            Int2 res;
+            res.X = lhs.X - rhs.X;
+            res.Y = lhs.Y - rhs.Y;
+            return res;
+        }
+
+        /// <summary>
+        /// Returns equality of vectors.
+        /// </summary>
+        /// <param name="lhs">First vector.</param>
+        /// <param name="rhs">Second vector.</param>
 #if NET_4_6
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
