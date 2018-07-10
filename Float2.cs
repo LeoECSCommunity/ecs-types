@@ -258,5 +258,21 @@ namespace Leopotam.Ecs.Types {
             res.Y = (rhs.Y - lhs.Y) * t + lhs.Y;
             return res;
         }
+
+#if UNITY_5_6_OR_NEWER
+        public static implicit operator UnityEngine.Vector2 (Float2 v) {
+            UnityEngine.Vector2 res;
+            res.x = v.X;
+            res.y = v.Y;
+            return res;
+        }
+
+        public static implicit operator Float2 (UnityEngine.Vector2 v) {
+            Float2 res;
+            res.X = v.x;
+            res.Y = v.y;
+            return res;
+        }
+#endif
     }
 }

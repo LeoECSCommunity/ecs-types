@@ -294,5 +294,25 @@ namespace Leopotam.Ecs.Types {
             res.W = (rhs.W - lhs.W) * t + lhs.W;
             return res;
         }
+
+#if UNITY_5_6_OR_NEWER
+        public static implicit operator UnityEngine.Vector4 (Float4 v) {
+            UnityEngine.Vector4 res;
+            res.x = v.X;
+            res.y = v.Y;
+            res.z = v.Z;
+            res.w = v.W;
+            return res;
+        }
+
+        public static implicit operator Float4 (UnityEngine.Vector4 v) {
+            Float4 res;
+            res.X = v.x;
+            res.Y = v.y;
+            res.Z = v.z;
+            res.W = v.w;
+            return res;
+        }
+#endif
     }
 }
