@@ -7,7 +7,7 @@
 using System;
 using System.Runtime.InteropServices;
 
-#if NET_4_6
+#if NET_4_6 || NET_STANDARD_2_0
 using System.Runtime.CompilerServices;
 #endif
 
@@ -88,7 +88,7 @@ namespace Leopotam.Ecs.Types {
         /// Transforms point with perspective correction.
         /// </summary>
         /// <param name="point">Point to transform.</param>
-#if NET_4_6
+#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
         public static Float3 Transform (ref Float4x4 mat, ref Float3 point) {
@@ -104,7 +104,7 @@ namespace Leopotam.Ecs.Types {
         /// Transforms point without perspective correction.
         /// </summary>
         /// <param name="point">Point to transform.</param>
-#if NET_4_6
+#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
         public static Float3 TransformFast (ref Float4x4 mat, ref Float3 point) {
@@ -120,7 +120,7 @@ namespace Leopotam.Ecs.Types {
         /// </summary>
         /// <param name="mat">Matrix.</param>
         /// <param name="dir">Direction vector.</param>
-#if NET_4_6
+#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
         public static Float3 TransformDirection (ref Float4x4 mat, ref Float3 dir) {
@@ -136,7 +136,7 @@ namespace Leopotam.Ecs.Types {
         /// </summary>
         /// <param name="lhs">First matrix.</param>
         /// <param name="rhs">Second matrix.</param>
-#if NET_4_6
+#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
         public static Float4x4 Mul (ref Float4x4 lhs, ref Float4x4 rhs) {
@@ -163,7 +163,7 @@ namespace Leopotam.Ecs.Types {
         /// <summary>
         /// Returns identity matrix.
         /// </summary>
-#if NET_4_6
+#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
         public static Float4x4 Identity () {
@@ -203,7 +203,7 @@ namespace Leopotam.Ecs.Types {
         /// <param name="x">Rotation around x-axis in degrees.</param>
         /// <param name="y">Rotation around y-axis in degrees.</param>
         /// <param name="z">Rotation around z-axis in degrees.</param>
-#if NET_4_6
+#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
         public static Float4x4 Rotate (ref Quat rotate) {
@@ -272,7 +272,7 @@ namespace Leopotam.Ecs.Types {
         /// <param name="translate">Translate vector.</param>
         /// <param name="rotate">Quaternion.</param>
         /// <param name="scale">Scale vector.</param>
-#if NET_4_6
+#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
         public static Float4x4 TranslateRotateScale (ref Float3 translate, ref Quat rotate, ref Float3 scale) {

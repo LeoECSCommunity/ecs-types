@@ -7,7 +7,7 @@
 using System;
 using System.Runtime.InteropServices;
 
-#if NET_4_6
+#if NET_4_6 || NET_STANDARD_2_0
 using System.Runtime.CompilerServices;
 #endif
 
@@ -36,7 +36,7 @@ namespace Leopotam.Ecs.Types {
         /// <summary>
         /// Reverses vector direction inplace.
         /// </summary>
-#if NET_4_6
+#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
         public void Neg () {
@@ -48,7 +48,7 @@ namespace Leopotam.Ecs.Types {
         /// <summary>
         /// Normalizes vector inplace.
         /// </summary>
-#if NET_4_6
+#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
         public void Normalize () {
@@ -62,7 +62,7 @@ namespace Leopotam.Ecs.Types {
         /// Adds new vector inplace.
         /// </summary>
         /// <param name="rhs">New vector.</param>
-#if NET_4_6
+#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
         public void Add (ref Float3 rhs) {
@@ -77,7 +77,7 @@ namespace Leopotam.Ecs.Types {
         /// <param name="x">X offset.</param>
         /// <param name="y">Y offset.</param>
         /// <param name="z">Z offset.</param>
-#if NET_4_6
+#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
         public void Add (float x, float y, float z) {
@@ -90,7 +90,7 @@ namespace Leopotam.Ecs.Types {
         /// Substracts new vector inplace.
         /// </summary>
         /// <param name="rhs">New vector.</param>
-#if NET_4_6
+#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
         public void Sub (ref Float3 rhs) {
@@ -103,7 +103,7 @@ namespace Leopotam.Ecs.Types {
         /// Scales (multipies) vector with scalar factor inplace.
         /// </summary>
         /// <param name="scale">Scale factor.</param>
-#if NET_4_6
+#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
         public void Scale (float scale) {
@@ -120,7 +120,7 @@ namespace Leopotam.Ecs.Types {
         /// Returns square magnitude of vector.
         /// </summary>
         /// <param name="lhs">Vector.</param>
-#if NET_4_6
+#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
         public static float SqrMagnitude (ref Float3 lhs) {
@@ -131,7 +131,7 @@ namespace Leopotam.Ecs.Types {
         /// Returns magnitude of vector.
         /// </summary>
         /// <param name="lhs">Vector.</param>
-#if NET_4_6
+#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
         public static float Magnitude (ref Float3 lhs) {
@@ -141,7 +141,7 @@ namespace Leopotam.Ecs.Types {
         /// <summary>
         /// Returns dot product of vectors.
         /// </summary>
-#if NET_4_6
+#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
         public static float Dot (ref Float3 lhs, ref Float3 rhs) {
@@ -151,7 +151,7 @@ namespace Leopotam.Ecs.Types {
         /// <summary>
         /// Returns cross product of vectors.
         /// </summary>
-#if NET_4_6
+#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
         public static Float3 Cross (ref Float3 lhs, ref Float3 rhs) {
@@ -166,7 +166,7 @@ namespace Leopotam.Ecs.Types {
         /// Returns vector with reversed direction.
         /// </summary>
         /// <param name="lhs">Vector.</param>
-#if NET_4_6
+#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
         public static Float3 Neg (ref Float3 lhs) {
@@ -180,7 +180,7 @@ namespace Leopotam.Ecs.Types {
         /// <summary>
         /// Returns sum of 2 vectors.
         /// </summary>
-#if NET_4_6
+#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
         public static Float3 Add (ref Float3 lhs, ref Float3 rhs) {
@@ -198,7 +198,7 @@ namespace Leopotam.Ecs.Types {
         /// <param name="x">X offset.</param>
         /// <param name="y">Y offset.</param>
         /// <param name="z">Z offset.</param>
-#if NET_4_6
+#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
         public static Float3 Add (ref Float3 lhs, float x, float y, float z) {
@@ -212,7 +212,7 @@ namespace Leopotam.Ecs.Types {
         /// <summary>
         /// Returns substract of 2 vectors.
         /// </summary>
-#if NET_4_6
+#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
         public static Float3 Sub (ref Float3 lhs, ref Float3 rhs) {
@@ -228,7 +228,7 @@ namespace Leopotam.Ecs.Types {
         /// </summary>
         /// <param name="lhs">Vector.</param>
         /// <param name="scale">Scale factor.</param>
-#if NET_4_6
+#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
         public static Float3 Scale (ref Float3 lhs, float scale) {
@@ -243,7 +243,7 @@ namespace Leopotam.Ecs.Types {
         /// Returns normalized version of vector.
         /// </summary>
         /// <param name="rhs">Vector.</param>
-#if NET_4_6
+#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
         public static Float3 Normalize (ref Float3 rhs) {
@@ -260,7 +260,7 @@ namespace Leopotam.Ecs.Types {
         /// </summary>
         /// <param name="lhs">First vector.</param>
         /// <param name="rhs">Second vector.</param>
-#if NET_4_6
+#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
         public static bool Equals (ref Float3 lhs, ref Float3 rhs) {
@@ -273,7 +273,7 @@ namespace Leopotam.Ecs.Types {
         /// <param name="lhs">Start vector.</param>
         /// <param name="rhs">End vector.</param>
         /// <param name="t">Factor in range [0f,1f].</param>
-#if NET_4_6
+#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
         public static Float3 Lerp (ref Float3 lhs, ref Float3 rhs, float t) {

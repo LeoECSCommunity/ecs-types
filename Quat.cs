@@ -7,7 +7,7 @@
 using System;
 using System.Runtime.InteropServices;
 
-#if NET_4_6
+#if NET_4_6 || NET_STANDARD_2_0
 using System.Runtime.CompilerServices;
 #endif
 
@@ -41,7 +41,7 @@ namespace Leopotam.Ecs.Types {
         /// <summary>
         /// Normalizes vector inplace.
         /// </summary>
-#if NET_4_6
+#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
         public void Normalize () {
@@ -61,7 +61,7 @@ namespace Leopotam.Ecs.Types {
         /// <summary>
         /// Returns identity quaternion.
         /// </summary>
-#if NET_4_6
+#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
         public static Quat Identity () {
@@ -74,7 +74,7 @@ namespace Leopotam.Ecs.Types {
         /// <param name="x">Rotation around x-axis in degrees.</param>
         /// <param name="y">Rotation around y-axis in degrees.</param>
         /// <param name="z">Rotation around z-axis in degrees.</param>
-#if NET_4_6
+#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
         public static Quat Euler (float x, float y, float z) {
@@ -102,7 +102,7 @@ namespace Leopotam.Ecs.Types {
         /// Returns conjugate version of quaternion.
         /// </summary>
         /// <param name="lhs">Quaternion.</param>
-#if NET_4_6
+#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
         public static Quat Conjugate (ref Quat lhs) {
@@ -120,7 +120,7 @@ namespace Leopotam.Ecs.Types {
         /// <param name="lhs">Start quaternion.</param>
         /// <param name="rhs">End quaternion.</param>
         /// <param name="t">Factor in range [0f,1f].</param>
-#if NET_4_6
+#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
         public static Quat Lerp (ref Quat lhs, Quat rhs, float t) {
@@ -145,7 +145,7 @@ namespace Leopotam.Ecs.Types {
         /// </summary>
         /// <param name="lhs">First quaternion.</param>
         /// <param name="rhs">Second quaternion.</param>
-#if NET_4_6
+#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
         public static Quat Mul (ref Quat lhs, ref Quat rhs) {
@@ -162,7 +162,7 @@ namespace Leopotam.Ecs.Types {
         /// </summary>
         /// <param name="lhs">First quaternion.</param>
         /// <param name="rhs">Second quaternion.</param>
-#if NET_4_6
+#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
         public static bool Equals (ref Quat lhs, ref Quat rhs) {
@@ -174,7 +174,7 @@ namespace Leopotam.Ecs.Types {
         /// </summary>
         /// <param name="quat">Quaternion.</param>
         /// <param name="point">Point.</param>
-#if NET_4_6
+#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
         public static Float3 Transform (ref Quat quat, ref Float3 point) {

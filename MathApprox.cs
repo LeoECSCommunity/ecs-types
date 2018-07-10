@@ -7,7 +7,7 @@
 using System;
 using System.Runtime.InteropServices;
 
-#if NET_4_6
+#if NET_4_6 || NET_STANDARD_2_0
 using System.Runtime.CompilerServices;
 #endif
 
@@ -68,7 +68,7 @@ namespace Leopotam.Ecs.Types {
         /// Gets E raised to specified power with 1% error.
         /// </summary>
         /// <param name="power">Target power.</param>
-#if NET_4_6
+#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
         public static float Exp (float power) {
@@ -82,7 +82,7 @@ namespace Leopotam.Ecs.Types {
         /// </summary>
         /// <param name="data">Data to raise.</param>
         /// <param name="power">Target power.</param>
-#if NET_4_6
+#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
         public static float Pow (float data, float power) {
@@ -96,7 +96,7 @@ namespace Leopotam.Ecs.Types {
         /// Gets Sin with 0.0003 error.
         /// </summary>
         /// <param name="v">Angle in radians.</param>
-#if NET_4_6
+#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
         public static float Sin (float v) {
@@ -107,7 +107,7 @@ namespace Leopotam.Ecs.Types {
         /// Gets Cos with 0.0003 error.
         /// </summary>
         /// <param name="v">Angle in radians.</param>
-#if NET_4_6
+#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
         public static float Cos (float v) {
@@ -117,7 +117,7 @@ namespace Leopotam.Ecs.Types {
         /// <summary>
         /// Gets normalized Float2 vector with 0.001 error.
         /// </summary>
-#if NET_4_6
+#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
         public static Float2 Normalize (ref Float2 v) {
@@ -133,7 +133,7 @@ namespace Leopotam.Ecs.Types {
         /// <summary>
         /// Gets normalized Float3 vector with 0.001 error.
         /// </summary>
-#if NET_4_6
+#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
         public static Float3 Normalize (ref Float3 v) {

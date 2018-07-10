@@ -4,7 +4,7 @@
 // Copyright (c) 2017-2018 Leopotam <leopotam@gmail.com>
 // ----------------------------------------------------------------------------
 
-#if NET_4_6
+#if NET_4_6 || NET_STANDARD_2_0
 using System.Runtime.CompilerServices;
 #endif
 
@@ -48,7 +48,7 @@ namespace Leopotam.Ecs.Types {
         /// </summary>
         /// <param name="a">First value.</param>
         /// <param name="b">Second value.</param>
-#if NET_4_6
+#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
         public static float Min (float a, float b) {
@@ -60,7 +60,7 @@ namespace Leopotam.Ecs.Types {
         /// </summary>
         /// <param name="a">First value.</param>
         /// <param name="b">Second value.</param>
-#if NET_4_6
+#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
         public static int Min (int a, int b) {
@@ -72,7 +72,7 @@ namespace Leopotam.Ecs.Types {
         /// </summary>
         /// <param name="a">First value.</param>
         /// <param name="b">Second value.</param>
-#if NET_4_6
+#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
         public static float Max (float a, float b) {
@@ -84,7 +84,7 @@ namespace Leopotam.Ecs.Types {
         /// </summary>
         /// <param name="a">First value.</param>
         /// <param name="b">Second value.</param>
-#if NET_4_6
+#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
         public static int Max (int a, int b) {
@@ -95,7 +95,7 @@ namespace Leopotam.Ecs.Types {
         /// Absolute value of provided data.
         /// </summary>
         /// <param name="v">Raw data.</param>
-#if NET_4_6
+#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
         public static float Abs (float v) {
@@ -106,7 +106,7 @@ namespace Leopotam.Ecs.Types {
         /// Absolute value of provided data.
         /// </summary>
         /// <param name="v">Raw data.</param>
-#if NET_4_6
+#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
         public static int Abs (int v) {
@@ -119,7 +119,7 @@ namespace Leopotam.Ecs.Types {
         /// <param name="data">Data to clamp.</param>
         /// <param name="min">Min range border.</param>
         /// <param name="max">Max range border.</param>
-#if NET_4_6
+#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
         public static float Clamp (float data, float min, float max) {
@@ -139,7 +139,7 @@ namespace Leopotam.Ecs.Types {
         /// <param name="data">Data to clamp.</param>
         /// <param name="min">Min range border.</param>
         /// <param name="max">Max range border.</param>
-#if NET_4_6
+#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
         public static int Clamp (int data, int min, int max) {
@@ -157,7 +157,7 @@ namespace Leopotam.Ecs.Types {
         /// Clamp data value to [0;1] range (inclusive).
         /// </summary>
         /// <param name="data">Data to clamp.</param>
-#if NET_4_6
+#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
         public static float Clamp01 (float data) {
@@ -177,7 +177,7 @@ namespace Leopotam.Ecs.Types {
         /// <param name="a">Interpolate From.</param>
         /// <param name="b">Interpolate To.</param>
         /// <param name="t">Factor of interpolation.</param>
-#if NET_4_6
+#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
         public static float Lerp (float a, float b, float t) {
@@ -198,7 +198,7 @@ namespace Leopotam.Ecs.Types {
         /// <param name="a">Interpolate From.</param>
         /// <param name="b">Interpolate To.</param>
         /// <param name="t">Factor of interpolation.</param>
-#if NET_4_6
+#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
         public static float LerpUnclamped (float a, float b, float t) {
@@ -209,7 +209,7 @@ namespace Leopotam.Ecs.Types {
         /// Return largest integer smaller to or equal to data.
         /// </summary>
         /// <param name="data">Data to floor.</param>
-#if NET_4_6
+#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
         public static int Floor (float data) {

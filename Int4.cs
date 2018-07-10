@@ -7,7 +7,7 @@
 using System;
 using System.Runtime.InteropServices;
 
-#if NET_4_6
+#if NET_4_6 || NET_STANDARD_2_0
 using System.Runtime.CompilerServices;
 #endif
 
@@ -39,7 +39,7 @@ namespace Leopotam.Ecs.Types {
         /// <summary>
         /// Reverses vector direction inplace.
         /// </summary>
-#if NET_4_6
+#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
         public void Neg () {
@@ -53,7 +53,7 @@ namespace Leopotam.Ecs.Types {
         /// Adds new vector inplace.
         /// </summary>
         /// <param name="rhs">New vector.</param>
-#if NET_4_6
+#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
         public void Add (ref Int4 rhs) {
@@ -70,7 +70,7 @@ namespace Leopotam.Ecs.Types {
         /// <param name="y">Y offset.</param>
         /// <param name="z">Z offset.</param>
         /// <param name="w">W offset.</param>
-#if NET_4_6
+#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
         public void Add (int x, int y, int z, int w) {
@@ -84,7 +84,7 @@ namespace Leopotam.Ecs.Types {
         /// Substracts new vector inplace.
         /// </summary>
         /// <param name="rhs">New vector.</param>
-#if NET_4_6
+#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
         public void Sub (ref Int4 rhs) {
@@ -102,7 +102,7 @@ namespace Leopotam.Ecs.Types {
         /// Returns vector with reversed direction.
         /// </summary>
         /// <param name="lhs">Vector.</param>
-#if NET_4_6
+#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
         public static Int4 Neg (ref Int4 lhs) {
@@ -117,7 +117,7 @@ namespace Leopotam.Ecs.Types {
         /// <summary>
         /// Returns sum of 2 vectors.
         /// </summary>
-#if NET_4_6
+#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
         public static Int4 Add (ref Int4 lhs, ref Int4 rhs) {
@@ -137,7 +137,7 @@ namespace Leopotam.Ecs.Types {
         /// <param name="y">Y offset.</param>
         /// <param name="z">Z offset.</param>
         /// <param name="w">W offset.</param>
-#if NET_4_6
+#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
         public static Int4 Add (ref Int4 lhs, int x, int y, int z, int w) {
@@ -152,7 +152,7 @@ namespace Leopotam.Ecs.Types {
         /// <summary>
         /// Returns substract of 2 vectors.
         /// </summary>
-#if NET_4_6
+#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
         public static Int4 Sub (ref Int4 lhs, ref Int4 rhs) {
@@ -169,7 +169,7 @@ namespace Leopotam.Ecs.Types {
         /// </summary>
         /// <param name="lhs">First vector.</param>
         /// <param name="rhs">Second vector.</param>
-#if NET_4_6
+#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
         public static bool Equals (ref Int4 lhs, ref Int4 rhs) {

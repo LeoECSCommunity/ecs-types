@@ -161,7 +161,7 @@ namespace Leopotam.Ecs.Types {
             SetSeed (seed);
         }
 
-#if NET_4_6
+#if NET_4_6 || NET_STANDARD_2_0
         [System.Runtime.CompilerServices.MethodImpl (System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 #endif
         ulong GetRandomUInt32 () {
