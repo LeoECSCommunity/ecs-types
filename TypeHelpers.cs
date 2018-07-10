@@ -4,16 +4,22 @@
 // Copyright (c) 2017-2018 Leopotam <leopotam@gmail.com>
 // ----------------------------------------------------------------------------
 
-namespace Leopotam.Ecs.Types {
-    public static class TypeHelpers {
-        /// <summary>
-        /// Degrees to radians conversion multiplier.
-        /// </summary>
-        public const float Deg2Rad = (float) System.Math.PI / 180f;
+#if ENABLE_IL2CPP
+// Unity IL2CPP performance optimization attribute.
+namespace Unity.IL2CPP.CompilerServices {
+    using System;
 
-        /// <summary>
-        /// Radians to degrees conversion multiplier.
-        /// </summary>
-        public const float Rad2Deg = 1f / Deg2Rad;
+    enum Option {
+        NullChecks = 1,
+        ArrayBoundsChecks = 2
+    }
+
+    [AttributeUsage (AttributeTargets.Class | AttributeTargets.Method | AttributeTargets.Property, Inherited = false, AllowMultiple = true)]
+    class Il2CppSetOptionAttribute : Attribute {
+        public Option Option { get; private set; }
+        public object Value { get; private set; }
+
+        public Il2CppSetOptionAttribute (Option option, object value) { Option = option; Value = value; }
     }
 }
+#endif

@@ -78,9 +78,9 @@ namespace Leopotam.Ecs.Types {
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
         public static Quat Euler (float x, float y, float z) {
-            x *= TypeHelpers.Deg2Rad;
-            y *= TypeHelpers.Deg2Rad;
-            z *= TypeHelpers.Deg2Rad;
+            x *= MathFast.Deg2Rad;
+            y *= MathFast.Deg2Rad;
+            z *= MathFast.Deg2Rad;
             var yawHalf = x * 0.5f;
             var cosYawHalf = (float) System.Math.Cos (yawHalf);
             var sinYawHalf = (float) System.Math.Sin (yawHalf);
