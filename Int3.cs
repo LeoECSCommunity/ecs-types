@@ -162,5 +162,19 @@ namespace Leopotam.Ecs.Types {
         public static bool Equals (ref Int3 lhs, ref Int3 rhs) {
             return lhs.X == rhs.X && lhs.Y == rhs.Y && lhs.Z == rhs.Z;
         }
+
+#if UNITY_5_6_OR_NEWER
+        public static implicit operator UnityEngine.Vector3Int (Int3 v) {
+            return new UnityEngine.Vector3Int (v.X, v.Y, v.Z);
+        }
+
+        public static implicit operator Int3 (UnityEngine.Vector3Int v) {
+            Int3 res;
+            res.X = v.x;
+            res.Y = v.y;
+            res.Z = v.y;
+            return res;
+        }
+#endif
     }
 }

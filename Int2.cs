@@ -149,5 +149,18 @@ namespace Leopotam.Ecs.Types {
         public static bool Equals (ref Int2 lhs, ref Int2 rhs) {
             return lhs.X == rhs.X && lhs.Y == rhs.Y;
         }
+
+#if UNITY_5_6_OR_NEWER
+        public static implicit operator UnityEngine.Vector2Int (Int2 v) {
+            return new UnityEngine.Vector2Int (v.X, v.Y);
+        }
+
+        public static implicit operator Int2 (UnityEngine.Vector2Int v) {
+            Int2 res;
+            res.X = v.x;
+            res.Y = v.y;
+            return res;
+        }
+#endif
     }
 }
