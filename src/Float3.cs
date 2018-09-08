@@ -13,27 +13,47 @@ using System.Runtime.CompilerServices;
 
 namespace Leopotam.Ecs.Types {
     /// <summary>
-    /// Vector with 4 float components.
+    /// Vector with 3 float components.
     /// </summary>
     [Serializable]
     [StructLayout (LayoutKind.Sequential)]
-    public struct Float4 {
+    public struct Float3 {
         public float X;
-
         public float Y;
-
         public float Z;
 
-        public float W;
+        /// <summary>
+        /// Returns vector with (0,0,0) values.
+        /// </summary>
+        public static readonly Float3 Zero = new Float3 ();
+
+        /// <summary>
+        /// Returns vector with (1,1,1) values.
+        /// </summary>
+        public static readonly Float3 One = new Float3 (1f, 1f, 1f);
+
+        /// <summary>
+        /// Returns vector with (1,0,0) values.
+        /// </summary>
+        public static readonly Float3 Right = new Float3 (1f, 0f, 0f);
+
+        /// <summary>
+        /// Returns vector with (0,1,0) values.
+        /// </summary>
+        public static readonly Float3 Up = new Float3 (0f, 1f, 0f);
+
+        /// <summary>
+        /// Returns vector with (0,0,1) values.
+        /// </summary>
+        public static readonly Float3 Forward = new Float3 (0f, 0f, 1f);
 
         /// <summary>
         /// Creates new instance of vector.
         /// </summary>
-        public Float4 (float x, float y, float z, float w) {
+        public Float3 (float x, float y, float z) {
             X = x;
             Y = y;
             Z = z;
-            W = w;
         }
 
         /// <summary>
@@ -46,7 +66,44 @@ namespace Leopotam.Ecs.Types {
             X = -X;
             Y = -Y;
             Z = -Z;
-            W = -W;
+        }
+
+        /// <summary>
+        /// Sets components to min values from current and another one vectors.
+        /// </summary>
+        /// <param name="lhs">Another vector.</param>
+#if NET_4_6 || NET_STANDARD_2_0
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+#endif
+        public void Min (ref Float3 lhs) {
+            X = X <= lhs.X ? X : lhs.X;
+            Y = Y <= lhs.Y ? Y : lhs.Y;
+            Z = Z <= lhs.Z ? Z : lhs.Z;
+        }
+
+        /// <summary>
+        /// Sets components to max values from current and another one vectors.
+        /// </summary>
+        /// <param name="lhs">Another vector.</param>
+#if NET_4_6 || NET_STANDARD_2_0
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+#endif
+        public void Max (ref Float3 lhs) {
+            X = X >= lhs.X ? X : lhs.X;
+            Y = Y >= lhs.Y ? Y : lhs.Y;
+            Z = Z >= lhs.Z ? Z : lhs.Z;
+        }
+
+        /// <summary>
+        /// Sets vector component values.
+        /// </summary>
+#if NET_4_6 || NET_STANDARD_2_0
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+#endif
+        public void Set (float x, float y, float z) {
+            X = x;
+            Y = y;
+            Z = z;
         }
 
         /// <summary>
@@ -56,11 +113,10 @@ namespace Leopotam.Ecs.Types {
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
         public void Normalize () {
-            var invMagnitude = 1f / (float) Math.Sqrt (X * X + Y * Y + Z * Z + W * W);
+            var invMagnitude = 1f / (float) Math.Sqrt (X * X + Y * Y + Z * Z);
             X *= invMagnitude;
             Y *= invMagnitude;
             Z *= invMagnitude;
-            W *= invMagnitude;
         }
 
         /// <summary>
@@ -70,11 +126,10 @@ namespace Leopotam.Ecs.Types {
 #if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
-        public void Add (ref Float4 rhs) {
+        public void Add (ref Float3 rhs) {
             X += rhs.X;
             Y += rhs.Y;
             Z += rhs.Z;
-            W += rhs.W;
         }
 
         /// <summary>
@@ -83,15 +138,13 @@ namespace Leopotam.Ecs.Types {
         /// <param name="x">X offset.</param>
         /// <param name="y">Y offset.</param>
         /// <param name="z">Z offset.</param>
-        /// <param name="w">W offset.</param>
 #if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
-        public void Add (float x, float y, float z, float w) {
+        public void Add (float x, float y, float z) {
             X += x;
             Y += y;
             Z += z;
-            W += w;
         }
 
         /// <summary>
@@ -101,11 +154,10 @@ namespace Leopotam.Ecs.Types {
 #if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
-        public void Sub (ref Float4 rhs) {
+        public void Sub (ref Float3 rhs) {
             X -= rhs.X;
             Y -= rhs.Y;
             Z -= rhs.Z;
-            W -= rhs.W;
         }
 
         /// <summary>
@@ -119,11 +171,10 @@ namespace Leopotam.Ecs.Types {
             X *= scale;
             Y *= scale;
             Z *= scale;
-            W *= scale;
         }
 #if DEBUG
         public override string ToString () {
-            return string.Format (System.Globalization.CultureInfo.InvariantCulture, "({0:F5}, {1:F5}, {2:F5}, {3:F5})", X, Y, Z, W);
+            return string.Format (System.Globalization.CultureInfo.InvariantCulture, "({0:F5}, {1:F5}, {2:F5})", X, Y, Z);
         }
 #endif
         /// <summary>
@@ -133,8 +184,8 @@ namespace Leopotam.Ecs.Types {
 #if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float SqrMagnitude (ref Float4 lhs) {
-            return lhs.X * lhs.X + lhs.Y * lhs.Y + lhs.Z * lhs.Z + lhs.W * lhs.W;
+        public static float SqrMagnitude (ref Float3 lhs) {
+            return lhs.X * lhs.X + lhs.Y * lhs.Y + lhs.Z * lhs.Z;
         }
 
         /// <summary>
@@ -144,8 +195,8 @@ namespace Leopotam.Ecs.Types {
 #if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float Magnitude (ref Float4 lhs) {
-            return (float) Math.Sqrt (lhs.X * lhs.X + lhs.Y * lhs.Y + lhs.Z * lhs.Z + lhs.W * lhs.W);
+        public static float Magnitude (ref Float3 lhs) {
+            return (float) Math.Sqrt (lhs.X * lhs.X + lhs.Y * lhs.Y + lhs.Z * lhs.Z);
         }
 
         /// <summary>
@@ -154,8 +205,22 @@ namespace Leopotam.Ecs.Types {
 #if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
-        public static float Dot (ref Float4 lhs, ref Float4 rhs) {
-            return lhs.X * rhs.X + lhs.Y * rhs.Y + lhs.Z * rhs.Z + lhs.W * rhs.W;
+        public static float Dot (ref Float3 lhs, ref Float3 rhs) {
+            return lhs.X * rhs.X + lhs.Y * rhs.Y + lhs.Z * rhs.Z;
+        }
+
+        /// <summary>
+        /// Returns cross product of vectors.
+        /// </summary>
+#if NET_4_6 || NET_STANDARD_2_0
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Float3 Cross (ref Float3 lhs, ref Float3 rhs) {
+            Float3 res;
+            res.X = lhs.Y * rhs.Z - lhs.Z * rhs.Y;
+            res.Y = lhs.Z * rhs.X - lhs.X * rhs.Z;
+            res.Z = lhs.X * rhs.Y - lhs.Y * rhs.X;
+            return res;
         }
 
         /// <summary>
@@ -165,13 +230,44 @@ namespace Leopotam.Ecs.Types {
 #if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
-        public static Float4 Neg (ref Float4 lhs) {
-            Float4 res;
+        public static Float3 Neg (ref Float3 lhs) {
+            Float3 res;
             res.X = -lhs.X;
             res.Y = -lhs.Y;
             res.Z = -lhs.Z;
-            res.W = -lhs.W;
             return res;
+        }
+
+        /// <summary>
+        /// Returns vector with min values from 2 vectors.
+        /// </summary>
+        /// <param name="lhs">First vector.</param>
+        /// <param name="rhs">Second vector.</param>
+#if NET_4_6 || NET_STANDARD_2_0
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Float3 Min (ref Float3 lhs, ref Float3 rhs) {
+            Float3 result;
+            result.X = lhs.X <= rhs.X ? lhs.X : rhs.X;
+            result.Y = lhs.Y <= rhs.Y ? lhs.Y : rhs.Y;
+            result.Z = lhs.Z <= rhs.Z ? lhs.Z : rhs.Z;
+            return result;
+        }
+
+        /// <summary>
+        /// Returns vector with max values from 2 vectors.
+        /// </summary>
+        /// <param name="lhs">First vector.</param>
+        /// <param name="rhs">Second vector.</param>
+#if NET_4_6 || NET_STANDARD_2_0
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+#endif
+        public static Float3 Max (ref Float3 lhs, ref Float3 rhs) {
+            Float3 result;
+            result.X = lhs.X >= rhs.X ? lhs.X : rhs.X;
+            result.Y = lhs.Y >= rhs.Y ? lhs.Y : rhs.Y;
+            result.Z = lhs.Z >= rhs.Z ? lhs.Z : rhs.Z;
+            return result;
         }
 
         /// <summary>
@@ -180,12 +276,11 @@ namespace Leopotam.Ecs.Types {
 #if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
-        public static Float4 Add (ref Float4 lhs, ref Float4 rhs) {
-            Float4 res;
+        public static Float3 Add (ref Float3 lhs, ref Float3 rhs) {
+            Float3 res;
             res.X = lhs.X + rhs.X;
             res.Y = lhs.Y + rhs.Y;
             res.Z = lhs.Z + rhs.Z;
-            res.W = lhs.W + rhs.W;
             return res;
         }
 
@@ -196,16 +291,14 @@ namespace Leopotam.Ecs.Types {
         /// <param name="x">X offset.</param>
         /// <param name="y">Y offset.</param>
         /// <param name="z">Z offset.</param>
-        /// <param name="w">W offset.</param>
 #if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
-        public static Float4 Add (ref Float4 lhs, float x, float y, float z, float w) {
-            Float4 res;
+        public static Float3 Add (ref Float3 lhs, float x, float y, float z) {
+            Float3 res;
             res.X = lhs.X + x;
             res.Y = lhs.Y + y;
             res.Z = lhs.Z + z;
-            res.W = lhs.W + w;
             return res;
         }
 
@@ -215,12 +308,11 @@ namespace Leopotam.Ecs.Types {
 #if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
-        public static Float4 Sub (ref Float4 lhs, ref Float4 rhs) {
-            Float4 res;
+        public static Float3 Sub (ref Float3 lhs, ref Float3 rhs) {
+            Float3 res;
             res.X = lhs.X - rhs.X;
             res.Y = lhs.Y - rhs.Y;
             res.Z = lhs.Z - rhs.Z;
-            res.W = lhs.W - rhs.W;
             return res;
         }
 
@@ -232,12 +324,11 @@ namespace Leopotam.Ecs.Types {
 #if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
-        public static Float4 Scale (ref Float4 lhs, float scale) {
-            Float4 res;
+        public static Float3 Scale (ref Float3 lhs, float scale) {
+            Float3 res;
             res.X = lhs.X * scale;
             res.Y = lhs.Y * scale;
             res.Z = lhs.Z * scale;
-            res.W = lhs.W * scale;
             return res;
         }
 
@@ -248,13 +339,12 @@ namespace Leopotam.Ecs.Types {
 #if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
-        public static Float4 Normalize (ref Float4 rhs) {
-            Float4 res;
-            var invMagnitude = 1f / (float) Math.Sqrt (rhs.X * rhs.X + rhs.Y * rhs.Y + rhs.Z * rhs.Z + rhs.W * rhs.W);
+        public static Float3 Normalize (ref Float3 rhs) {
+            Float3 res;
+            var invMagnitude = 1f / (float) Math.Sqrt (rhs.X * rhs.X + rhs.Y * rhs.Y + rhs.Z * rhs.Z);
             res.X = rhs.X * invMagnitude;
             res.Y = rhs.Y * invMagnitude;
             res.Z = rhs.Z * invMagnitude;
-            res.W = rhs.W * invMagnitude;
             return res;
         }
 
@@ -266,8 +356,8 @@ namespace Leopotam.Ecs.Types {
 #if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
-        public static bool Equals (ref Float4 lhs, ref Float4 rhs) {
-            return (lhs.X - rhs.X) * (lhs.X - rhs.X) + (lhs.Y - rhs.Y) * (lhs.Y - rhs.Y) + (lhs.Z - rhs.Z) * (lhs.Z - rhs.Z) + (lhs.W - rhs.W) * (lhs.W - rhs.W) < float.Epsilon * float.Epsilon;
+        public static bool Equals (ref Float3 lhs, ref Float3 rhs) {
+            return (lhs.X - rhs.X) * (lhs.X - rhs.X) + (lhs.Y - rhs.Y) * (lhs.Y - rhs.Y) + (lhs.Z - rhs.Z) * (lhs.Z - rhs.Z) < MathFast.Epsilon * MathFast.Epsilon;
         }
 
         /// <summary>
@@ -279,7 +369,7 @@ namespace Leopotam.Ecs.Types {
 #if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
-        public static Float4 Lerp (ref Float4 lhs, ref Float4 rhs, float t) {
+        public static Float3 Lerp (ref Float3 lhs, ref Float3 rhs, float t) {
             if (t > 1f) {
                 return rhs;
             } else {
@@ -287,30 +377,27 @@ namespace Leopotam.Ecs.Types {
                     return lhs;
                 }
             }
-            Float4 res;
+            Float3 res;
             res.X = (rhs.X - lhs.X) * t + lhs.X;
             res.Y = (rhs.Y - lhs.Y) * t + lhs.Y;
             res.Z = (rhs.Z - lhs.Z) * t + lhs.Z;
-            res.W = (rhs.W - lhs.W) * t + lhs.W;
             return res;
         }
 
 #if UNITY_5_6_OR_NEWER
-        public static implicit operator UnityEngine.Vector4 (Float4 v) {
-            UnityEngine.Vector4 res;
+        public static implicit operator UnityEngine.Vector3 (Float3 v) {
+            UnityEngine.Vector3 res;
             res.x = v.X;
             res.y = v.Y;
             res.z = v.Z;
-            res.w = v.W;
             return res;
         }
 
-        public static implicit operator Float4 (UnityEngine.Vector4 v) {
-            Float4 res;
+        public static implicit operator Float3 (UnityEngine.Vector3 v) {
+            Float3 res;
             res.X = v.x;
             res.Y = v.y;
             res.Z = v.z;
-            res.W = v.w;
             return res;
         }
 #endif

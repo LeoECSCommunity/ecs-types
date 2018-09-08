@@ -18,9 +18,13 @@ namespace Leopotam.Ecs.Types {
 #endif
     public static class MathFast {
         /// <summary>
+        /// Small float value, replacement for float.Epsilon due it can be zero for some reasons.
+        /// </summary>
+        public const float Epsilon = 1.4e-45f;
+
+        /// <summary>
         /// PI constant.
         /// </summary>
-        /// <returns></returns>
         public const float Pi = (float) System.Math.PI;
 
         /// <summary>

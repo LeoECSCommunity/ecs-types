@@ -166,7 +166,7 @@ namespace Leopotam.Ecs.Types {
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
         public static bool Equals (ref Quat lhs, ref Quat rhs) {
-            return (lhs.X - rhs.X) * (lhs.X - rhs.X) + (lhs.Y - rhs.Y) * (lhs.Y - rhs.Y) + (lhs.Z - rhs.Z) * (lhs.Z - rhs.Z) + (lhs.W - rhs.W) * (lhs.W - rhs.W) < float.Epsilon * float.Epsilon;
+            return (lhs.X - rhs.X) * (lhs.X - rhs.X) + (lhs.Y - rhs.Y) * (lhs.Y - rhs.Y) + (lhs.Z - rhs.Z) * (lhs.Z - rhs.Z) + (lhs.W - rhs.W) * (lhs.W - rhs.W) < MathFast.Epsilon * MathFast.Epsilon;
         }
 
         /// <summary>

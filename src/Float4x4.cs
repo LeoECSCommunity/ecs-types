@@ -19,38 +19,26 @@ namespace Leopotam.Ecs.Types {
     [StructLayout (LayoutKind.Sequential)]
     public struct Float4x4 {
         public float M11;
-
         public float M12;
-
         public float M13;
-
         public float M14;
-
         public float M21;
-
         public float M22;
-
         public float M23;
-
         public float M24;
-
         public float M31;
-
         public float M32;
-
         public float M33;
-
         public float M34;
-
         public float M41;
-
         public float M42;
-
         public float M43;
-
         public float M44;
 
-        static readonly Float4x4 _identity = new Float4x4 (1f, 0f, 0f, 0f, 0f, 1f, 0f, 0f, 0f, 0f, 1f, 0f, 0f, 0f, 0f, 1f);
+        /// <summary>
+        /// Returns identity matrix.
+        /// </summary>
+        public static readonly Float4x4 Identity = new Float4x4 (1f, 0f, 0f, 0f, 0f, 1f, 0f, 0f, 0f, 0f, 1f, 0f, 0f, 0f, 0f, 1f);
 
         /// <summary>
         /// Creates new instance of matrix.
@@ -161,16 +149,6 @@ namespace Leopotam.Ecs.Types {
         }
 
         /// <summary>
-        /// Returns identity matrix.
-        /// </summary>
-#if NET_4_6 || NET_STANDARD_2_0
-        [MethodImpl (MethodImplOptions.AggressiveInlining)]
-#endif
-        public static Float4x4 Identity () {
-            return _identity;
-        }
-
-        /// <summary>
         /// Creates translate matrix from vector.
         /// </summary>
         /// <param name="scale">Translate vector.</param>
@@ -197,6 +175,13 @@ namespace Leopotam.Ecs.Types {
             return mat;
         }
 
+#if DEBUG
+        [Obsolete ("Use FromQuat instead.")]
+#endif
+        public static Float4x4 Rotate (ref Quat rotate) {
+            return FromQuat (ref rotate);
+        }
+
         /// <summary>
         /// Creates rotation matrix from euler angles.
         /// </summary>
@@ -206,19 +191,19 @@ namespace Leopotam.Ecs.Types {
 #if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
-        public static Float4x4 Rotate (ref Quat rotate) {
-            var x = rotate.X * 2f;
-            var y = rotate.Y * 2f;
-            var z = rotate.Z * 2f;
-            var xx = rotate.X * x;
-            var yy = rotate.Y * y;
-            var zz = rotate.Z * z;
-            var xy = rotate.X * y;
-            var xz = rotate.X * z;
-            var yz = rotate.Y * z;
-            var wx = rotate.W * x;
-            var wy = rotate.W * y;
-            var wz = rotate.W * z;
+        public static Float4x4 FromQuat (ref Quat quat) {
+            var x = quat.X * 2f;
+            var y = quat.Y * 2f;
+            var z = quat.Z * 2f;
+            var xx = quat.X * x;
+            var yy = quat.Y * y;
+            var zz = quat.Z * z;
+            var xy = quat.X * y;
+            var xz = quat.X * z;
+            var yz = quat.Y * z;
+            var wx = quat.W * x;
+            var wy = quat.W * y;
+            var wz = quat.W * z;
             Float4x4 mat;
             mat.M11 = 1f - (yy + zz);
             mat.M12 = xy - wz;

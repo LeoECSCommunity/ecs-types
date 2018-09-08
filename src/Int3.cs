@@ -13,21 +13,27 @@ using System.Runtime.CompilerServices;
 
 namespace Leopotam.Ecs.Types {
     /// <summary>
-    /// Vector with 2 integer components.
+    /// Vector with 3 integer components.
     /// </summary>
     [Serializable]
     [StructLayout (LayoutKind.Sequential)]
-    public struct Int2 {
+    public struct Int3 {
         public int X;
-
         public int Y;
+        public int Z;
+
+        /// <summary>
+        /// Returns vector with (0,0,0) values.
+        /// </summary>
+        public static readonly Int3 Zero = new Int3 ();
 
         /// <summary>
         /// Creates new instance of vector.
         /// </summary>
-        public Int2 (int x, int y) {
+        public Int3 (int x, int y, int z) {
             X = x;
             Y = y;
+            Z = z;
         }
 
         /// <summary>
@@ -39,6 +45,7 @@ namespace Leopotam.Ecs.Types {
         public void Neg () {
             X = -X;
             Y = -Y;
+            Z = -Z;
         }
 
         /// <summary>
@@ -48,9 +55,10 @@ namespace Leopotam.Ecs.Types {
 #if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
-        public void Add (ref Int2 rhs) {
+        public void Add (ref Int3 rhs) {
             X += rhs.X;
             Y += rhs.Y;
+            Z += rhs.Z;
         }
 
         /// <summary>
@@ -58,12 +66,14 @@ namespace Leopotam.Ecs.Types {
         /// </summary>
         /// <param name="x">X offset.</param>
         /// <param name="y">Y offset.</param>
+        /// <param name="z">Z offset.</param>
 #if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
-        public void Add (int x, int y) {
+        public void Add (int x, int y, int z) {
             X += x;
             Y += y;
+            Z += z;
         }
 
         /// <summary>
@@ -73,13 +83,14 @@ namespace Leopotam.Ecs.Types {
 #if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
-        public void Sub (ref Int2 rhs) {
+        public void Sub (ref Int3 rhs) {
             X -= rhs.X;
             Y -= rhs.Y;
+            Z -= rhs.Z;
         }
 #if DEBUG
         public override string ToString () {
-            return string.Format (System.Globalization.CultureInfo.InvariantCulture, "({0}, {1})", X, Y);
+            return string.Format (System.Globalization.CultureInfo.InvariantCulture, "({0}, {1}, {2})", X, Y, Z);
         }
 #endif
         /// <summary>
@@ -89,10 +100,11 @@ namespace Leopotam.Ecs.Types {
 #if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
-        public static Int2 Neg (ref Int2 lhs) {
-            Int2 res;
+        public static Int3 Neg (ref Int3 lhs) {
+            Int3 res;
             res.X = -lhs.X;
             res.Y = -lhs.Y;
+            res.Z = -lhs.Z;
             return res;
         }
 
@@ -102,10 +114,11 @@ namespace Leopotam.Ecs.Types {
 #if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
-        public static Int2 Add (ref Int2 lhs, ref Int2 rhs) {
-            Int2 res;
+        public static Int3 Add (ref Int3 lhs, ref Int3 rhs) {
+            Int3 res;
             res.X = lhs.X + rhs.X;
             res.Y = lhs.Y + rhs.Y;
+            res.Z = lhs.Z + rhs.Z;
             return res;
         }
 
@@ -115,13 +128,15 @@ namespace Leopotam.Ecs.Types {
         /// <param name="lhs">Vector.</param>
         /// <param name="x">X offset.</param>
         /// <param name="y">Y offset.</param>
+        /// <param name="z">Z offset.</param>
 #if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
-        public static Int2 Add (ref Int2 lhs, int x, int y) {
-            Int2 res;
+        public static Int3 Add (ref Int3 lhs, int x, int y, int z) {
+            Int3 res;
             res.X = lhs.X + x;
             res.Y = lhs.Y + y;
+            res.Z = lhs.Z + z;
             return res;
         }
 
@@ -131,10 +146,11 @@ namespace Leopotam.Ecs.Types {
 #if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
-        public static Int2 Sub (ref Int2 lhs, ref Int2 rhs) {
-            Int2 res;
+        public static Int3 Sub (ref Int3 lhs, ref Int3 rhs) {
+            Int3 res;
             res.X = lhs.X - rhs.X;
             res.Y = lhs.Y - rhs.Y;
+            res.Z = lhs.Z - rhs.Z;
             return res;
         }
 
@@ -146,19 +162,20 @@ namespace Leopotam.Ecs.Types {
 #if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
-        public static bool Equals (ref Int2 lhs, ref Int2 rhs) {
-            return lhs.X == rhs.X && lhs.Y == rhs.Y;
+        public static bool Equals (ref Int3 lhs, ref Int3 rhs) {
+            return lhs.X == rhs.X && lhs.Y == rhs.Y && lhs.Z == rhs.Z;
         }
 
 #if UNITY_5_6_OR_NEWER
-        public static implicit operator UnityEngine.Vector2Int (Int2 v) {
-            return new UnityEngine.Vector2Int (v.X, v.Y);
+        public static implicit operator UnityEngine.Vector3Int (Int3 v) {
+            return new UnityEngine.Vector3Int (v.X, v.Y, v.Z);
         }
 
-        public static implicit operator Int2 (UnityEngine.Vector2Int v) {
-            Int2 res;
+        public static implicit operator Int3 (UnityEngine.Vector3Int v) {
+            Int3 res;
             res.X = v.x;
             res.Y = v.y;
+            res.Z = v.y;
             return res;
         }
 #endif

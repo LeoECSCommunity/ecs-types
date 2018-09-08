@@ -19,13 +19,20 @@ namespace Leopotam.Ecs.Types {
     [StructLayout (LayoutKind.Sequential)]
     public struct IntBox2 {
         public Int2 Min;
-
         public Int2 Max;
 
         /// <summary>
         /// Creates new instance of vector.
         /// </summary>
         public IntBox2 (Int2 min, Int2 max) {
+            Min = min;
+            Max = max;
+        }
+
+        /// <summary>
+        /// Creates new instance of vector.
+        /// </summary>
+        public IntBox2 (ref Int2 min, ref Int2 max) {
             Min = min;
             Max = max;
         }
