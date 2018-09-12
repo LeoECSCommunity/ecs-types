@@ -20,7 +20,7 @@ namespace Leopotam.Ecs.Types {
         /// <summary>
         /// Small float value, replacement for float.Epsilon due it can be zero for some reasons.
         /// </summary>
-        public const float Epsilon = 1.4e-45f;
+        public const float Epsilon = 1e-10f;
 
         /// <summary>
         /// PI constant.
