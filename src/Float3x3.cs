@@ -154,33 +154,6 @@ namespace Leopotam.Ecs.Types {
                 lhs.M12 * lhs.M23 * lhs.M31 + lhs.M13 * lhs.M21 * lhs.M32 - lhs.M13 * lhs.M22 * lhs.M31;
         }
 
-        // public static void Invert (ref JMatrix matrix, out JMatrix result) {
-        //     float determinantInverse = 1 / matrix.Determinant ();
-        //     float m11 = (matrix.M22 * matrix.M33 - matrix.M23 * matrix.M32) * determinantInverse;
-        //     float m12 = (matrix.M13 * matrix.M32 - matrix.M33 * matrix.M12) * determinantInverse;
-        //     float m13 = (matrix.M12 * matrix.M23 - matrix.M22 * matrix.M13) * determinantInverse;
-
-        //     float m21 = (matrix.M23 * matrix.M31 - matrix.M21 * matrix.M33) * determinantInverse;
-        //     float m22 = (matrix.M11 * matrix.M33 - matrix.M13 * matrix.M31) * determinantInverse;
-        //     float m23 = (matrix.M13 * matrix.M21 - matrix.M11 * matrix.M23) * determinantInverse;
-
-        //     float m31 = (matrix.M21 * matrix.M32 - matrix.M22 * matrix.M31) * determinantInverse;
-        //     float m32 = (matrix.M12 * matrix.M31 - matrix.M11 * matrix.M32) * determinantInverse;
-        //     float m33 = (matrix.M11 * matrix.M22 - matrix.M12 * matrix.M21) * determinantInverse;
-
-        //     result.M11 = m11;
-        //     result.M12 = m12;
-        //     result.M13 = m13;
-
-        //     result.M21 = m21;
-        //     result.M22 = m22;
-        //     result.M23 = m23;
-
-        //     result.M31 = m31;
-        //     result.M32 = m32;
-        //     result.M33 = m33;
-        // }
-
         /// <summary>
         /// Calculates the inverse of a give matrix.
         /// </summary>
