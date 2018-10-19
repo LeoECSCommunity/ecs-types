@@ -71,6 +71,9 @@ namespace Leopotam.Ecs.Types {
         /// </summary>
         /// <param name="position"></param>
         /// <param name="orientation"></param>
+#if NET_4_6 || NET_STANDARD_2_0
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+#endif
         public void InverseTransform (ref Float3 position, ref Float3x3 orientation) {
             Max = Float3.Sub (ref Max, ref position);
             Min = Float3.Sub (ref Min, ref position);
@@ -94,6 +97,9 @@ namespace Leopotam.Ecs.Types {
             Max = Float3.Add (ref center, ref halfExtents);
         }
 
+#if NET_4_6 || NET_STANDARD_2_0
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+#endif
         public void Transform (ref Float3x3 orientation) {
             Float3 center;
             center.X = (Min.X + Max.X) * 0.5f;
@@ -119,7 +125,9 @@ namespace Leopotam.Ecs.Types {
         /// a point.
         /// </summary>
         /// <returns>The ContainmentType of the point.</returns>
-
+#if NET_4_6 || NET_STANDARD_2_0
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+#endif
         static bool Intersect1D (float start, float dir, float min, float max, ref float enter, ref float exit) {
             if (dir * dir < MathFast.Epsilon * MathFast.Epsilon) {
                 return start >= min && start <= max;
@@ -143,6 +151,9 @@ namespace Leopotam.Ecs.Types {
             return true;
         }
 
+#if NET_4_6 || NET_STANDARD_2_0
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+#endif
         public static bool SegmentIntersect (ref FloatBox3 box, ref Float3 origin, ref Float3 direction) {
             var enter = 0f;
             var exit = 1f;
@@ -151,6 +162,9 @@ namespace Leopotam.Ecs.Types {
                 Intersect1D (origin.Z, direction.Z, box.Min.Z, box.Max.Z, ref enter, ref exit);
         }
 
+#if NET_4_6 || NET_STANDARD_2_0
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+#endif
         public static bool RayIntersect (ref FloatBox3 box, ref Float3 origin, ref Float3 direction) {
             var enter = 0f;
             var exit = float.MaxValue;
@@ -159,6 +173,9 @@ namespace Leopotam.Ecs.Types {
                 Intersect1D (origin.Z, direction.Z, box.Min.Z, box.Max.Z, ref enter, ref exit);
         }
 
+#if NET_4_6 || NET_STANDARD_2_0
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+#endif
         public static bool Contains (ref FloatBox3 box, ref Float3 point) {
             return (box.Min.X <= point.X) && (point.X <= box.Max.X) &&
                 (box.Min.Y <= point.Y) && (point.Y <= box.Max.Y) &&
@@ -168,6 +185,9 @@ namespace Leopotam.Ecs.Types {
         /// <summary>
         /// Retrieves the 8 corners of the box.
         /// </summary>
+#if NET_4_6 || NET_STANDARD_2_0
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+#endif
         public void GetCorners (Float3[] corners) {
             corners[0].Set (this.Min.X, this.Max.Y, this.Max.Z);
             corners[1].Set (this.Max.X, this.Max.Y, this.Max.Z);
@@ -179,11 +199,17 @@ namespace Leopotam.Ecs.Types {
             corners[7].Set (this.Min.X, this.Min.Y, this.Min.Z);
         }
 
+#if NET_4_6 || NET_STANDARD_2_0
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+#endif
         public void AddPoint (ref Float3 point) {
             Min = Float3.Min (ref this.Min, ref point);
             Max = Float3.Max (ref this.Max, ref point);
         }
 
+#if NET_4_6 || NET_STANDARD_2_0
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+#endif
         public static FloatBox3 CreateFromPoints (Float3[] points) {
             var min = new Float3 (float.MaxValue, float.MaxValue, float.MaxValue);
             var max = new Float3 (float.MinValue, float.MinValue, float.MinValue);
@@ -197,6 +223,9 @@ namespace Leopotam.Ecs.Types {
             return box;
         }
 
+#if NET_4_6 || NET_STANDARD_2_0
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+#endif
         public static ContainmentType Contains (ref FloatBox3 lhs, ref FloatBox3 rhs) {
             if ((lhs.Max.X >= rhs.Min.X) && (lhs.Min.X <= rhs.Max.X) &&
                 (lhs.Max.Y >= rhs.Min.Y) && (lhs.Min.Y <= rhs.Max.Y) &&
@@ -208,6 +237,9 @@ namespace Leopotam.Ecs.Types {
             return ContainmentType.Disjoint;
         }
 
+#if NET_4_6 || NET_STANDARD_2_0
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+#endif
         public static FloatBox3 Join (ref FloatBox3 lhs, ref FloatBox3 rhs) {
             FloatBox3 res;
             res.Min = Float3.Min (ref lhs.Min, ref rhs.Min);
@@ -215,6 +247,9 @@ namespace Leopotam.Ecs.Types {
             return res;
         }
 
+#if NET_4_6 || NET_STANDARD_2_0
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+#endif
         public static Float3 Center (ref FloatBox3 box) {
             Float3 center;
             center.X = (box.Min.X + box.Max.X) * 0.5f;
@@ -223,6 +258,9 @@ namespace Leopotam.Ecs.Types {
             return center;
         }
 
+#if NET_4_6 || NET_STANDARD_2_0
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+#endif
         public static float Perimeter (ref FloatBox3 box) {
             return ((box.Max.X - box.Min.X) * (box.Max.Y - box.Min.Y) + (box.Max.X - box.Min.X) * (box.Max.Z - box.Min.Z) + (box.Max.Z - box.Min.Z) * (box.Max.Y - box.Min.Y)) * 2f;
         }
