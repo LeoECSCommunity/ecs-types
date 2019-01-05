@@ -252,5 +252,49 @@ namespace Leopotam.Ecs.Types {
         public static int Round (float data) {
             return data >= 0f ? (int) (data + 0.5f) : (int) (data - 0.5f);
         }
+
+        /// <summary>
+        /// Returns sin of angle.
+        /// </summary>
+        /// <param name="v">Angle in radians.</param>
+#if NET_4_6 || NET_STANDARD_2_0
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float Sin (float v) {
+            return (float) System.Math.Sin (v);
+        }
+
+        /// <summary>
+        /// Returns cos of angle.
+        /// </summary>
+        /// <param name="v">Angle in radians.</param>
+#if NET_4_6 || NET_STANDARD_2_0
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float Cos (float v) {
+            return (float) System.Math.Cos (v);
+        }
+
+        /// <summary>
+        /// Returns tan of angle.
+        /// </summary>
+        /// <param name="v">Angle in radians.</param>
+#if NET_4_6 || NET_STANDARD_2_0
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float Tan (float v) {
+            return (float) System.Math.Tan (v);
+        }
+
+        /// <summary>
+        /// Returns exp of angle.
+        /// </summary>
+        /// <param name="v">Angle in radians.</param>
+#if NET_4_6 || NET_STANDARD_2_0
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float Exp (float v) {
+            return (float) System.Math.Exp (v);
+        }
     }
 }
