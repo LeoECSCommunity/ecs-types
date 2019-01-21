@@ -1,7 +1,7 @@
 ﻿// ----------------------------------------------------------------------------
 // The MIT License
 // Types for Entity Component System framework https://github.com/Leopotam/ecs
-// Copyright (c) 2017-2018 Leopotam <leopotam@gmail.com>
+// Copyright (c) 2017-2019 Leopotam <leopotam@gmail.com>
 // ----------------------------------------------------------------------------
 
 #if NET_4_6 || NET_STANDARD_2_0
@@ -118,6 +118,28 @@ namespace Leopotam.Ecs.Types {
         }
 
         /// <summary>
+        /// Sign of provided data.
+        /// </summary>
+        /// <param name="v">Raw data.</param>
+#if NET_4_6 || NET_STANDARD_2_0
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int Sign (float v) {
+            return v > 0f ? 1 : (v < 0f ? -1 : 0);
+        }
+
+        /// <summary>
+        /// Sign of provided data.
+        /// </summary>
+        /// <param name="v">Raw data.</param>
+#if NET_4_6 || NET_STANDARD_2_0
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int Sign (int v) {
+            return v > 0 ? 1 : (v < 0 ? -1 : 0);
+        }
+
+        /// <summary>
         /// Clamp data value to [min;max] range (inclusive).
         /// </summary>
         /// <param name="data">Data to clamp.</param>
@@ -210,7 +232,7 @@ namespace Leopotam.Ecs.Types {
         }
 
         /// <summary>
-        /// Return largest integer smaller to or equal to data.
+        /// Returns largest integer smaller to or equal to data.
         /// </summary>
         /// <param name="data">Data to floor.</param>
 #if NET_4_6 || NET_STANDARD_2_0
@@ -218,6 +240,61 @@ namespace Leopotam.Ecs.Types {
 #endif
         public static int Floor (float data) {
             return data >= 0f ? (int) data : (int) data - 1;
+        }
+
+        /// <summary>
+        /// Returns rounded integer.
+        /// </summary>
+        /// <param name="data">Data to round.</param>
+#if NET_4_6 || NET_STANDARD_2_0
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+#endif
+        public static int Round (float data) {
+            return data >= 0f ? (int) (data + 0.5f) : (int) (data - 0.5f);
+        }
+
+        /// <summary>
+        /// Returns sin of angle.
+        /// </summary>
+        /// <param name="v">Angle in radians.</param>
+#if NET_4_6 || NET_STANDARD_2_0
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float Sin (float v) {
+            return (float) System.Math.Sin (v);
+        }
+
+        /// <summary>
+        /// Returns cos of angle.
+        /// </summary>
+        /// <param name="v">Angle in radians.</param>
+#if NET_4_6 || NET_STANDARD_2_0
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float Cos (float v) {
+            return (float) System.Math.Cos (v);
+        }
+
+        /// <summary>
+        /// Returns tan of angle.
+        /// </summary>
+        /// <param name="v">Angle in radians.</param>
+#if NET_4_6 || NET_STANDARD_2_0
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float Tan (float v) {
+            return (float) System.Math.Tan (v);
+        }
+
+        /// <summary>
+        /// Returns exp of angle.
+        /// </summary>
+        /// <param name="v">Angle in radians.</param>
+#if NET_4_6 || NET_STANDARD_2_0
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+#endif
+        public static float Exp (float v) {
+            return (float) System.Math.Exp (v);
         }
     }
 }
