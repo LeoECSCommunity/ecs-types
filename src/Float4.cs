@@ -133,6 +133,7 @@ namespace Leopotam.Ecs.Types {
 #if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
+        [Obsolete ("Use GetSqrMagnitude() instead")]
         public static float SqrMagnitude (ref Float4 lhs) {
             return lhs.X * lhs.X + lhs.Y * lhs.Y + lhs.Z * lhs.Z + lhs.W * lhs.W;
         }
@@ -144,6 +145,7 @@ namespace Leopotam.Ecs.Types {
 #if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
+        [Obsolete ("Use GetMagnitude() instead")]
         public static float Magnitude (ref Float4 lhs) {
             return (float) Math.Sqrt (lhs.X * lhs.X + lhs.Y * lhs.Y + lhs.Z * lhs.Z + lhs.W * lhs.W);
         }
@@ -164,6 +166,7 @@ namespace Leopotam.Ecs.Types {
         /// <param name="lhs">Vector.</param>
 #if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        [Obsolete ("Use operator - instead")]
 #endif
         public static Float4 Neg (ref Float4 lhs) {
             Float4 res;
@@ -179,6 +182,7 @@ namespace Leopotam.Ecs.Types {
         /// </summary>
 #if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        [Obsolete ("Use operator + instead")]
 #endif
         public static Float4 Add (ref Float4 lhs, ref Float4 rhs) {
             Float4 res;
@@ -199,6 +203,7 @@ namespace Leopotam.Ecs.Types {
         /// <param name="w">W offset.</param>
 #if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        [Obsolete ("Use operator + instead")]
 #endif
         public static Float4 Add (ref Float4 lhs, float x, float y, float z, float w) {
             Float4 res;
@@ -214,6 +219,7 @@ namespace Leopotam.Ecs.Types {
         /// </summary>
 #if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        [Obsolete ("Use operator - instead")]
 #endif
         public static Float4 Sub (ref Float4 lhs, ref Float4 rhs) {
             Float4 res;
@@ -231,6 +237,7 @@ namespace Leopotam.Ecs.Types {
         /// <param name="scale">Scale factor.</param>
 #if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        [Obsolete ("Use operator * instead")]
 #endif
         public static Float4 Scale (ref Float4 lhs, float scale) {
             Float4 res;
@@ -247,6 +254,7 @@ namespace Leopotam.Ecs.Types {
         /// <param name="rhs">Vector.</param>
 #if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        [Obsolete ("Use GetNormalized() instead")]
 #endif
         public static Float4 Normalize (ref Float4 rhs) {
             Float4 res;
@@ -265,6 +273,7 @@ namespace Leopotam.Ecs.Types {
         /// <param name="rhs">Second vector.</param>
 #if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        [Obsolete ("Use operator == instead")]
 #endif
         public static bool Equals (ref Float4 lhs, ref Float4 rhs) {
             return (lhs.X - rhs.X) * (lhs.X - rhs.X) + (lhs.Y - rhs.Y) * (lhs.Y - rhs.Y) + (lhs.Z - rhs.Z) * (lhs.Z - rhs.Z) + (lhs.W - rhs.W) * (lhs.W - rhs.W) < MathFast.Epsilon * MathFast.Epsilon;
@@ -295,7 +304,160 @@ namespace Leopotam.Ecs.Types {
             return res;
         }
 
+        /// <summary>
+        /// Returns square magnitude of vector.
+        /// </summary>
+#if NET_4_6 || NET_STANDARD_2_0
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+#endif
+        public float GetSqrMagnitude () {
+            return X * X + Y * Y + Z * Z + W * W;
+        }
+
+        /// <summary>
+        /// Returns magnitude of vector.
+        /// </summary>
+#if NET_4_6 || NET_STANDARD_2_0
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+#endif
+        public float GetMagnitude () {
+            return (float) Math.Sqrt (X * X + Y * Y + Z * Z + W * W);
+        }
+
+        /// <summary>
+        /// Returns normalized version of vector.
+        /// </summary>
+#if NET_4_6 || NET_STANDARD_2_0
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+#endif
+        public Float4 GetNormalized () {
+            Float4 res;
+            var invMagnitude = 1f / (float) Math.Sqrt (X * X + Y * Y + Z * Z + W * W);
+            res.X = X * invMagnitude;
+            res.Y = Y * invMagnitude;
+            res.Z = Z * invMagnitude;
+            res.W = W * invMagnitude;
+            return res;
+        }
+
+#if NET_4_6 || NET_STANDARD_2_0
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        public static Float4 operator + (in Float4 lhs, in Float4 rhs) {
+            Float4 res;
+            res.X = lhs.X + rhs.X;
+            res.Y = lhs.Y + rhs.Y;
+            res.Z = lhs.Z + rhs.Z;
+            res.W = lhs.W + rhs.W;
+            return res;
+        }
+
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        public static Float4 operator - (in Float4 lhs, in Float4 rhs) {
+            Float4 res;
+            res.X = lhs.X - rhs.X;
+            res.Y = lhs.Y - rhs.Y;
+            res.Z = lhs.Z - rhs.Z;
+            res.W = lhs.W - rhs.W;
+            return res;
+        }
+
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        public static Float4 operator * (in Float4 lhs, in Float4 rhs) {
+            Float4 res;
+            res.X = lhs.X * rhs.X;
+            res.Y = lhs.Y * rhs.Y;
+            res.Z = lhs.Z * rhs.Z;
+            res.W = lhs.W * rhs.W;
+            return res;
+        }
+
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        public static Float4 operator * (in Float4 lhs, float rhs) {
+            Float4 res;
+            res.X = lhs.X * rhs;
+            res.Y = lhs.Y * rhs;
+            res.Z = lhs.Z * rhs;
+            res.W = lhs.W * rhs;
+            return res;
+        }
+
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        public static Float4 operator / (in Float4 lhs, float rhs) {
+            Float4 res;
+            var invRhs = 1f / rhs;
+            res.X = lhs.X * rhs;
+            res.Y = lhs.Y * rhs;
+            res.Z = lhs.Z * rhs;
+            res.W = lhs.W * rhs;
+            return res;
+        }
+
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        public static Float4 operator - (in Float4 lhs) {
+            Float4 res;
+            res.X = -lhs.X;
+            res.Y = -lhs.Y;
+            res.Z = -lhs.Z;
+            res.W = -lhs.W;
+            return res;
+        }
+
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        public static bool operator == (in Float4 lhs, in Float4 rhs) {
+            return (
+                (lhs.X - rhs.X) * (lhs.X - rhs.X) +
+                (lhs.Y - rhs.Y) * (lhs.Y - rhs.Y) +
+                (lhs.Z - rhs.Z) * (lhs.Z - rhs.Z) +
+                (lhs.W - rhs.W) * (lhs.W - rhs.W)) < MathFast.Epsilon * MathFast.Epsilon;
+        }
+
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        public static bool operator != (in Float4 lhs, in Float4 rhs) {
+            return (
+                (lhs.X - rhs.X) * (lhs.X - rhs.X) +
+                (lhs.Y - rhs.Y) * (lhs.Y - rhs.Y) +
+                (lhs.Z - rhs.Z) * (lhs.Z - rhs.Z) +
+                (lhs.W - rhs.W) * (lhs.W - rhs.W)) >= MathFast.Epsilon * MathFast.Epsilon;
+        }
+
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        public override int GetHashCode () {
+            return X.GetHashCode () ^ (Y.GetHashCode () << 2) ^ (Z.GetHashCode () >> 2) ^ (W.GetHashCode () >> 1);
+        }
+
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        public override bool Equals (object other) {
+            if (!(other is Float3)) {
+                return false;
+            }
+            var rhs = (Float3) other;
+            return (
+                (X - rhs.X) * (X - rhs.X) +
+                (Y - rhs.Y) * (Y - rhs.Y) +
+                (Z - rhs.Z) * (Z - rhs.Z)) < MathFast.Epsilon * MathFast.Epsilon;
+        }
+#endif
+
 #if UNITY_5_6_OR_NEWER
+#if NET_4_6 || NET_STANDARD_2_0
+        public static implicit operator UnityEngine.Vector4 (in Float4 v) {
+            UnityEngine.Vector4 res;
+            res.x = v.X;
+            res.y = v.Y;
+            res.z = v.Z;
+            res.w = v.W;
+            return res;
+        }
+
+        public static implicit operator Float4 (in UnityEngine.Vector4 v) {
+            Float4 res;
+            res.X = v.x;
+            res.Y = v.y;
+            res.Z = v.z;
+            res.W = v.w;
+            return res;
+        }
+#else
         public static implicit operator UnityEngine.Vector4 (Float4 v) {
             UnityEngine.Vector4 res;
             res.x = v.X;
@@ -313,6 +475,7 @@ namespace Leopotam.Ecs.Types {
             res.W = v.w;
             return res;
         }
+#endif
 #endif
     }
 }

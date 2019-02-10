@@ -184,6 +184,7 @@ namespace Leopotam.Ecs.Types {
 #if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
+        [Obsolete ("Use GetSqrMagnitude() instead")]
         public static float SqrMagnitude (ref Float3 lhs) {
             return lhs.X * lhs.X + lhs.Y * lhs.Y + lhs.Z * lhs.Z;
         }
@@ -195,6 +196,7 @@ namespace Leopotam.Ecs.Types {
 #if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
+        [Obsolete ("Use GetMagnitude() instead")]
         public static float Magnitude (ref Float3 lhs) {
             return (float) Math.Sqrt (lhs.X * lhs.X + lhs.Y * lhs.Y + lhs.Z * lhs.Z);
         }
@@ -229,6 +231,7 @@ namespace Leopotam.Ecs.Types {
         /// <param name="lhs">Vector.</param>
 #if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        [Obsolete ("Use operator - instead")]
 #endif
         public static Float3 Neg (ref Float3 lhs) {
             Float3 res;
@@ -275,6 +278,7 @@ namespace Leopotam.Ecs.Types {
         /// </summary>
 #if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        [Obsolete ("Use operator + instead")]
 #endif
         public static Float3 Add (ref Float3 lhs, ref Float3 rhs) {
             Float3 res;
@@ -293,6 +297,7 @@ namespace Leopotam.Ecs.Types {
         /// <param name="z">Z offset.</param>
 #if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        [Obsolete ("Use operator + instead")]
 #endif
         public static Float3 Add (ref Float3 lhs, float x, float y, float z) {
             Float3 res;
@@ -307,6 +312,7 @@ namespace Leopotam.Ecs.Types {
         /// </summary>
 #if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        [Obsolete ("Use operator - instead")]
 #endif
         public static Float3 Sub (ref Float3 lhs, ref Float3 rhs) {
             Float3 res;
@@ -323,6 +329,7 @@ namespace Leopotam.Ecs.Types {
         /// <param name="scale">Scale factor.</param>
 #if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        [Obsolete ("Use operator * instead")]
 #endif
         public static Float3 Scale (ref Float3 lhs, float scale) {
             Float3 res;
@@ -339,6 +346,7 @@ namespace Leopotam.Ecs.Types {
 #if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
+        [Obsolete ("Use GetNormalized() instead")]
         public static Float3 Normalize (ref Float3 rhs) {
             Float3 res;
             var invMagnitude = 1f / (float) Math.Sqrt (rhs.X * rhs.X + rhs.Y * rhs.Y + rhs.Z * rhs.Z);
@@ -355,6 +363,7 @@ namespace Leopotam.Ecs.Types {
         /// <param name="rhs">Second vector.</param>
 #if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        [Obsolete ("Use operator == instead")]
 #endif
         public static bool Equals (ref Float3 lhs, ref Float3 rhs) {
             return (lhs.X - rhs.X) * (lhs.X - rhs.X) + (lhs.Y - rhs.Y) * (lhs.Y - rhs.Y) + (lhs.Z - rhs.Z) * (lhs.Z - rhs.Z) < MathFast.Epsilon * MathFast.Epsilon;
@@ -384,7 +393,163 @@ namespace Leopotam.Ecs.Types {
             return res;
         }
 
+        /// <summary>
+        /// Returns square magnitude of vector.
+        /// </summary>
+#if NET_4_6 || NET_STANDARD_2_0
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+#endif
+        public float GetSqrMagnitude () {
+            return X * X + Y * Y + Z * Z;
+        }
+
+        /// <summary>
+        /// Returns magnitude of vector.
+        /// </summary>
+#if NET_4_6 || NET_STANDARD_2_0
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+#endif
+        public float GetMagnitude () {
+            return (float) Math.Sqrt (X * X + Y * Y + Z * Z);
+        }
+
+        /// <summary>
+        /// Returns normalized version of vector.
+        /// </summary>
+#if NET_4_6 || NET_STANDARD_2_0
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+#endif
+        public Float3 GetNormalized () {
+            Float3 res;
+            var invMagnitude = 1f / (float) Math.Sqrt (X * X + Y * Y + Z * Z);
+            res.X = X * invMagnitude;
+            res.Y = Y * invMagnitude;
+            res.Z = Z * invMagnitude;
+            return res;
+        }
+
+#if NET_4_6 || NET_STANDARD_2_0
+        /// <summary>
+        /// Reflects normalized vector from plane with normal.
+        /// </summary>
+        /// <param name="direction">Direction.</param>
+        /// <param name="normal">Normal of plane.</param>
+        public static Float3 Reflect (in Float3 direction, in Float3 normal) {
+            var dist = -2f * (normal.X * direction.X + normal.Y * direction.Y);
+            Float3 res;
+            res.X = normal.X * dist + direction.X;
+            res.Y = normal.Y * dist + direction.Y;
+            res.Z = normal.Z * dist + direction.Z;
+            return res;
+        }
+
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        public static Float3 operator + (in Float3 lhs, in Float3 rhs) {
+            Float3 res;
+            res.X = lhs.X + rhs.X;
+            res.Y = lhs.Y + rhs.Y;
+            res.Z = lhs.Z + rhs.Z;
+            return res;
+        }
+
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        public static Float3 operator - (in Float3 lhs, in Float3 rhs) {
+            Float3 res;
+            res.X = lhs.X - rhs.X;
+            res.Y = lhs.Y - rhs.Y;
+            res.Z = lhs.Z - rhs.Z;
+            return res;
+        }
+
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        public static Float3 operator * (in Float3 lhs, in Float3 rhs) {
+            Float3 res;
+            res.X = lhs.X * rhs.X;
+            res.Y = lhs.Y * rhs.Y;
+            res.Z = lhs.Z * rhs.Z;
+            return res;
+        }
+
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        public static Float3 operator * (in Float3 lhs, float rhs) {
+            Float3 res;
+            res.X = lhs.X * rhs;
+            res.Y = lhs.Y * rhs;
+            res.Z = lhs.Z * rhs;
+            return res;
+        }
+
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        public static Float3 operator / (in Float3 lhs, float rhs) {
+            Float3 res;
+            var invRhs = 1f / rhs;
+            res.X = lhs.X * rhs;
+            res.Y = lhs.Y * rhs;
+            res.Z = lhs.Z * rhs;
+            return res;
+        }
+
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        public static Float3 operator - (in Float3 lhs) {
+            Float3 res;
+            res.X = -lhs.X;
+            res.Y = -lhs.Y;
+            res.Z = -lhs.Z;
+            return res;
+        }
+
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        public static bool operator == (in Float3 lhs, in Float3 rhs) {
+            return (
+                (lhs.X - rhs.X) * (lhs.X - rhs.X) +
+                (lhs.Y - rhs.Y) * (lhs.Y - rhs.Y) +
+                (lhs.Z - rhs.Z) * (lhs.Z - rhs.Z)) < MathFast.Epsilon * MathFast.Epsilon;
+        }
+
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        public static bool operator != (in Float3 lhs, in Float3 rhs) {
+            return (
+                (lhs.X - rhs.X) * (lhs.X - rhs.X) +
+                (lhs.Y - rhs.Y) * (lhs.Y - rhs.Y) +
+                (lhs.Z - rhs.Z) * (lhs.Z - rhs.Z)) >= MathFast.Epsilon * MathFast.Epsilon;
+        }
+
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        public override int GetHashCode () {
+            return X.GetHashCode () ^ (Y.GetHashCode () << 2) ^ (Z.GetHashCode () >> 2);
+        }
+
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        public override bool Equals (object other) {
+            if (!(other is Float3)) {
+                return false;
+            }
+            var rhs = (Float3) other;
+            return (
+                (X - rhs.X) * (X - rhs.X) +
+                (Y - rhs.Y) * (Y - rhs.Y) +
+                (Z - rhs.Z) * (Z - rhs.Z)) < MathFast.Epsilon * MathFast.Epsilon;
+        }
+#endif
+
 #if UNITY_5_6_OR_NEWER
+#if NET_4_6 || NET_STANDARD_2_0
+        public static implicit operator UnityEngine.Vector3 (in Float3 v) {
+            UnityEngine.Vector3 res;
+            res.x = v.X;
+            res.y = v.Y;
+            res.z = v.Z;
+            return res;
+        }
+
+        public static implicit operator Float3 (in UnityEngine.Vector3 v) {
+            Float3 res;
+            res.X = v.x;
+            res.Y = v.y;
+            res.Z = v.z;
+            return res;
+        }
+#else
         public static implicit operator UnityEngine.Vector3 (Float3 v) {
             UnityEngine.Vector3 res;
             res.x = v.X;
@@ -400,6 +565,7 @@ namespace Leopotam.Ecs.Types {
             res.Z = v.z;
             return res;
         }
+#endif
 #endif
     }
 }
