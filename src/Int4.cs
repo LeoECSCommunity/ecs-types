@@ -106,6 +106,7 @@ namespace Leopotam.Ecs.Types {
         /// <param name="lhs">Vector.</param>
 #if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        [Obsolete ("Use operator - instead")]
 #endif
         public static Int4 Neg (ref Int4 lhs) {
             Int4 res;
@@ -121,6 +122,7 @@ namespace Leopotam.Ecs.Types {
         /// </summary>
 #if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        [Obsolete ("Use operator + instead")]
 #endif
         public static Int4 Add (ref Int4 lhs, ref Int4 rhs) {
             Int4 res;
@@ -141,6 +143,7 @@ namespace Leopotam.Ecs.Types {
         /// <param name="w">W offset.</param>
 #if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        [Obsolete ("Use operator + instead")]
 #endif
         public static Int4 Add (ref Int4 lhs, int x, int y, int z, int w) {
             Int4 res;
@@ -156,6 +159,7 @@ namespace Leopotam.Ecs.Types {
         /// </summary>
 #if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        [Obsolete ("Use operator - instead")]
 #endif
         public static Int4 Sub (ref Int4 lhs, ref Int4 rhs) {
             Int4 res;
@@ -173,9 +177,96 @@ namespace Leopotam.Ecs.Types {
         /// <param name="rhs">Second vector.</param>
 #if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        [Obsolete ("Use operator == instead")]
 #endif
         public static bool Equals (ref Int4 lhs, ref Int4 rhs) {
             return lhs.X == rhs.X && lhs.Y == rhs.Y && lhs.Z == rhs.Z && lhs.W == rhs.W;
         }
+
+#if NET_4_6 || NET_STANDARD_2_0
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        public static Int4 operator + (in Int4 lhs, in Int4 rhs) {
+            Int4 res;
+            res.X = lhs.X + rhs.X;
+            res.Y = lhs.Y + rhs.Y;
+            res.Z = lhs.Z + rhs.Z;
+            res.W = lhs.W + rhs.W;
+            return res;
+        }
+
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        public static Int4 operator - (in Int4 lhs, in Int4 rhs) {
+            Int4 res;
+            res.X = lhs.X - rhs.X;
+            res.Y = lhs.Y - rhs.Y;
+            res.Z = lhs.Z - rhs.Z;
+            res.W = lhs.W - rhs.W;
+            return res;
+        }
+
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        public static Int4 operator * (in Int4 lhs, in Int4 rhs) {
+            Int4 res;
+            res.X = lhs.X * rhs.X;
+            res.Y = lhs.Y * rhs.Y;
+            res.Z = lhs.Z * rhs.Z;
+            res.W = lhs.W * rhs.W;
+            return res;
+        }
+
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        public static Int4 operator * (in Int4 lhs, int rhs) {
+            Int4 res;
+            res.X = lhs.X * rhs;
+            res.Y = lhs.Y * rhs;
+            res.Z = lhs.Z * rhs;
+            res.W = lhs.W * rhs;
+            return res;
+        }
+
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        public static Int4 operator / (in Int4 lhs, int rhs) {
+            Int4 res;
+            res.X = lhs.X / rhs;
+            res.Y = lhs.Y / rhs;
+            res.Z = lhs.Z / rhs;
+            res.W = lhs.W / rhs;
+            return res;
+        }
+
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        public static Int4 operator - (in Int4 lhs) {
+            Int4 res;
+            res.X = -lhs.X;
+            res.Y = -lhs.Y;
+            res.Z = -lhs.Z;
+            res.W = -lhs.W;
+            return res;
+        }
+
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        public static bool operator == (in Int4 lhs, in Int4 rhs) {
+            return lhs.X == rhs.X && lhs.Y == rhs.Y && lhs.Z == rhs.Z && lhs.W == rhs.W;
+        }
+
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        public static bool operator != (in Int4 lhs, in Int4 rhs) {
+            return lhs.X != rhs.X || lhs.Y != rhs.Y || lhs.Z != rhs.Z || lhs.W != rhs.W;
+        }
+
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        public override int GetHashCode () {
+            return X.GetHashCode () ^ (Y.GetHashCode () << 2) ^ (Z.GetHashCode () >> 2) ^ (W.GetHashCode () >> 1);
+        }
+
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        public override bool Equals (object other) {
+            if (!(other is Int4)) {
+                return false;
+            }
+            var rhs = (Int4) other;
+            return X == rhs.X && Y == rhs.Y && Z == rhs.Z && W == rhs.W;
+        }
+#endif
     }
 }

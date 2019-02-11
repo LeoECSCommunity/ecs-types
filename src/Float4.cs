@@ -427,14 +427,15 @@ namespace Leopotam.Ecs.Types {
 
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
         public override bool Equals (object other) {
-            if (!(other is Float3)) {
+            if (!(other is Float4)) {
                 return false;
             }
-            var rhs = (Float3) other;
+            var rhs = (Float4) other;
             return (
                 (X - rhs.X) * (X - rhs.X) +
                 (Y - rhs.Y) * (Y - rhs.Y) +
-                (Z - rhs.Z) * (Z - rhs.Z)) < MathFast.Epsilon * MathFast.Epsilon;
+                (Z - rhs.Z) * (Z - rhs.Z) +
+                (W - rhs.W) * (W - rhs.W)) < MathFast.Epsilon * MathFast.Epsilon;
         }
 #endif
 

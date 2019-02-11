@@ -99,6 +99,7 @@ namespace Leopotam.Ecs.Types {
         /// <param name="lhs">Vector.</param>
 #if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        [Obsolete ("Use operator - instead")]
 #endif
         public static Int3 Neg (ref Int3 lhs) {
             Int3 res;
@@ -113,6 +114,7 @@ namespace Leopotam.Ecs.Types {
         /// </summary>
 #if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        [Obsolete ("Use operator + instead")]
 #endif
         public static Int3 Add (ref Int3 lhs, ref Int3 rhs) {
             Int3 res;
@@ -131,6 +133,7 @@ namespace Leopotam.Ecs.Types {
         /// <param name="z">Z offset.</param>
 #if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        [Obsolete ("Use operator + instead")]
 #endif
         public static Int3 Add (ref Int3 lhs, int x, int y, int z) {
             Int3 res;
@@ -145,6 +148,7 @@ namespace Leopotam.Ecs.Types {
         /// </summary>
 #if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        [Obsolete ("Use operator - instead")]
 #endif
         public static Int3 Sub (ref Int3 lhs, ref Int3 rhs) {
             Int3 res;
@@ -161,12 +165,106 @@ namespace Leopotam.Ecs.Types {
         /// <param name="rhs">Second vector.</param>
 #if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        [Obsolete ("Use operator == instead")]
 #endif
         public static bool Equals (ref Int3 lhs, ref Int3 rhs) {
             return lhs.X == rhs.X && lhs.Y == rhs.Y && lhs.Z == rhs.Z;
         }
 
+#if NET_4_6 || NET_STANDARD_2_0
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        public static Int3 operator + (in Int3 lhs, in Int3 rhs) {
+            Int3 res;
+            res.X = lhs.X + rhs.X;
+            res.Y = lhs.Y + rhs.Y;
+            res.Z = lhs.Z + rhs.Z;
+            return res;
+        }
+
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        public static Int3 operator - (in Int3 lhs, in Int3 rhs) {
+            Int3 res;
+            res.X = lhs.X - rhs.X;
+            res.Y = lhs.Y - rhs.Y;
+            res.Z = lhs.Z - rhs.Z;
+            return res;
+        }
+
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        public static Int3 operator * (in Int3 lhs, in Int3 rhs) {
+            Int3 res;
+            res.X = lhs.X * rhs.X;
+            res.Y = lhs.Y * rhs.Y;
+            res.Z = lhs.Z * rhs.Z;
+            return res;
+        }
+
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        public static Int3 operator * (in Int3 lhs, int rhs) {
+            Int3 res;
+            res.X = lhs.X * rhs;
+            res.Y = lhs.Y * rhs;
+            res.Z = lhs.Z * rhs;
+            return res;
+        }
+
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        public static Int3 operator / (in Int3 lhs, int rhs) {
+            Int3 res;
+            res.X = lhs.X / rhs;
+            res.Y = lhs.Y / rhs;
+            res.Z = lhs.Z / rhs;
+            return res;
+        }
+
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        public static Int3 operator - (in Int3 lhs) {
+            Int3 res;
+            res.X = -lhs.X;
+            res.Y = -lhs.Y;
+            res.Z = -lhs.Z;
+            return res;
+        }
+
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        public static bool operator == (in Int3 lhs, in Int3 rhs) {
+            return lhs.X == rhs.X && lhs.Y == rhs.Y && lhs.Z == rhs.Z;
+        }
+
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        public static bool operator != (in Int3 lhs, in Int3 rhs) {
+            return lhs.X != rhs.X || lhs.Y != rhs.Y || lhs.Z != rhs.Z;
+        }
+
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        public override int GetHashCode () {
+            return X.GetHashCode () ^ (Y.GetHashCode () << 2) ^ (Z.GetHashCode () >> 2);
+        }
+
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        public override bool Equals (object other) {
+            if (!(other is Int3)) {
+                return false;
+            }
+            var rhs = (Int3) other;
+            return X == rhs.X && Y == rhs.Y && Z == rhs.Z;
+        }
+#endif
+
 #if UNITY_5_6_OR_NEWER
+#if NET_4_6 || NET_STANDARD_2_0
+        public static implicit operator UnityEngine.Vector3Int (in Int3 v) {
+            return new UnityEngine.Vector3Int (v.X, v.Y, v.Z);
+        }
+
+        public static implicit operator Int3 (in UnityEngine.Vector3Int v) {
+            Int3 res;
+            res.X = v.x;
+            res.Y = v.y;
+            res.Z = v.y;
+            return res;
+        }
+#else
         public static implicit operator UnityEngine.Vector3Int (Int3 v) {
             return new UnityEngine.Vector3Int (v.X, v.Y, v.Z);
         }
@@ -178,6 +276,7 @@ namespace Leopotam.Ecs.Types {
             res.Z = v.y;
             return res;
         }
+#endif
 #endif
     }
 }
