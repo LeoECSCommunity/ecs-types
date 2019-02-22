@@ -167,6 +167,7 @@ namespace Leopotam.Ecs.Types {
 #if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
+        [Obsolete ("Use GetSqrMagnitude() instead")]
         public static float SqrMagnitude (ref Float2 lhs) {
             return lhs.X * lhs.X + lhs.Y * lhs.Y;
         }
@@ -178,6 +179,7 @@ namespace Leopotam.Ecs.Types {
 #if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
+        [Obsolete ("Use GetMagnitude() instead")]
         public static float Magnitude (ref Float2 lhs) {
             return (float) Math.Sqrt (lhs.X * lhs.X + lhs.Y * lhs.Y);
         }
@@ -198,6 +200,7 @@ namespace Leopotam.Ecs.Types {
         /// <param name="lhs">Vector.</param>
 #if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        [Obsolete ("Use operator - instead")]
 #endif
         public static Float2 Neg (ref Float2 lhs) {
             Float2 res;
@@ -241,6 +244,7 @@ namespace Leopotam.Ecs.Types {
         /// </summary>
 #if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        [Obsolete ("Use operator + instead")]
 #endif
         public static Float2 Add (ref Float2 lhs, ref Float2 rhs) {
             Float2 res;
@@ -257,6 +261,7 @@ namespace Leopotam.Ecs.Types {
         /// <param name="y">Y offset.</param>
 #if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        [Obsolete ("Use operator + instead")]
 #endif
         public static Float2 Add (ref Float2 lhs, float x, float y) {
             Float2 res;
@@ -270,6 +275,7 @@ namespace Leopotam.Ecs.Types {
         /// </summary>
 #if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        [Obsolete ("Use operator - instead")]
 #endif
         public static Float2 Sub (ref Float2 lhs, ref Float2 rhs) {
             Float2 res;
@@ -285,6 +291,7 @@ namespace Leopotam.Ecs.Types {
         /// <param name="scale">Scale factor.</param>
 #if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        [Obsolete ("Use operator * instead")]
 #endif
         public static Float2 Scale (ref Float2 lhs, float scale) {
             Float2 res;
@@ -300,6 +307,7 @@ namespace Leopotam.Ecs.Types {
 #if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
+        [Obsolete ("Use GetNormalized() instead")]
         public static Float2 Normalize (ref Float2 rhs) {
             Float2 res;
             var invMagnitude = 1f / (float) Math.Sqrt (rhs.X * rhs.X + rhs.Y * rhs.Y);
@@ -315,6 +323,7 @@ namespace Leopotam.Ecs.Types {
         /// <param name="rhs">Second vector.</param>
 #if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        [Obsolete ("Use operator == instead")]
 #endif
         public static bool Equals (ref Float2 lhs, ref Float2 rhs) {
             return (lhs.X - rhs.X) * (lhs.X - rhs.X) + (lhs.Y - rhs.Y) * (lhs.Y - rhs.Y) < MathFast.Epsilon * MathFast.Epsilon;
@@ -343,20 +352,144 @@ namespace Leopotam.Ecs.Types {
             return res;
         }
 
-#if UNITY_5_6_OR_NEWER
-        public static implicit operator UnityEngine.Vector2 (Float2 v) {
-            UnityEngine.Vector2 res;
-            res.x = v.X;
-            res.y = v.Y;
+        /// <summary>
+        /// Returns square magnitude of vector.
+        /// </summary>
+#if NET_4_6 || NET_STANDARD_2_0
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+#endif
+        public float GetSqrMagnitude () {
+            return X * X + Y * Y;
+        }
+
+        /// <summary>
+        /// Returns magnitude of vector.
+        /// </summary>
+#if NET_4_6 || NET_STANDARD_2_0
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+#endif
+        public float GetMagnitude () {
+            return (float) Math.Sqrt (X * X + Y * Y);
+        }
+
+        /// <summary>
+        /// Returns normalized version of vector.
+        /// </summary>
+#if NET_4_6 || NET_STANDARD_2_0
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+#endif
+        public Float2 GetNormalized () {
+            Float2 res;
+            var invMagnitude = 1f / (float) Math.Sqrt (X * X + Y * Y);
+            res.X = X * invMagnitude;
+            res.Y = Y * invMagnitude;
             return res;
         }
 
-        public static implicit operator Float2 (UnityEngine.Vector2 v) {
+#if NET_4_6 || NET_STANDARD_2_0
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        public static Float2 operator + (in Float2 lhs, in Float2 rhs) {
             Float2 res;
-            res.X = v.x;
-            res.Y = v.y;
+            res.X = lhs.X + rhs.X;
+            res.Y = lhs.Y + rhs.Y;
             return res;
         }
+
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        public static Float2 operator - (in Float2 lhs, in Float2 rhs) {
+            Float2 res;
+            res.X = lhs.X - rhs.X;
+            res.Y = lhs.Y - rhs.Y;
+            return res;
+        }
+
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        public static Float2 operator * (in Float2 lhs, in Float2 rhs) {
+            Float2 res;
+            res.X = lhs.X * rhs.X;
+            res.Y = lhs.Y * rhs.Y;
+            return res;
+        }
+
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        public static Float2 operator * (in Float2 lhs, float rhs) {
+            Float2 res;
+            res.X = lhs.X * rhs;
+            res.Y = lhs.Y * rhs;
+            return res;
+        }
+
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        public static Float2 operator / (in Float2 lhs, float rhs) {
+            Float2 res;
+            res.X = lhs.X / rhs;
+            res.Y = lhs.Y / rhs;
+            return res;
+        }
+
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        public static Float2 operator - (in Float2 lhs) {
+            Float2 res;
+            res.X = -lhs.X;
+            res.Y = -lhs.Y;
+            return res;
+        }
+
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        public static bool operator == (in Float2 lhs, in Float2 rhs) {
+            return (lhs.X - rhs.X) * (lhs.X - rhs.X) + (lhs.Y - rhs.Y) * (lhs.Y - rhs.Y) < MathFast.Epsilon * MathFast.Epsilon;
+        }
+
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        public static bool operator != (in Float2 lhs, in Float2 rhs) {
+            return (lhs.X - rhs.X) * (lhs.X - rhs.X) + (lhs.Y - rhs.Y) * (lhs.Y - rhs.Y) >= MathFast.Epsilon * MathFast.Epsilon;
+        }
+
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        public override int GetHashCode () {
+            return X.GetHashCode () ^ (Y.GetHashCode () << 2);
+        }
+
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        public override bool Equals (object other) {
+            if (!(other is Float2)) {
+                return false;
+            }
+            var rhs = (Float2) other;
+            return (X - rhs.X) * (X - rhs.X) + (Y - rhs.Y) * (Y - rhs.Y) < MathFast.Epsilon * MathFast.Epsilon;
+        }
+#endif
+
+#if UNITY_5_6_OR_NEWER
+#if NET_4_6 || NET_STANDARD_2_0
+        public static implicit operator UnityEngine.Vector2 (in Float2 lhs) {
+            UnityEngine.Vector2 res;
+            res.x = lhs.X;
+            res.y = lhs.Y;
+            return res;
+        }
+
+        public static implicit operator Float2 (in UnityEngine.Vector2 lhs) {
+            Float2 res;
+            res.X = lhs.x;
+            res.Y = lhs.y;
+            return res;
+        }
+#else
+        public static implicit operator UnityEngine.Vector2 (Float2 lhs) {
+            UnityEngine.Vector2 res;
+            res.x = lhs.X;
+            res.y = lhs.Y;
+            return res;
+        }
+
+        public static implicit operator Float2 (UnityEngine.Vector2 lhs) {
+            Float2 res;
+            res.X = lhs.x;
+            res.Y = lhs.y;
+            return res;
+        }
+#endif
 #endif
     }
 }

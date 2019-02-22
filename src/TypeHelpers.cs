@@ -23,3 +23,7 @@ namespace Unity.IL2CPP.CompilerServices {
     }
 }
 #endif
+
+#if !NET_4_6 && !NET_STANDARD_2_0
+#warning [Leopotam.Ecs.Types] .Net Framework v3.5 support deprecated and will be removed in next release.
+#endif

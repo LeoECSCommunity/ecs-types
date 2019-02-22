@@ -92,6 +92,7 @@ namespace Leopotam.Ecs.Types {
         /// <param name="lhs">Vector.</param>
 #if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        [Obsolete ("Use operator - instead")]
 #endif
         public static Int2 Neg (ref Int2 lhs) {
             Int2 res;
@@ -105,6 +106,7 @@ namespace Leopotam.Ecs.Types {
         /// </summary>
 #if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        [Obsolete ("Use operator + instead")]
 #endif
         public static Int2 Add (ref Int2 lhs, ref Int2 rhs) {
             Int2 res;
@@ -121,6 +123,7 @@ namespace Leopotam.Ecs.Types {
         /// <param name="y">Y offset.</param>
 #if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        [Obsolete ("Use operator + instead")]
 #endif
         public static Int2 Add (ref Int2 lhs, int x, int y) {
             Int2 res;
@@ -134,6 +137,7 @@ namespace Leopotam.Ecs.Types {
         /// </summary>
 #if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        [Obsolete ("Use operator - instead")]
 #endif
         public static Int2 Sub (ref Int2 lhs, ref Int2 rhs) {
             Int2 res;
@@ -149,12 +153,99 @@ namespace Leopotam.Ecs.Types {
         /// <param name="rhs">Second vector.</param>
 #if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        [Obsolete ("Use operator == instead")]
 #endif
         public static bool Equals (ref Int2 lhs, ref Int2 rhs) {
             return lhs.X == rhs.X && lhs.Y == rhs.Y;
         }
 
+#if NET_4_6 || NET_STANDARD_2_0
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        public static Int2 operator + (in Int2 lhs, in Int2 rhs) {
+            Int2 res;
+            res.X = lhs.X + rhs.X;
+            res.Y = lhs.Y + rhs.Y;
+            return res;
+        }
+
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        public static Int2 operator - (in Int2 lhs, in Int2 rhs) {
+            Int2 res;
+            res.X = lhs.X - rhs.X;
+            res.Y = lhs.Y - rhs.Y;
+            return res;
+        }
+
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        public static Int2 operator * (in Int2 lhs, in Int2 rhs) {
+            Int2 res;
+            res.X = lhs.X * rhs.X;
+            res.Y = lhs.Y * rhs.Y;
+            return res;
+        }
+
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        public static Int2 operator * (in Int2 lhs, int rhs) {
+            Int2 res;
+            res.X = lhs.X * rhs;
+            res.Y = lhs.Y * rhs;
+            return res;
+        }
+
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        public static Int2 operator / (in Int2 lhs, int rhs) {
+            Int2 res;
+            res.X = lhs.X / rhs;
+            res.Y = lhs.Y / rhs;
+            return res;
+        }
+
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        public static Int2 operator - (in Int2 lhs) {
+            Int2 res;
+            res.X = -lhs.X;
+            res.Y = -lhs.Y;
+            return res;
+        }
+
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        public static bool operator == (in Int2 lhs, in Int2 rhs) {
+            return lhs.X == rhs.X && lhs.Y == rhs.Y;
+        }
+
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        public static bool operator != (in Int2 lhs, in Int2 rhs) {
+            return lhs.X != rhs.X || lhs.Y != rhs.Y;
+        }
+
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        public override int GetHashCode () {
+            return X.GetHashCode () ^ (Y.GetHashCode () << 2);
+        }
+
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        public override bool Equals (object other) {
+            if (!(other is Int2)) {
+                return false;
+            }
+            var rhs = (Int2) other;
+            return X == rhs.X && Y == rhs.Y;
+        }
+#endif
+
 #if UNITY_5_6_OR_NEWER
+#if NET_4_6 || NET_STANDARD_2_0
+        public static implicit operator UnityEngine.Vector2Int (in Int2 v) {
+            return new UnityEngine.Vector2Int (v.X, v.Y);
+        }
+
+        public static implicit operator Int2 (in UnityEngine.Vector2Int v) {
+            Int2 res;
+            res.X = v.x;
+            res.Y = v.y;
+            return res;
+        }
+#else
         public static implicit operator UnityEngine.Vector2Int (Int2 v) {
             return new UnityEngine.Vector2Int (v.X, v.Y);
         }
@@ -165,6 +256,7 @@ namespace Leopotam.Ecs.Types {
             res.Y = v.y;
             return res;
         }
+#endif
 #endif
     }
 }

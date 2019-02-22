@@ -4,7 +4,7 @@
     "displayName": "LeoECS Types",
     "description": "Engine independent types for LeoECS Entity Component System framework.",
     "unity": "2018.3",
-    "version": "2019.01.22",
+    "version": "2019.2.22",
     "keywords": [
         "leoecs",
         "ecs",

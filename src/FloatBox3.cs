@@ -75,8 +75,13 @@ namespace Leopotam.Ecs.Types {
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
 #endif
         public void InverseTransform (ref Float3 position, ref Float3x3 orientation) {
+#if NET_4_6 || NET_STANDARD_2_0
+            Max = Max - position;
+            Min = Min - position;
+#else
             Max = Float3.Sub (ref Max, ref position);
             Min = Float3.Sub (ref Min, ref position);
+#endif
 
             Float3 center;
             center.X = (Min.X + Max.X) * 0.5f;
@@ -92,9 +97,13 @@ namespace Leopotam.Ecs.Types {
 
             var abs = Float3x3.Abs (ref orientation);
             halfExtents = Float3x3.TransposedTransform (ref abs, ref halfExtents);
-
+#if NET_4_6 || NET_STANDARD_2_0
+            Min = center - halfExtents;
+            Max = center + halfExtents;
+#else
             Min = Float3.Sub (ref center, ref halfExtents);
             Max = Float3.Add (ref center, ref halfExtents);
+#endif
         }
 
 #if NET_4_6 || NET_STANDARD_2_0
@@ -116,8 +125,13 @@ namespace Leopotam.Ecs.Types {
             var abs = Float3x3.Abs (ref orientation);
             halfExtents = Float3x3.Transform (ref abs, ref halfExtents);
 
+#if NET_4_6 || NET_STANDARD_2_0
+            Min = center - halfExtents;
+            Max = center + halfExtents;
+#else
             Min = Float3.Sub (ref center, ref halfExtents);
             Max = Float3.Add (ref center, ref halfExtents);
+#endif
         }
 
         /// <summary>
