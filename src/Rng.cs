@@ -4,32 +4,36 @@
 // Copyright (c) 2017-2019 Leopotam <leopotam@gmail.com>
 // ----------------------------------------------------------------------------
 
+using System.Runtime.CompilerServices;
+
 namespace Leopotam.Ecs.Types {
     /// <summary>
     /// Rng generator, XorShift based.
     /// </summary>
+#if ENABLE_IL2CPP
+    [Unity.IL2CPP.CompilerServices.Il2CppSetOption (Unity.IL2CPP.CompilerServices.Option.NullChecks, false)]
+    [Unity.IL2CPP.CompilerServices.Il2CppSetOption (Unity.IL2CPP.CompilerServices.Option.ArrayBoundsChecks, false)]
+#endif
     public sealed class RngXorShift {
         const double InvMaxIntExOne = 1.0 / (int.MaxValue + 1.0);
-
         const double InvIntMax = 1.0 / int.MaxValue;
 
         uint _x;
-
         uint _y;
-
         uint _z;
-
         uint _w;
 
         /// <summary>
         /// Default initialization.
         /// </summary>
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
         public RngXorShift () : this (System.Environment.TickCount) { }
 
         /// <summary>
         /// Initialization with custom seed.
         /// </summary>
         /// <param name="seed">Seed.</param>
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
         public RngXorShift (int seed) {
             SetSeed (seed);
         }
@@ -38,6 +42,7 @@ namespace Leopotam.Ecs.Types {
         /// Sets new seed.
         /// </summary>
         /// <param name="seed">Seed.</param>
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
         public void SetSeed (int seed) {
             _x = (uint) (seed * 1431655781 + seed * 1183186591 + seed * 622729787 + seed * 338294347);
             _y = 842502087;
@@ -48,6 +53,7 @@ namespace Leopotam.Ecs.Types {
         /// <summary>
         /// Gets current internal state. Use on your risk!
         /// </summary>
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
         public Int4 GetInternalState () {
             Int4 res;
             res.X = (int) _x;
@@ -61,6 +67,7 @@ namespace Leopotam.Ecs.Types {
         /// Sets current internal state. Use on your risk!
         /// </summary>
         /// <param name="state">Raw data.</param>
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
         public void SetInternalState (Int4 state) {
             _x = (uint) state.X;
             _y = (uint) state.Y;
@@ -71,6 +78,7 @@ namespace Leopotam.Ecs.Types {
         /// <summary>
         /// Gets int32 random number from range [0, max).
         /// </summary>
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
         public int GetInt (int max) {
             var t = _x ^ (_x << 11);
             _x = _y;
@@ -84,6 +92,7 @@ namespace Leopotam.Ecs.Types {
         /// </summary>
         /// <param name="min">Min value.</param>
         /// <param name="max">Max value (excluded).</param>
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
         public int GetInt (int min, int max) {
             if (min >= max) {
                 return min;
@@ -100,6 +109,7 @@ namespace Leopotam.Ecs.Types {
         /// Gets float random number from range [0, 1) or [0, 1] for includeOne=true.
         /// </summary>
         /// <param name="includeOne">Include 1 value for searching.</param>
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
         public float GetFloat (bool includeOne = true) {
             var t = _x ^ (_x << 11);
             _x = _y;
@@ -115,6 +125,7 @@ namespace Leopotam.Ecs.Types {
         /// <param name="min">Min value.</param>
         /// <param name="max">Max value.</param>
         /// <param name="includeMax">Include max value for searching.</param>
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
         public float GetFloat (float min, float max, bool includeMax = true) {
             if (min >= max) {
                 return min;
@@ -131,19 +142,17 @@ namespace Leopotam.Ecs.Types {
     /// <summary>
     /// Rng generator, mersenne twister based.
     /// </summary>
+#if ENABLE_IL2CPP
+    [Unity.IL2CPP.CompilerServices.Il2CppSetOption (Unity.IL2CPP.CompilerServices.Option.NullChecks, false)]
+    [Unity.IL2CPP.CompilerServices.Il2CppSetOption (Unity.IL2CPP.CompilerServices.Option.ArrayBoundsChecks, false)]
+#endif
     public sealed class RngTwister {
         const int N = 624;
-
         const int M = 397;
-
         const ulong MatrixA = 0x9908b0dfUL;
-
         const ulong UpperMask = 0x80000000UL;
-
         const ulong LowerMask = 0x7fffffffUL;
-
         readonly ulong[] _mt = new ulong[N];
-
         readonly ulong[] _mag01 = { 0x0UL, MatrixA };
 
         int _mti = N + 1;
@@ -151,19 +160,19 @@ namespace Leopotam.Ecs.Types {
         /// <summary>
         /// Default initialization.
         /// </summary>
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
         public RngTwister () : this (System.Environment.TickCount) { }
 
         /// <summary>
         /// Initialization with custom seed.
         /// </summary>
         /// <param name="seed">Seed.</param>
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
         public RngTwister (long seed) {
             SetSeed (seed);
         }
 
-#if NET_4_6 || NET_STANDARD_2_0
-        [System.Runtime.CompilerServices.MethodImpl (System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-#endif
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
         ulong GetRandomUInt32 () {
             ulong y;
             if (_mti >= N) {
@@ -195,6 +204,7 @@ namespace Leopotam.Ecs.Types {
         /// Sets new seed.
         /// </summary>
         /// <param name="seed">Seed.</param>
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
         public void SetSeed (long seed) {
             _mt[0] = (ulong) seed & 0xffffffffUL;
             for (_mti = 1; _mti < N; _mti++) {
@@ -206,6 +216,7 @@ namespace Leopotam.Ecs.Types {
         /// Gets int32 random number from range [0, max).
         /// </summary>
         /// <param name="max">Max value (excluded).</param>
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
         public int GetInt (int max) {
             return (int) (GetRandomUInt32 () * (max / 4294967296.0));
         }
@@ -215,6 +226,7 @@ namespace Leopotam.Ecs.Types {
         /// </summary>
         /// <param name="min">Min value.</param>
         /// <param name="max">Max value (excluded).</param>
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
         public int GetInt (int min, int max) {
             return min + GetInt (max - min);
         }
@@ -223,6 +235,7 @@ namespace Leopotam.Ecs.Types {
         /// Gets float random number from range [0, 1) or [0, 1] for includeOne=true.
         /// </summary>
         /// <param name="includeOne">Include 1 value for searching.</param>
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
         public float GetFloat (bool includeOne = true) {
             return (float) (GetRandomUInt32 () * (1.0 / (includeOne ? 4294967295.0 : 4294967296.0)));
         }
@@ -233,6 +246,7 @@ namespace Leopotam.Ecs.Types {
         /// <param name="min">Min value.</param>
         /// <param name="max">Max value.</param>
         /// <param name="includeMax">Include max value for searching.</param>
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
         public float GetFloat (float min, float max, bool includeMax = true) {
             return min + GetFloat (includeMax) * (max - min);
         }

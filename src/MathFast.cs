@@ -52,9 +52,7 @@ namespace Leopotam.Ecs.Types {
         /// </summary>
         /// <param name="a">First value.</param>
         /// <param name="b">Second value.</param>
-#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
-#endif
         public static float Min (float a, float b) {
             return a >= b ? b : a;
         }
@@ -64,9 +62,7 @@ namespace Leopotam.Ecs.Types {
         /// </summary>
         /// <param name="a">First value.</param>
         /// <param name="b">Second value.</param>
-#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
-#endif
         public static int Min (int a, int b) {
             return a >= b ? b : a;
         }
@@ -76,9 +72,7 @@ namespace Leopotam.Ecs.Types {
         /// </summary>
         /// <param name="a">First value.</param>
         /// <param name="b">Second value.</param>
-#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
-#endif
         public static float Max (float a, float b) {
             return a >= b ? a : b;
         }
@@ -88,9 +82,7 @@ namespace Leopotam.Ecs.Types {
         /// </summary>
         /// <param name="a">First value.</param>
         /// <param name="b">Second value.</param>
-#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
-#endif
         public static int Max (int a, int b) {
             return a >= b ? a : b;
         }
@@ -99,9 +91,7 @@ namespace Leopotam.Ecs.Types {
         /// Absolute value of provided data.
         /// </summary>
         /// <param name="v">Raw data.</param>
-#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
-#endif
         public static float Abs (float v) {
             return v >= 0f ? v : -v;
         }
@@ -110,9 +100,7 @@ namespace Leopotam.Ecs.Types {
         /// Absolute value of provided data.
         /// </summary>
         /// <param name="v">Raw data.</param>
-#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
-#endif
         public static int Abs (int v) {
             return v >= 0 ? v : -v;
         }
@@ -121,9 +109,7 @@ namespace Leopotam.Ecs.Types {
         /// Sign of provided data.
         /// </summary>
         /// <param name="v">Raw data.</param>
-#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
-#endif
         public static int Sign (float v) {
             return v > 0f ? 1 : (v < 0f ? -1 : 0);
         }
@@ -132,9 +118,7 @@ namespace Leopotam.Ecs.Types {
         /// Sign of provided data.
         /// </summary>
         /// <param name="v">Raw data.</param>
-#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
-#endif
         public static int Sign (int v) {
             return v > 0 ? 1 : (v < 0 ? -1 : 0);
         }
@@ -145,9 +129,7 @@ namespace Leopotam.Ecs.Types {
         /// <param name="data">Data to clamp.</param>
         /// <param name="min">Min range border.</param>
         /// <param name="max">Max range border.</param>
-#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
-#endif
         public static float Clamp (float data, float min, float max) {
             if (data < min) {
                 return min;
@@ -165,9 +147,7 @@ namespace Leopotam.Ecs.Types {
         /// <param name="data">Data to clamp.</param>
         /// <param name="min">Min range border.</param>
         /// <param name="max">Max range border.</param>
-#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
-#endif
         public static int Clamp (int data, int min, int max) {
             if (data < min) {
                 return min;
@@ -183,9 +163,7 @@ namespace Leopotam.Ecs.Types {
         /// Clamp data value to [0;1] range (inclusive).
         /// </summary>
         /// <param name="data">Data to clamp.</param>
-#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
-#endif
         public static float Clamp01 (float data) {
             if (data < 0f) {
                 return 0f;
@@ -203,9 +181,7 @@ namespace Leopotam.Ecs.Types {
         /// <param name="a">Interpolate From.</param>
         /// <param name="b">Interpolate To.</param>
         /// <param name="t">Factor of interpolation.</param>
-#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
-#endif
         public static float Lerp (float a, float b, float t) {
             if (t <= 0f) {
                 return a;
@@ -224,9 +200,7 @@ namespace Leopotam.Ecs.Types {
         /// <param name="a">Interpolate From.</param>
         /// <param name="b">Interpolate To.</param>
         /// <param name="t">Factor of interpolation.</param>
-#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
-#endif
         public static float LerpUnclamped (float a, float b, float t) {
             return a + (b - a) * t;
         }
@@ -235,9 +209,7 @@ namespace Leopotam.Ecs.Types {
         /// Returns largest integer smaller to or equal to data.
         /// </summary>
         /// <param name="data">Data to floor.</param>
-#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
-#endif
         public static int Floor (float data) {
             return data >= 0f ? (int) data : (int) data - 1;
         }
@@ -246,9 +218,7 @@ namespace Leopotam.Ecs.Types {
         /// Returns rounded integer.
         /// </summary>
         /// <param name="data">Data to round.</param>
-#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
-#endif
         public static int Round (float data) {
             return data >= 0f ? (int) (data + 0.5f) : (int) (data - 0.5f);
         }
@@ -257,9 +227,7 @@ namespace Leopotam.Ecs.Types {
         /// Returns sin of angle.
         /// </summary>
         /// <param name="v">Angle in radians.</param>
-#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
-#endif
         public static float Sin (float v) {
             return (float) System.Math.Sin (v);
         }
@@ -268,9 +236,7 @@ namespace Leopotam.Ecs.Types {
         /// Returns cos of angle.
         /// </summary>
         /// <param name="v">Angle in radians.</param>
-#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
-#endif
         public static float Cos (float v) {
             return (float) System.Math.Cos (v);
         }
@@ -279,9 +245,7 @@ namespace Leopotam.Ecs.Types {
         /// Returns tan of angle.
         /// </summary>
         /// <param name="v">Angle in radians.</param>
-#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
-#endif
         public static float Tan (float v) {
             return (float) System.Math.Tan (v);
         }
@@ -290,9 +254,7 @@ namespace Leopotam.Ecs.Types {
         /// Returns exp of angle.
         /// </summary>
         /// <param name="v">Angle in radians.</param>
-#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
-#endif
         public static float Exp (float v) {
             return (float) System.Math.Exp (v);
         }

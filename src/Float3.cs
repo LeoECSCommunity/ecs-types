@@ -93,9 +93,7 @@ namespace Leopotam.Ecs.Types {
         /// <summary>
         /// Returns dot product of vectors.
         /// </summary>
-#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
-#endif
         public static float Dot (in Float3 lhs, in Float3 rhs) {
             return lhs.X * rhs.X + lhs.Y * rhs.Y + lhs.Z * rhs.Z;
         }
@@ -146,9 +144,7 @@ namespace Leopotam.Ecs.Types {
         /// <param name="lhs">Start vector.</param>
         /// <param name="rhs">End vector.</param>
         /// <param name="t">Factor in range [0f,1f].</param>
-#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
-#endif
         public static Float3 Lerp (in Float3 lhs, in Float3 rhs, float t) {
             if (t > 1f) {
                 return rhs;
