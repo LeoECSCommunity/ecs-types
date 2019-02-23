@@ -5,11 +5,8 @@
 // ----------------------------------------------------------------------------
 
 using System;
-using System.Runtime.InteropServices;
-
-#if NET_4_6 || NET_STANDARD_2_0
 using System.Runtime.CompilerServices;
-#endif
+using System.Runtime.InteropServices;
 
 namespace Leopotam.Ecs.Types {
     /// <summary>
@@ -19,18 +16,16 @@ namespace Leopotam.Ecs.Types {
     [StructLayout (LayoutKind.Sequential)]
     public struct Quat {
         public float X;
-
         public float Y;
-
         public float Z;
-
         public float W;
 
-        static readonly Quat _identity = new Quat (0f, 0f, 0f, 1f);
+        public static readonly Quat Identity = new Quat (0f, 0f, 0f, 1f);
 
         /// <summary>
         /// Creates new instance of vector.
         /// </summary>
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
         public Quat (float x, float y, float z, float w) {
             X = x;
             Y = y;
@@ -41,9 +36,7 @@ namespace Leopotam.Ecs.Types {
         /// <summary>
         /// Normalizes vector inplace.
         /// </summary>
-#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
-#endif
         public void Normalize () {
             var invMagnitude = 1f / (float) Math.Sqrt (X * X + Y * Y + Z * Z + W * W);
             X *= invMagnitude;
@@ -59,13 +52,17 @@ namespace Leopotam.Ecs.Types {
 #endif
 
         /// <summary>
-        /// Returns identity quaternion.
+        /// Returns conjugate version of quaternion.
         /// </summary>
-#if NET_4_6 || NET_STANDARD_2_0
+        /// <param name="lhs">Quaternion.</param>
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
-#endif
-        public static Quat Identity () {
-            return _identity;
+        public Quat GetConjugated () {
+            Quat res;
+            res.X = -X;
+            res.Y = -Y;
+            res.Z = -Z;
+            res.W = -W;
+            return res;
         }
 
         /// <summary>
@@ -74,10 +71,8 @@ namespace Leopotam.Ecs.Types {
         /// <param name="x">Rotation around x-axis in degrees.</param>
         /// <param name="y">Rotation around y-axis in degrees.</param>
         /// <param name="z">Rotation around z-axis in degrees.</param>
-#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
-#endif
-        public static Quat Euler (float x, float y, float z) {
+        public static Quat FromEuler (float x, float y, float z) {
             x *= MathFast.Deg2Rad;
             y *= MathFast.Deg2Rad;
             z *= MathFast.Deg2Rad;
@@ -99,31 +94,13 @@ namespace Leopotam.Ecs.Types {
         }
 
         /// <summary>
-        /// Returns conjugate version of quaternion.
-        /// </summary>
-        /// <param name="lhs">Quaternion.</param>
-#if NET_4_6 || NET_STANDARD_2_0
-        [MethodImpl (MethodImplOptions.AggressiveInlining)]
-#endif
-        public static Quat Conjugate (ref Quat lhs) {
-            Quat res;
-            res.X = -lhs.X;
-            res.Y = -lhs.Y;
-            res.Z = -lhs.Z;
-            res.W = -lhs.W;
-            return res;
-        }
-
-        /// <summary>
         /// Returns linear interpolated quaternion between start and end quaternions.
         /// </summary>
         /// <param name="lhs">Start quaternion.</param>
         /// <param name="rhs">End quaternion.</param>
         /// <param name="t">Factor in range [0f,1f].</param>
-#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
-#endif
-        public static Quat Lerp (ref Quat lhs, Quat rhs, float t) {
+        public static Quat Lerp (in Quat lhs, in Quat rhs, float t) {
             if (t > 1f) {
                 return rhs;
             } else {
@@ -140,15 +117,8 @@ namespace Leopotam.Ecs.Types {
             return res;
         }
 
-        /// <summary>
-        /// Returns result of multiplied quaternions.
-        /// </summary>
-        /// <param name="lhs">First quaternion.</param>
-        /// <param name="rhs">Second quaternion.</param>
-#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
-#endif
-        public static Quat Mul (ref Quat lhs, ref Quat rhs) {
+        public static Quat operator * (in Quat lhs, in Quat rhs) {
             Quat q;
             q.W = lhs.W * rhs.W - lhs.X * rhs.X - lhs.Y * rhs.Y - lhs.Z * rhs.Z;
             q.X = lhs.W * rhs.X + lhs.X * rhs.W + lhs.Y * rhs.Z - lhs.Z * rhs.Y;
@@ -157,42 +127,23 @@ namespace Leopotam.Ecs.Types {
             return q;
         }
 
-        /// <summary>
-        /// Returns equality of quaternions.
-        /// </summary>
-        /// <param name="lhs">First quaternion.</param>
-        /// <param name="rhs">Second quaternion.</param>
-#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
-#endif
-        public static bool Equals (ref Quat lhs, ref Quat rhs) {
-            return (lhs.X - rhs.X) * (lhs.X - rhs.X) + (lhs.Y - rhs.Y) * (lhs.Y - rhs.Y) + (lhs.Z - rhs.Z) * (lhs.Z - rhs.Z) + (lhs.W - rhs.W) * (lhs.W - rhs.W) < MathFast.Epsilon * MathFast.Epsilon;
-        }
-
-        /// <summary>
-        /// Transforms point with quaternion.
-        /// </summary>
-        /// <param name="quat">Quaternion.</param>
-        /// <param name="point">Point.</param>
-#if NET_4_6 || NET_STANDARD_2_0
-        [MethodImpl (MethodImplOptions.AggressiveInlining)]
-#endif
-        public static Float3 Transform (ref Quat quat, ref Float3 point) {
-            var x2 = quat.X + quat.X;
-            var y2 = quat.Y + quat.Y;
-            var z2 = quat.Z + quat.Z;
-            var wx2 = quat.W * x2;
-            var wy2 = quat.W * y2;
-            var wz2 = quat.W * z2;
-            var xx2 = quat.X * x2;
-            var xy2 = quat.X * y2;
-            var xz2 = quat.X * z2;
-            var yy2 = quat.Y * y2;
-            var yz2 = quat.Y * z2;
-            var zz2 = quat.Z * z2;
-            var x = ((point.X * ((1f - yy2) - zz2)) + (point.Y * (xy2 - wz2))) + (point.Z * (xz2 + wy2));
-            var y = ((point.X * (xy2 + wz2)) + (point.Y * ((1f - xx2) - zz2))) + (point.Z * (yz2 - wx2));
-            var z = ((point.X * (xz2 - wy2)) + (point.Y * (yz2 + wx2))) + (point.Z * ((1f - xx2) - yy2));
+        public static Float3 operator * (in Quat lhs, in Float3 rhs) {
+            var x2 = lhs.X + lhs.X;
+            var y2 = lhs.Y + lhs.Y;
+            var z2 = lhs.Z + lhs.Z;
+            var wx2 = lhs.W * x2;
+            var wy2 = lhs.W * y2;
+            var wz2 = lhs.W * z2;
+            var xx2 = lhs.X * x2;
+            var xy2 = lhs.X * y2;
+            var xz2 = lhs.X * z2;
+            var yy2 = lhs.Y * y2;
+            var yz2 = lhs.Y * z2;
+            var zz2 = lhs.Z * z2;
+            var x = ((rhs.X * ((1f - yy2) - zz2)) + (rhs.Y * (xy2 - wz2))) + (rhs.Z * (xz2 + wy2));
+            var y = ((rhs.X * (xy2 + wz2)) + (rhs.Y * ((1f - xx2) - zz2))) + (rhs.Z * (yz2 - wx2));
+            var z = ((rhs.X * (xz2 - wy2)) + (rhs.Y * (yz2 + wx2))) + (rhs.Z * ((1f - xx2) - yy2));
             Float3 v;
             v.X = x;
             v.Y = y;
@@ -200,8 +151,8 @@ namespace Leopotam.Ecs.Types {
             return v;
         }
 
-#if UNITY_5_6_OR_NEWER
-        public static implicit operator UnityEngine.Quaternion (Quat v) {
+#if UNITY_2018_3_OR_NEWER
+        public static implicit operator UnityEngine.Quaternion (in Quat v) {
             UnityEngine.Quaternion res;
             res.x = v.X;
             res.y = v.Y;
@@ -210,7 +161,7 @@ namespace Leopotam.Ecs.Types {
             return res;
         }
 
-        public static implicit operator Quat (UnityEngine.Quaternion v) {
+        public static implicit operator Quat (in UnityEngine.Quaternion v) {
             Quat res;
             res.X = v.x;
             res.Y = v.y;

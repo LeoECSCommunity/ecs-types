@@ -5,6 +5,7 @@
 // ----------------------------------------------------------------------------
 
 using System;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace Leopotam.Ecs.Types {
@@ -32,6 +33,7 @@ namespace Leopotam.Ecs.Types {
         /// <summary>
         /// Creates new instance of Float3x3.
         /// </summary>
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
         public Float3x3 (float m11, float m12, float m13, float m21, float m22, float m23, float m31, float m32, float m33) {
             M11 = m11;
             M12 = m12;
@@ -47,6 +49,7 @@ namespace Leopotam.Ecs.Types {
         /// <summary>
         /// Inverses matrix.
         /// </summary>
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
         public void Inverse () {
             var invDet = 1f / (M11 * M22 * M33 - M11 * M23 * M32 - M12 * M21 * M33 + M12 * M23 * M31 + M13 * M21 * M32 - M13 * M22 * M31);
 
@@ -74,6 +77,7 @@ namespace Leopotam.Ecs.Types {
         /// <summary>
         /// Transposes matrix (switch rows / columns).
         /// </summary>
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
         public void Transpose () {
             var t = M12;
             M12 = M21;
@@ -91,7 +95,8 @@ namespace Leopotam.Ecs.Types {
         /// </summary>
         /// <param name="axis">Axis.</param>
         /// <param name="angle">Angle.</param>
-        public static Float3x3 FromAxisAngle (ref Float3 axis, float angle) {
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        public static Float3x3 FromAxisAngle (in Float3 axis, float angle) {
             var x = axis.X;
             var y = axis.Y;
             var z = axis.Z;
@@ -117,38 +122,53 @@ namespace Leopotam.Ecs.Types {
         }
 
         /// <summary>
-        /// Creates Matrix3x3 from quaternion.
+        /// Returns determinant of matrix.
         /// </summary>
-        /// <param name="quat">Quaternion.</param>
-        public static Float3x3 FromQuat (ref Quat quat) {
-            float xx = quat.X * quat.X;
-            float yy = quat.Y * quat.Y;
-            float zz = quat.Z * quat.Z;
-            float xy = quat.X * quat.Y;
-            float zw = quat.Z * quat.W;
-            float zx = quat.Z * quat.X;
-            float yw = quat.Y * quat.W;
-            float yz = quat.Y * quat.Z;
-            float xw = quat.X * quat.W;
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        public float GetDeterminant () {
+            return M11 * M22 * M33 - M11 * M23 * M32 - M12 * M21 * M33 +
+                M12 * M23 * M31 + M13 * M21 * M32 - M13 * M22 * M31;
+        }
+
+        /// <summary>
+        /// Calculates the inverse of a give matrix.
+        /// </summary>
+        /// <param name="mat">The matrix to invert.</param>
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        public Float3x3 GetInversed () {
+            var invDet = 1f / (M11 * M22 * M33 - M11 * M23 * M32 - M12 * M21 * M33 + M12 * M23 * M31 + M13 * M21 * M32 - M13 * M22 * M31);
             Float3x3 res;
-            res.M11 = 1f - (2f * (yy + zz));
-            res.M12 = 2f * (xy + zw);
-            res.M13 = 2f * (zx - yw);
-            res.M21 = 2f * (xy - zw);
-            res.M22 = 1f - (2f * (zz + xx));
-            res.M23 = 2f * (yz + xw);
-            res.M31 = 2f * (zx + yw);
-            res.M32 = 2f * (yz - xw);
-            res.M33 = 1f - (2f * (yy + xx));
+            res.M11 = (M22 * M33 - M23 * M32) * invDet;
+            res.M12 = (M13 * M32 - M12 * M33) * invDet;
+            res.M13 = (M12 * M23 - M22 * M13) * invDet;
+            res.M21 = (M23 * M31 - M33 * M21) * invDet;
+            res.M22 = (M11 * M33 - M31 * M13) * invDet;
+            res.M23 = (M13 * M21 - M23 * M11) * invDet;
+            res.M31 = (M21 * M32 - M31 * M22) * invDet;
+            res.M32 = (M12 * M31 - M32 * M11) * invDet;
+            res.M33 = (M11 * M22 - M21 * M12) * invDet;
             return res;
         }
 
         /// <summary>
-        /// Returns result of multiplied matrices.
+        /// Returns transposed matrix (switched rows / columns).
         /// </summary>
-        /// <param name="lhs">First matrix.</param>
-        /// <param name="rhs">Second matrix.</param>
-        public static Float3x3 Mul (ref Float3x3 lhs, ref Float3x3 rhs) {
+        public Float3x3 GetTransposed () {
+            Float3x3 res;
+            res.M11 = M11;
+            res.M12 = M21;
+            res.M13 = M31;
+            res.M21 = M12;
+            res.M22 = M22;
+            res.M23 = M32;
+            res.M31 = M13;
+            res.M32 = M23;
+            res.M33 = M33;
+            return res;
+        }
+
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        public static Float3x3 operator * (in Float3x3 lhs, in Float3x3 rhs) {
             Float3x3 res;
             res.M11 = lhs.M11 * rhs.M11 + lhs.M12 * rhs.M21 + lhs.M13 * rhs.M31;
             res.M12 = lhs.M11 * rhs.M12 + lhs.M12 * rhs.M22 + lhs.M13 * rhs.M32;
@@ -162,12 +182,8 @@ namespace Leopotam.Ecs.Types {
             return res;
         }
 
-        /// <summary>
-        /// Returns sum of 2 matrices.
-        /// </summary>
-        /// <param name="lhs">First matrix.</param>
-        /// <param name="rhs">Second matrix.</param>
-        public static Float3x3 Add (ref Float3x3 lhs, ref Float3x3 rhs) {
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        public static Float3x3 operator + (in Float3x3 lhs, in Float3x3 rhs) {
             Float3x3 res;
             res.M11 = lhs.M11 + rhs.M11;
             res.M12 = lhs.M12 + rhs.M12;
@@ -181,12 +197,8 @@ namespace Leopotam.Ecs.Types {
             return res;
         }
 
-        /// <summary>
-        /// Returns substract of 2 matrices.
-        /// </summary>
-        /// <param name="lhs">First matrix.</param>
-        /// <param name="rhs">Second matrix.</param>
-        public static Float3x3 Sub (ref Float3x3 lhs, ref Float3x3 rhs) {
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        public static Float3x3 operator - (in Float3x3 lhs, in Float3x3 rhs) {
             Float3x3 res;
             res.M11 = lhs.M11 - rhs.M11;
             res.M12 = lhs.M12 - rhs.M12;
@@ -201,45 +213,11 @@ namespace Leopotam.Ecs.Types {
         }
 
         /// <summary>
-        /// Returns determinant of matrix.
-        /// </summary>
-        /// <param name="mat">Matrix.</param>
-        public static float Det (ref Float3x3 mat) {
-            return mat.M11 * mat.M22 * mat.M33 - mat.M11 * mat.M23 * mat.M32 - mat.M12 * mat.M21 * mat.M33 +
-                mat.M12 * mat.M23 * mat.M31 + mat.M13 * mat.M21 * mat.M32 - mat.M13 * mat.M22 * mat.M31;
-        }
-
-        /// <summary>
-        /// Calculates the inverse of a give matrix.
-        /// </summary>
-        /// <param name="mat">The matrix to invert.</param>
-        public static Float3x3 Inverse (ref Float3x3 mat) {
-            var invDet = 1f / (mat.M11 * mat.M22 * mat.M33 -
-                mat.M11 * mat.M23 * mat.M32 -
-                mat.M12 * mat.M21 * mat.M33 +
-                mat.M12 * mat.M23 * mat.M31 +
-                mat.M13 * mat.M21 * mat.M32 -
-                mat.M13 * mat.M22 * mat.M31);
-
-            Float3x3 res;
-            res.M11 = (mat.M22 * mat.M33 - mat.M23 * mat.M32) * invDet;
-            res.M12 = (mat.M13 * mat.M32 - mat.M12 * mat.M33) * invDet;
-            res.M13 = (mat.M12 * mat.M23 - mat.M22 * mat.M13) * invDet;
-            res.M21 = (mat.M23 * mat.M31 - mat.M33 * mat.M21) * invDet;
-            res.M22 = (mat.M11 * mat.M33 - mat.M31 * mat.M13) * invDet;
-            res.M23 = (mat.M13 * mat.M21 - mat.M23 * mat.M11) * invDet;
-            res.M31 = (mat.M21 * mat.M32 - mat.M31 * mat.M22) * invDet;
-            res.M32 = (mat.M12 * mat.M31 - mat.M32 * mat.M11) * invDet;
-            res.M33 = (mat.M11 * mat.M22 - mat.M21 * mat.M12) * invDet;
-            return res;
-        }
-
-        /// <summary>
         /// Returns scaled matrix.
         /// </summary>
         /// <param name="mat">Matrix.</param>
         /// <param name="scale">Scale.</param>
-        public static Float3x3 Mul (ref Float3x3 mat, float scale) {
+        public static Float3x3 operator * (in Float3x3 mat, float scale) {
             Float3x3 res;
             res.M11 = mat.M11 * scale;
             res.M12 = mat.M12 * scale;
@@ -254,64 +232,38 @@ namespace Leopotam.Ecs.Types {
         }
 
         /// <summary>
-        /// Returns transposed matrix (switched rows / columns).
-        /// </summary>
-        /// <param name="mat">Matrix.</param>
-        public static Float3x3 Transpose (ref Float3x3 mat) {
-            Float3x3 res;
-            res.M11 = mat.M11;
-            res.M12 = mat.M21;
-            res.M13 = mat.M31;
-            res.M21 = mat.M12;
-            res.M22 = mat.M22;
-            res.M23 = mat.M32;
-            res.M31 = mat.M13;
-            res.M32 = mat.M23;
-            res.M33 = mat.M33;
-            return res;
-        }
-
-        /// <summary>
-        /// Returns matrix with positive values.
-        /// </summary>
-        /// <param name="mat">Matrix.</param>
-        public static Float3x3 Abs (ref Float3x3 mat) {
-            Float3x3 res;
-            res.M11 = mat.M11 >= 0f ? mat.M11 : -mat.M11;
-            res.M12 = mat.M12 >= 0f ? mat.M12 : -mat.M12;
-            res.M13 = mat.M13 >= 0f ? mat.M13 : -mat.M13;
-            res.M21 = mat.M21 >= 0f ? mat.M21 : -mat.M21;
-            res.M22 = mat.M22 >= 0f ? mat.M22 : -mat.M22;
-            res.M23 = mat.M11 >= 0f ? mat.M23 : -mat.M23;
-            res.M31 = mat.M31 >= 0f ? mat.M31 : -mat.M31;
-            res.M32 = mat.M32 >= 0f ? mat.M32 : -mat.M32;
-            res.M33 = mat.M33 >= 0f ? mat.M33 : -mat.M33;
-            return res;
-        }
-
-        /// <summary>
-        /// Transforms point with transposed version of matrix.
-        /// </summary>
-        /// <param name="mat">Matrix.</param>
-        /// <param name="point">Point.</param>
-        public static Float3 TransposedTransform (ref Float3x3 mat, ref Float3 point) {
-            Float3 res;
-            res.X = point.X * mat.M11 + point.Y * mat.M12 + point.Z * mat.M13;
-            res.Y = point.X * mat.M21 + point.Y * mat.M22 + point.Z * mat.M23;
-            res.Z = point.X * mat.M31 + point.Y * mat.M32 + point.Z * mat.M33;
-            return res;
-        }
-
-        /// <summary>
         /// Transforms point with matrix.
         /// </summary>
-        /// <param name="mat">Matrix.</param>
-        /// <param name="point">Point.</param>
-        public static Float3 Transform (ref Float3x3 mat, ref Float3 point) {
+        /// <param name="lhs">Matrix.</param>
+        /// <param name="rhs">Point.</param>
+        public static Float3 operator * (in Float3x3 lhs, Float3 rhs) {
             Float3 res;
-            res.X = point.X * mat.M11 + point.Y * mat.M21 + point.Z * mat.M31;
-            res.Y = point.X * mat.M12 + point.Y * mat.M22 + point.Z * mat.M32;
-            res.Z = point.X * mat.M13 + point.Y * mat.M23 + point.Z * mat.M33;
+            res.X = rhs.X * lhs.M11 + rhs.Y * lhs.M21 + rhs.Z * lhs.M31;
+            res.Y = rhs.X * lhs.M12 + rhs.Y * lhs.M22 + rhs.Z * lhs.M32;
+            res.Z = rhs.X * lhs.M13 + rhs.Y * lhs.M23 + rhs.Z * lhs.M33;
+            return res;
+        }
+
+        public static implicit operator Float3x3 (in Quat lhs) {
+            var xx = lhs.X * lhs.X;
+            var yy = lhs.Y * lhs.Y;
+            var zz = lhs.Z * lhs.Z;
+            var xy = lhs.X * lhs.Y;
+            var zw = lhs.Z * lhs.W;
+            var zx = lhs.Z * lhs.X;
+            var yw = lhs.Y * lhs.W;
+            var yz = lhs.Y * lhs.Z;
+            var xw = lhs.X * lhs.W;
+            Float3x3 res;
+            res.M11 = 1f - (2f * (yy + zz));
+            res.M12 = 2f * (xy + zw);
+            res.M13 = 2f * (zx - yw);
+            res.M21 = 2f * (xy - zw);
+            res.M22 = 1f - (2f * (zz + xx));
+            res.M23 = 2f * (yz + xw);
+            res.M31 = 2f * (zx + yw);
+            res.M32 = 2f * (yz - xw);
+            res.M33 = 1f - (2f * (yy + xx));
             return res;
         }
     }

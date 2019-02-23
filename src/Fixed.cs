@@ -5,11 +5,8 @@
 // ----------------------------------------------------------------------------
 
 using System;
-using System.Runtime.InteropServices;
-
-#if NET_4_6 || NET_STANDARD_2_0
 using System.Runtime.CompilerServices;
-#endif
+using System.Runtime.InteropServices;
 
 namespace Leopotam.Ecs.Types {
     /// <summary>
@@ -18,22 +15,19 @@ namespace Leopotam.Ecs.Types {
     [Serializable]
     [StructLayout (LayoutKind.Sequential)]
     public struct Fixed {
+        public Int32 Raw;
+
         const int FracBits = 16;
         const int FracRange = 1 << FracBits;
         const int FracMask = FracRange - 1;
         const float InvFracRange = 1f / FracRange;
-        public Int32 Raw;
 
-#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
-#endif
         public override int GetHashCode () {
             return Raw.GetHashCode ();
         }
 
-#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
-#endif
         public override bool Equals (object rhs) {
             return rhs is Fixed && ((Fixed) rhs).Raw == Raw;
         }
@@ -44,128 +38,96 @@ namespace Leopotam.Ecs.Types {
         }
 #endif
 
-#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
-#endif
-        public static Fixed operator + (Fixed lhs, Fixed rhs) {
+        public static Fixed operator + (in Fixed lhs, in Fixed rhs) {
             Fixed res;
             res.Raw = lhs.Raw + rhs.Raw;
             return res;
         }
 
-#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
-#endif
-        public static Fixed operator - (Fixed lhs, Fixed rhs) {
+        public static Fixed operator - (in Fixed lhs, in Fixed rhs) {
             Fixed res;
             res.Raw = lhs.Raw - rhs.Raw;
             return res;
         }
 
-#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
-#endif
-        public static Fixed operator - (Fixed lhs) {
+        public static Fixed operator - (in Fixed lhs) {
             Fixed res;
             res.Raw = -lhs.Raw;
             return res;
         }
 
-#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
-#endif
-        public static Fixed operator * (Fixed lhs, Fixed rhs) {
+        public static Fixed operator * (in Fixed lhs, in Fixed rhs) {
             Fixed res;
             res.Raw = (int) (((long) lhs.Raw * (long) rhs.Raw) >> FracBits);
             return res;
         }
 
-#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
-#endif
-        public static Fixed operator / (Fixed lhs, Fixed rhs) {
+        public static Fixed operator / (in Fixed lhs, in Fixed rhs) {
             Fixed res;
             res.Raw = (int) (((long) lhs.Raw << FracBits) / rhs.Raw);
             return res;
         }
 
-#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
-#endif
-        public static bool operator == (Fixed lhs, Fixed rhs) {
+        public static bool operator == (in Fixed lhs, in Fixed rhs) {
             return lhs.Raw == rhs.Raw;
         }
 
-#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
-#endif
-        public static bool operator != (Fixed lhs, Fixed rhs) {
-            return lhs.Raw == rhs.Raw;
+        public static bool operator != (in Fixed lhs, in Fixed rhs) {
+            return lhs.Raw != rhs.Raw;
         }
 
-#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
-#endif
-        public static bool operator > (Fixed lhs, Fixed rhs) {
+        public static bool operator > (in Fixed lhs, in Fixed rhs) {
             return lhs.Raw > rhs.Raw;
         }
 
-#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
-#endif
-        public static bool operator >= (Fixed lhs, Fixed rhs) {
+        public static bool operator >= (in Fixed lhs, in Fixed rhs) {
             return lhs.Raw >= rhs.Raw;
         }
 
-#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
-#endif
-        public static bool operator < (Fixed lhs, Fixed rhs) {
+        public static bool operator < (in Fixed lhs, in Fixed rhs) {
             return lhs.Raw < rhs.Raw;
         }
 
-#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
-#endif
-        public static bool operator <= (Fixed lhs, Fixed rhs) {
+        public static bool operator <= (in Fixed lhs, in Fixed rhs) {
             return lhs.Raw <= rhs.Raw;
         }
 
-#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
-#endif
         public static implicit operator Fixed (int v) {
             Fixed res;
             res.Raw = v << FracBits;
             return res;
         }
 
-#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
-#endif
-        public static implicit operator int (Fixed lhs) {
+        public static implicit operator int (in Fixed lhs) {
             return lhs.Raw >= 0 ? lhs.Raw >> FracBits : (lhs.Raw + FracMask) >> FracBits;
         }
 
-#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
-#endif
-        public static implicit operator float (Fixed lhs) {
+        public static implicit operator float (in Fixed lhs) {
             return (lhs.Raw >> FracBits) + (lhs.Raw & FracMask) * InvFracRange;
         }
 
-#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
-#endif
-        public static implicit operator HighFixed (Fixed lhs) {
+        public static implicit operator HighFixed (in Fixed lhs) {
             HighFixed res;
             res.Raw = lhs.Raw;
             return res;
         }
 
-#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
-#endif
         public static implicit operator Fixed (float v) {
             Fixed res;
             var trunc = (int) v;

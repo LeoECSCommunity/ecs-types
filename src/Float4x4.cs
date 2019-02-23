@@ -5,11 +5,8 @@
 // ----------------------------------------------------------------------------
 
 using System;
-using System.Runtime.InteropServices;
-
-#if NET_4_6 || NET_STANDARD_2_0
 using System.Runtime.CompilerServices;
-#endif
+using System.Runtime.InteropServices;
 
 namespace Leopotam.Ecs.Types {
     /// <summary>
@@ -43,6 +40,7 @@ namespace Leopotam.Ecs.Types {
         /// <summary>
         /// Creates new instance of matrix.
         /// </summary>
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
         public Float4x4 (
             float m11, float m12, float m13, float m14,
             float m21, float m22, float m23, float m24,
@@ -72,19 +70,13 @@ namespace Leopotam.Ecs.Types {
                 M11, M12, M13, M14, M21, M22, M23, M24, M31, M32, M33, M34, M41, M42, M43, M44);
         }
 #endif
-        /// <summary>
-        /// Transforms point with perspective correction.
-        /// </summary>
-        /// <param name="point">Point to transform.</param>
-#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
-#endif
-        public static Float3 Transform (ref Float4x4 mat, ref Float3 point) {
+        public static Float3 operator * (in Float4x4 lhs, in Float3 rhs) {
             Float3 res;
-            var w = 1f / (mat.M41 * point.X + mat.M42 * point.Y + mat.M43 * point.Z + mat.M44);
-            res.X = w * (mat.M11 * point.X + mat.M12 * point.Y + mat.M13 * point.Z + mat.M14);
-            res.Y = w * (mat.M21 * point.X + mat.M22 * point.Y + mat.M23 * point.Z + mat.M24);
-            res.Z = w * (mat.M31 * point.X + mat.M32 * point.Y + mat.M33 * point.Z + mat.M34);
+            var w = 1f / (lhs.M41 * rhs.X + lhs.M42 * rhs.Y + lhs.M43 * rhs.Z + lhs.M44);
+            res.X = w * (lhs.M11 * rhs.X + lhs.M12 * rhs.Y + lhs.M13 * rhs.Z + lhs.M14);
+            res.Y = w * (lhs.M21 * rhs.X + lhs.M22 * rhs.Y + lhs.M23 * rhs.Z + lhs.M24);
+            res.Z = w * (lhs.M31 * rhs.X + lhs.M32 * rhs.Y + lhs.M33 * rhs.Z + lhs.M34);
             return res;
         }
 
@@ -92,10 +84,8 @@ namespace Leopotam.Ecs.Types {
         /// Transforms point without perspective correction.
         /// </summary>
         /// <param name="point">Point to transform.</param>
-#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
-#endif
-        public static Float3 TransformFast (ref Float4x4 mat, ref Float3 point) {
+        public static Float3 TransformFast (in Float4x4 mat, in Float3 point) {
             Float3 res;
             res.X = mat.M11 * point.X + mat.M12 * point.Y + mat.M13 * point.Z + mat.M14;
             res.Y = mat.M21 * point.X + mat.M22 * point.Y + mat.M23 * point.Z + mat.M24;
@@ -108,10 +98,8 @@ namespace Leopotam.Ecs.Types {
         /// </summary>
         /// <param name="mat">Matrix.</param>
         /// <param name="dir">Direction vector.</param>
-#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
-#endif
-        public static Float3 TransformDirection (ref Float4x4 mat, ref Float3 dir) {
+        public static Float3 TransformDirection (in Float4x4 mat, in Float3 dir) {
             Float3 res;
             res.X = mat.M11 * dir.X + mat.M12 * dir.Y + mat.M13 * dir.Z;
             res.Y = mat.M21 * dir.X + mat.M22 * dir.Y + mat.M23 * dir.Z;
@@ -119,15 +107,8 @@ namespace Leopotam.Ecs.Types {
             return res;
         }
 
-        /// <summary>
-        /// Returns result of multiplied matrices.
-        /// </summary>
-        /// <param name="lhs">First matrix.</param>
-        /// <param name="rhs">Second matrix.</param>
-#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
-#endif
-        public static Float4x4 Mul (ref Float4x4 lhs, ref Float4x4 rhs) {
+        public static Float4x4 operator * (in Float4x4 lhs, in Float4x4 rhs) {
             Float4x4 res;
             res.M11 = lhs.M11 * rhs.M11 + lhs.M12 * rhs.M21 + lhs.M13 * rhs.M31 + lhs.M14 * rhs.M41;
             res.M12 = lhs.M11 * rhs.M12 + lhs.M12 * rhs.M22 + lhs.M13 * rhs.M32 + lhs.M14 * rhs.M42;
@@ -153,7 +134,7 @@ namespace Leopotam.Ecs.Types {
         /// </summary>
         /// <param name="scale">Translate vector.</param>
         /// <returns></returns>
-        public static Float4x4 Translate (ref Float3 point) {
+        public static Float4x4 FromPosition (in Float3 point) {
             Float4x4 mat;
             mat.M11 = 0f;
             mat.M12 = 0f;
@@ -175,23 +156,8 @@ namespace Leopotam.Ecs.Types {
             return mat;
         }
 
-#if DEBUG
-        [Obsolete ("Use FromQuat instead.")]
-#endif
-        public static Float4x4 Rotate (ref Quat rotate) {
-            return FromQuat (ref rotate);
-        }
-
-        /// <summary>
-        /// Creates rotation matrix from euler angles.
-        /// </summary>
-        /// <param name="x">Rotation around x-axis in degrees.</param>
-        /// <param name="y">Rotation around y-axis in degrees.</param>
-        /// <param name="z">Rotation around z-axis in degrees.</param>
-#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
-#endif
-        public static Float4x4 FromQuat (ref Quat quat) {
+        public static Float4x4 FromRotation (in Quat quat) {
             var x = quat.X * 2f;
             var y = quat.Y * 2f;
             var z = quat.Z * 2f;
@@ -229,7 +195,7 @@ namespace Leopotam.Ecs.Types {
         /// </summary>
         /// <param name="scale">Scale vector.</param>
         /// <returns></returns>
-        public static Float4x4 Scale (ref Float3 scale) {
+        public static Float4x4 FromScale (in Float3 scale) {
             Float4x4 mat;
             mat.M11 = scale.X;
             mat.M12 = 0f;
@@ -257,10 +223,8 @@ namespace Leopotam.Ecs.Types {
         /// <param name="translate">Translate vector.</param>
         /// <param name="rotate">Quaternion.</param>
         /// <param name="scale">Scale vector.</param>
-#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
-#endif
-        public static Float4x4 TranslateRotateScale (ref Float3 translate, ref Quat rotate, ref Float3 scale) {
+        public static Float4x4 FromTRS (in Float3 translate, in Quat rotate, in Float3 scale) {
             var rotX = rotate.X;
             var rotY = rotate.Y;
             var rotZ = rotate.Z;

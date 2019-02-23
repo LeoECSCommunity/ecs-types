@@ -5,11 +5,8 @@
 // ----------------------------------------------------------------------------
 
 using System;
-using System.Runtime.InteropServices;
-
-#if NET_4_6 || NET_STANDARD_2_0
 using System.Runtime.CompilerServices;
-#endif
+using System.Runtime.InteropServices;
 
 namespace Leopotam.Ecs.Types {
     /// <summary>
@@ -24,15 +21,8 @@ namespace Leopotam.Ecs.Types {
         /// <summary>
         /// Creates new instance of vector.
         /// </summary>
-        public IntBox2 (Int2 min, Int2 max) {
-            Min = min;
-            Max = max;
-        }
-
-        /// <summary>
-        /// Creates new instance of vector.
-        /// </summary>
-        public IntBox2 (ref Int2 min, ref Int2 max) {
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        public IntBox2 (in Int2 min, in Int2 max) {
             Min = min;
             Max = max;
         }
@@ -40,9 +30,7 @@ namespace Leopotam.Ecs.Types {
         /// <summary>
         /// Validates box bounds.
         /// </summary>
-#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
-#endif
         public void Validate () {
             if (Min.X > Max.X) {
                 var t = Min.X;
@@ -59,10 +47,8 @@ namespace Leopotam.Ecs.Types {
         /// <summary>
         /// Joins another box to current one. Both boxes should be valid before operation!
         /// </summary>
-#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
-#endif
-        public void Join (ref IntBox2 rhs) {
+        public void Join (in IntBox2 rhs) {
             if (rhs.Min.X < Min.X) {
                 Min.X = rhs.Min.X;
             }
@@ -78,11 +64,9 @@ namespace Leopotam.Ecs.Types {
         }
 
         /// <summary>
-        /// Extends box to include X,Y point. Box should be valid before operation!
+        /// Joins box with (X,Y) point. Box should be valid before operation!
         /// </summary>
-#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
-#endif
         public void Join (int x, int y) {
             if (x < Min.X) {
                 Min.X = x;
@@ -101,10 +85,8 @@ namespace Leopotam.Ecs.Types {
         /// <summary>
         /// Extends box to include point. Box should be valid before operation!
         /// </summary>
-#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
-#endif
-        public void Join (ref Int2 rhs) {
+        public void Join (in Int2 rhs) {
             if (rhs.X < Min.X) {
                 Min.X = rhs.X;
             }
@@ -128,10 +110,8 @@ namespace Leopotam.Ecs.Types {
         /// <summary>
         /// Validates box bounds.
         /// </summary>
-#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
-#endif
-        public static IntBox2 Validate (ref IntBox2 lhs) {
+        public static IntBox2 GetValidated (in IntBox2 lhs) {
             IntBox2 res;
             if (lhs.Min.X > lhs.Max.X) {
                 res.Min.X = lhs.Max.X;
@@ -151,14 +131,53 @@ namespace Leopotam.Ecs.Types {
         }
 
         /// <summary>
-        /// Joins boxes. Both boxes should be valid before operation!
+        /// Gets width of box. Box should be valid before operation!
         /// </summary>
-        /// <param name="lhs">First box.</param>
-        /// <param name="rhs">Second box.</param>
-#if NET_4_6 || NET_STANDARD_2_0
+        /// <param name="lhs">Box.</param>
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
-#endif
-        public static IntBox2 Join (ref IntBox2 lhs, ref IntBox2 rhs) {
+        public int GetWidth () {
+            return Max.X - Min.X;
+        }
+
+        /// <summary>
+        /// Gets height of box. Box should be valid before operation!
+        /// </summary>
+        /// <param name="lhs">Box.</param>
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        public int GetHeight () {
+            return Max.Y - Min.Y;
+        }
+
+        /// <summary>
+        /// Is box contains point X,Y. Box should be valid before operation!
+        /// </summary>
+        /// <param name="x">Point X coord.</param>
+        /// <param name="y">Point Y coord.</param>
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        public bool Contains (int x, int y) {
+            return x >= Min.X && x <= Max.X && y >= Min.Y && y <= Max.Y;
+        }
+
+        /// <summary>
+        /// Is box contains Int2 point. Box should be valid before operation!
+        /// </summary>
+        /// <param name="point">Point to check.</param>
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        public bool Contains (in Int2 point) {
+            return point.X >= Min.X && point.X <= Max.X && point.Y >= Min.Y && point.Y <= Max.Y;
+        }
+
+        /// <summary>
+        /// Are boxes intersects. Both boxes should be valid before operation!
+        /// </summary>
+        /// <param name="box">Second box.</param>
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        public bool Intersects (in IntBox2 box) {
+            return box.Min.X <= Max.X && box.Max.X >= Min.X && box.Min.Y <= Max.Y && box.Max.Y >= Min.Y;
+        }
+
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        public static IntBox2 operator + (in IntBox2 lhs, in IntBox2 rhs) {
             IntBox2 res;
             res.Min.X = lhs.Min.X < rhs.Min.X ? lhs.Min.X : rhs.Min.X;
             res.Min.Y = lhs.Min.Y < rhs.Min.Y ? lhs.Min.Y : rhs.Min.Y;
@@ -171,29 +190,9 @@ namespace Leopotam.Ecs.Types {
         /// Returns box that contains point X,Y. Box should be valid before operation!
         /// </summary>
         /// <param name="lhs">Box.</param>
-        /// <param name="x">X coord.</param>
-        /// <param name="y">Y coord.</param>
-#if NET_4_6 || NET_STANDARD_2_0
-        [MethodImpl (MethodImplOptions.AggressiveInlining)]
-#endif
-        public static IntBox2 Join (ref IntBox2 lhs, int x, int y) {
-            IntBox2 res;
-            res.Min.X = lhs.Min.X < x ? lhs.Min.X : x;
-            res.Min.Y = lhs.Min.Y < y ? lhs.Min.Y : y;
-            res.Max.X = lhs.Max.X > x ? lhs.Max.X : x;
-            res.Max.Y = lhs.Max.Y > y ? lhs.Max.Y : y;
-            return res;
-        }
-
-        /// <summary>
-        /// Returns box that contains point X,Y. Box should be valid before operation!
-        /// </summary>
-        /// <param name="lhs">Box.</param>
         /// <param name="rhs">Point to include.</param>
-#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
-#endif
-        public static IntBox2 Join (ref IntBox2 lhs, ref Int2 rhs) {
+        public static IntBox2 operator + (in IntBox2 lhs, in Int2 rhs) {
             IntBox2 res;
             res.Min.X = lhs.Min.X < rhs.X ? lhs.Min.X : rhs.X;
             res.Min.Y = lhs.Min.Y < rhs.Y ? lhs.Min.Y : rhs.Y;
@@ -202,82 +201,40 @@ namespace Leopotam.Ecs.Types {
             return res;
         }
 
-        /// <summary>
-        /// Gets width of box. Box should be valid before operation!
-        /// </summary>
-        /// <param name="lhs">Box.</param>
-#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
-#endif
-        public static int GetWidth (ref IntBox2 lhs) {
-            return lhs.Max.X - lhs.Min.X;
+        public static bool operator == (in IntBox2 lhs, in IntBox2 rhs) {
+            return (
+                lhs.Min.X == rhs.Min.X && lhs.Min.Y == rhs.Min.Y &&
+                lhs.Max.X == rhs.Max.X && lhs.Max.Y == rhs.Max.Y);
         }
 
-        /// <summary>
-        /// Gets height of box. Box should be valid before operation!
-        /// </summary>
-        /// <param name="lhs">Box.</param>
-#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
-#endif
-        public static int GetHeight (ref IntBox2 lhs) {
-            return lhs.Max.Y - lhs.Min.Y;
+        public static bool operator != (in IntBox2 lhs, in IntBox2 rhs) {
+            return (
+                lhs.Min.X != rhs.Min.X || lhs.Min.Y != rhs.Min.Y &&
+                lhs.Max.X != rhs.Max.X || lhs.Max.Y != rhs.Max.Y);
         }
 
-        /// <summary>
-        /// Is box contains point X,Y. Box should be valid before operation!
-        /// </summary>
-        /// <param name="lhs">Box.</param>
-        /// <param name="rhs">Point to check.</param>
-#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
-#endif
-        public static bool Contains (ref IntBox2 lhs, int x, int y) {
-            return x >= lhs.Min.X && x <= lhs.Max.X && y >= lhs.Min.Y && y <= lhs.Max.Y;
+        public override int GetHashCode () {
+            return Min.GetHashCode () ^ (Max.GetHashCode () << 2);
         }
 
-        /// <summary>
-        /// Is box contains Int2 point. Box should be valid before operation!
-        /// </summary>
-        /// <param name="lhs">Box.</param>
-        /// <param name="rhs">Point to check.</param>
-#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
-#endif
-        public static bool Contains (ref IntBox2 lhs, ref Int2 rhs) {
-            return rhs.X >= lhs.Min.X && rhs.X <= lhs.Max.X && rhs.Y >= lhs.Min.Y && rhs.Y <= lhs.Max.Y;
+        public override bool Equals (object other) {
+            if (!(other is IntBox2)) {
+                return false;
+            }
+            var rhs = (IntBox2) other;
+            return Min == rhs.Min && Max == rhs.Max;
         }
 
-        /// <summary>
-        /// Are boxes intersects. Both boxes should be valid before operation!
-        /// </summary>
-        /// <param name="lhs">First box.</param>
-        /// <param name="rhs">Second box.</param>
-#if NET_4_6 || NET_STANDARD_2_0
-        [MethodImpl (MethodImplOptions.AggressiveInlining)]
-#endif
-        public static bool Intersects (ref IntBox2 lhs, ref IntBox2 rhs) {
-            return rhs.Min.X <= lhs.Max.X && rhs.Max.X >= lhs.Min.X && rhs.Min.Y <= lhs.Max.Y && rhs.Max.Y >= lhs.Min.Y;
-        }
-
-        /// <summary>
-        /// Returns equality of vectors.
-        /// </summary>
-        /// <param name="lhs">First vector.</param>
-        /// <param name="rhs">Second vector.</param>
-#if NET_4_6 || NET_STANDARD_2_0
-        [MethodImpl (MethodImplOptions.AggressiveInlining)]
-#endif
-        public static bool Equals (ref IntBox2 lhs, ref IntBox2 rhs) {
-            return lhs.Min.X == rhs.Min.X && lhs.Min.Y == rhs.Min.Y && lhs.Max.X == rhs.Max.X && lhs.Max.Y == rhs.Max.Y;
-        }
-
-#if UNITY_5_6_OR_NEWER
-        public static implicit operator UnityEngine.RectInt (IntBox2 v) {
+#if UNITY_2018_3_OR_NEWER
+        public static implicit operator UnityEngine.RectInt (in IntBox2 v) {
             return new UnityEngine.RectInt (v.Min.X, v.Min.Y, v.Max.X - v.Min.X, v.Max.Y - v.Min.Y);
         }
 
-        public static implicit operator IntBox2 (UnityEngine.RectInt v) {
+        public static implicit operator IntBox2 (in UnityEngine.RectInt v) {
             IntBox2 res;
             res.Min.X = v.xMin;
             res.Min.Y = v.yMin;
