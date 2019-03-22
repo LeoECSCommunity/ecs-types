@@ -5,11 +5,8 @@
 // ----------------------------------------------------------------------------
 
 using System;
-using System.Runtime.InteropServices;
-
-#if NET_4_6 || NET_STANDARD_2_0
 using System.Runtime.CompilerServices;
-#endif
+using System.Runtime.InteropServices;
 
 namespace Leopotam.Ecs.Types {
     /// <summary>
@@ -18,22 +15,19 @@ namespace Leopotam.Ecs.Types {
     [Serializable]
     [StructLayout (LayoutKind.Sequential)]
     public struct HighFixed {
+        public Int64 Raw;
+
         const int FracBits = 16;
         const int FracRange = 1 << FracBits;
         const int FracMask = FracRange - 1;
         const float InvFracRange = 1f / FracRange;
-        public Int64 Raw;
 
-#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
-#endif
         public override int GetHashCode () {
             return Raw.GetHashCode ();
         }
 
-#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
-#endif
         public override bool Equals (object rhs) {
             return rhs is HighFixed && ((HighFixed) rhs).Raw == Raw;
         }
@@ -44,128 +38,96 @@ namespace Leopotam.Ecs.Types {
         }
 #endif
 
-#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
-#endif
-        public static HighFixed operator + (HighFixed lhs, HighFixed rhs) {
+        public static HighFixed operator + (in HighFixed lhs, in HighFixed rhs) {
             HighFixed res;
             res.Raw = lhs.Raw + rhs.Raw;
             return res;
         }
 
-#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
-#endif
-        public static HighFixed operator - (HighFixed lhs, HighFixed rhs) {
+        public static HighFixed operator - (in HighFixed lhs, in HighFixed rhs) {
             HighFixed res;
             res.Raw = lhs.Raw - rhs.Raw;
             return res;
         }
 
-#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
-#endif
-        public static HighFixed operator - (HighFixed lhs) {
+        public static HighFixed operator - (in HighFixed lhs) {
             HighFixed res;
             res.Raw = -lhs.Raw;
             return res;
         }
 
-#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
-#endif
-        public static HighFixed operator * (HighFixed lhs, HighFixed rhs) {
+        public static HighFixed operator * (in HighFixed lhs, in HighFixed rhs) {
             HighFixed res;
             res.Raw = (lhs.Raw * rhs.Raw) >> FracBits;
             return res;
         }
 
-#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
-#endif
-        public static HighFixed operator / (HighFixed lhs, HighFixed rhs) {
+        public static HighFixed operator / (in HighFixed lhs, in HighFixed rhs) {
             HighFixed res;
             res.Raw = (lhs.Raw << FracBits) / rhs.Raw;
             return res;
         }
 
-#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
-#endif
-        public static bool operator == (HighFixed lhs, HighFixed rhs) {
+        public static bool operator == (in HighFixed lhs, in HighFixed rhs) {
             return lhs.Raw == rhs.Raw;
         }
 
-#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
-#endif
-        public static bool operator != (HighFixed lhs, HighFixed rhs) {
-            return lhs.Raw == rhs.Raw;
+        public static bool operator != (in HighFixed lhs, in HighFixed rhs) {
+            return lhs.Raw != rhs.Raw;
         }
 
-#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
-#endif
-        public static bool operator > (HighFixed lhs, HighFixed rhs) {
+        public static bool operator > (in HighFixed lhs, in HighFixed rhs) {
             return lhs.Raw > rhs.Raw;
         }
 
-#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
-#endif
-        public static bool operator >= (HighFixed lhs, HighFixed rhs) {
+        public static bool operator >= (in HighFixed lhs, in HighFixed rhs) {
             return lhs.Raw >= rhs.Raw;
         }
 
-#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
-#endif
-        public static bool operator < (HighFixed lhs, HighFixed rhs) {
+        public static bool operator < (in HighFixed lhs, in HighFixed rhs) {
             return lhs.Raw < rhs.Raw;
         }
 
-#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
-#endif
-        public static bool operator <= (HighFixed lhs, HighFixed rhs) {
+        public static bool operator <= (in HighFixed lhs, in HighFixed rhs) {
             return lhs.Raw <= rhs.Raw;
         }
 
-#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
-#endif
         public static implicit operator HighFixed (int v) {
             HighFixed res;
             res.Raw = v << FracBits;
             return res;
         }
 
-#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
-#endif
-        public static implicit operator int (HighFixed lhs) {
+        public static implicit operator int (in HighFixed lhs) {
             return lhs.Raw >= 0 ? (int) (lhs.Raw >> FracBits) : (int) ((lhs.Raw + FracMask) >> FracBits);
         }
 
-#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
-#endif
-        public static implicit operator float (HighFixed lhs) {
+        public static implicit operator float (in HighFixed lhs) {
             return (lhs.Raw >> FracBits) + (lhs.Raw & FracMask) * InvFracRange;
         }
 
-#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
-#endif
-        public static implicit operator Fixed (HighFixed lhs) {
+        public static implicit operator Fixed (in HighFixed lhs) {
             Fixed res;
             res.Raw = (Int32) lhs.Raw;
             return res;
         }
 
-#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
-#endif
         public static implicit operator HighFixed (float v) {
             HighFixed res;
             var trunc = (int) v;

@@ -5,11 +5,8 @@
 // ----------------------------------------------------------------------------
 
 using System;
-using System.Runtime.InteropServices;
-
-#if NET_4_6 || NET_STANDARD_2_0
 using System.Runtime.CompilerServices;
-#endif
+using System.Runtime.InteropServices;
 
 namespace Leopotam.Ecs.Types {
     /// <summary>
@@ -68,9 +65,7 @@ namespace Leopotam.Ecs.Types {
         /// Gets E raised to specified power with 1% error.
         /// </summary>
         /// <param name="power">Target power.</param>
-#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
-#endif
         public static float Exp (float power) {
             var c = new DoubleInt64 ();
             c.Int64 = (Int64) (1512775 * power + 1072632447) << 32;
@@ -82,9 +77,7 @@ namespace Leopotam.Ecs.Types {
         /// </summary>
         /// <param name="data">Data to raise.</param>
         /// <param name="power">Target power.</param>
-#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
-#endif
         public static float Pow (float data, float power) {
             var c = new DoubleInt64 ();
             c.Double = data;
@@ -96,9 +89,7 @@ namespace Leopotam.Ecs.Types {
         /// Gets Sin with 0.0003 error.
         /// </summary>
         /// <param name="v">Angle in radians.</param>
-#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
-#endif
         public static float Sin (float v) {
             return _sinCache[(int) (v * SinCosIndexFactor) & SinCosIndexMask];
         }
@@ -107,9 +98,7 @@ namespace Leopotam.Ecs.Types {
         /// Gets Cos with 0.0003 error.
         /// </summary>
         /// <param name="v">Angle in radians.</param>
-#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
-#endif
         public static float Cos (float v) {
             return _cosCache[(int) (v * SinCosIndexFactor) & SinCosIndexMask];
         }
@@ -117,10 +106,8 @@ namespace Leopotam.Ecs.Types {
         /// <summary>
         /// Gets normalized Float2 vector with 0.001 error.
         /// </summary>
-#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
-#endif
-        public static Float2 Normalize (ref Float2 v) {
+        public static Float2 Normalize (in Float2 v) {
             var wrapper = new FloatInt ();
             wrapper.Float = v.X * v.X + v.Y * v.Y;
             wrapper.Int = 0x5f3759df - (wrapper.Int >> 1);
@@ -133,10 +120,8 @@ namespace Leopotam.Ecs.Types {
         /// <summary>
         /// Gets normalized Float3 vector with 0.001 error.
         /// </summary>
-#if NET_4_6 || NET_STANDARD_2_0
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
-#endif
-        public static Float3 Normalize (ref Float3 v) {
+        public static Float3 Normalize (in Float3 v) {
             var wrapper = new FloatInt ();
             wrapper.Float = v.X * v.X + v.Y * v.Y + v.Z * v.Z;
             wrapper.Int = 0x5f3759df - (wrapper.Int >> 1);
