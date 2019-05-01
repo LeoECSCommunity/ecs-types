@@ -118,6 +118,7 @@ namespace Leopotam.Ecs.Types {
         }
 
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        [System.Runtime.TargetedPatchingOptOut ("")]
         public static Quat operator * (in Quat lhs, in Quat rhs) {
             Quat q;
             q.W = lhs.W * rhs.W - lhs.X * rhs.X - lhs.Y * rhs.Y - lhs.Z * rhs.Z;
@@ -141,17 +142,15 @@ namespace Leopotam.Ecs.Types {
             var yy2 = lhs.Y * y2;
             var yz2 = lhs.Y * z2;
             var zz2 = lhs.Z * z2;
-            var x = ((rhs.X * ((1f - yy2) - zz2)) + (rhs.Y * (xy2 - wz2))) + (rhs.Z * (xz2 + wy2));
-            var y = ((rhs.X * (xy2 + wz2)) + (rhs.Y * ((1f - xx2) - zz2))) + (rhs.Z * (yz2 - wx2));
-            var z = ((rhs.X * (xz2 - wy2)) + (rhs.Y * (yz2 + wx2))) + (rhs.Z * ((1f - xx2) - yy2));
-            Float3 v;
-            v.X = x;
-            v.Y = y;
-            v.Z = z;
-            return v;
+            Float3 res;
+            res.X = ((rhs.X * ((1f - yy2) - zz2)) + (rhs.Y * (xy2 - wz2))) + (rhs.Z * (xz2 + wy2));
+            res.Y = ((rhs.X * (xy2 + wz2)) + (rhs.Y * ((1f - xx2) - zz2))) + (rhs.Z * (yz2 - wx2));
+            res.Z = ((rhs.X * (xz2 - wy2)) + (rhs.Y * (yz2 + wx2))) + (rhs.Z * ((1f - xx2) - yy2));
+            return res;
         }
 
 #if UNITY_2018_3_OR_NEWER
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
         public static implicit operator UnityEngine.Quaternion (in Quat v) {
             UnityEngine.Quaternion res;
             res.x = v.X;
@@ -161,6 +160,7 @@ namespace Leopotam.Ecs.Types {
             return res;
         }
 
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
         public static implicit operator Quat (in UnityEngine.Quaternion v) {
             Quat res;
             res.X = v.x;

@@ -139,10 +139,12 @@ namespace Leopotam.Ecs.Types {
         }
 
 #if UNITY_2018_3_OR_NEWER
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
         public static implicit operator UnityEngine.Vector3Int (in Int3 v) {
             return new UnityEngine.Vector3Int (v.X, v.Y, v.Z);
         }
 
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
         public static implicit operator Int3 (in UnityEngine.Vector3Int v) {
             Int3 res;
             res.X = v.x;
