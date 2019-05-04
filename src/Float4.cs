@@ -198,7 +198,7 @@ namespace Leopotam.Ecs.Types {
                 (lhs.X - rhs.X) * (lhs.X - rhs.X) +
                 (lhs.Y - rhs.Y) * (lhs.Y - rhs.Y) +
                 (lhs.Z - rhs.Z) * (lhs.Z - rhs.Z) +
-                (lhs.W - rhs.W) * (lhs.W - rhs.W)) < MathFast.Epsilon * MathFast.Epsilon;
+                (lhs.W - rhs.W) * (lhs.W - rhs.W)) < MathFast.EpsilonSqr;
         }
 
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
@@ -207,7 +207,7 @@ namespace Leopotam.Ecs.Types {
                 (lhs.X - rhs.X) * (lhs.X - rhs.X) +
                 (lhs.Y - rhs.Y) * (lhs.Y - rhs.Y) +
                 (lhs.Z - rhs.Z) * (lhs.Z - rhs.Z) +
-                (lhs.W - rhs.W) * (lhs.W - rhs.W)) >= MathFast.Epsilon * MathFast.Epsilon;
+                (lhs.W - rhs.W) * (lhs.W - rhs.W)) >= MathFast.EpsilonSqr;
         }
 
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
@@ -225,7 +225,7 @@ namespace Leopotam.Ecs.Types {
                 (X - rhs.X) * (X - rhs.X) +
                 (Y - rhs.Y) * (Y - rhs.Y) +
                 (Z - rhs.Z) * (Z - rhs.Z) +
-                (W - rhs.W) * (W - rhs.W)) < MathFast.Epsilon * MathFast.Epsilon;
+                (W - rhs.W) * (W - rhs.W)) < MathFast.EpsilonSqr;
         }
 
 #if UNITY_2018_3_OR_NEWER

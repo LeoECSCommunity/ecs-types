@@ -18,13 +18,13 @@ namespace Leopotam.Ecs.Types {
         public Float2 Origin;
         public Float2 Direction;
 
-        public Beam2 (Float2 origin, Float2 direction) {
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        public Beam2 (in Float2 origin, in Float2 direction) {
             Origin = origin;
             Direction = direction;
         }
 
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
-        [System.Runtime.TargetedPatchingOptOut ("")]
         public Float2 GetPoint (float distance) {
             Float2 v;
             v.X = Origin.X + Direction.X * distance;

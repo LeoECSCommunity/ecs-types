@@ -18,7 +18,8 @@ namespace Leopotam.Ecs.Types {
         public Float3 Origin;
         public Float3 Direction;
 
-        public Beam3 (Float3 origin, Float3 direction) {
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        public Beam3 (in Float3 origin, in Float3 direction) {
             Origin = origin;
             Direction = direction;
         }
