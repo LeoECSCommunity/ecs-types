@@ -230,10 +230,12 @@ namespace Leopotam.Ecs.Types {
         }
 
 #if UNITY_2018_3_OR_NEWER
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
         public static implicit operator UnityEngine.RectInt (in IntBox2 v) {
             return new UnityEngine.RectInt (v.Min.X, v.Min.Y, v.Max.X - v.Min.X, v.Max.Y - v.Min.Y);
         }
 
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
         public static implicit operator IntBox2 (in UnityEngine.RectInt v) {
             IntBox2 res;
             res.Min.X = v.xMin;
