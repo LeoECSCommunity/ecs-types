@@ -79,10 +79,13 @@ namespace Leopotam.Ecs.Types {
         /// </summary>
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
         public void Normalize () {
-            var invMagnitude = 1f / (float) Math.Sqrt (X * X + Y * Y + Z * Z);
-            X *= invMagnitude;
-            Y *= invMagnitude;
-            Z *= invMagnitude;
+            var v = X * X + Y * Y + Z * Z;
+            if (v > MathFast.EpsilonSqr) {
+                v = 1f / (float) Math.Sqrt (v);
+                X *= v;
+                Y *= v;
+                Z *= v;
+            }
         }
 
 #if DEBUG
@@ -182,10 +185,11 @@ namespace Leopotam.Ecs.Types {
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
         public Float3 GetNormalized () {
             Float3 res;
-            var invMagnitude = 1f / (float) Math.Sqrt (X * X + Y * Y + Z * Z);
-            res.X = X * invMagnitude;
-            res.Y = Y * invMagnitude;
-            res.Z = Z * invMagnitude;
+            var v = X * X + Y * Y + Z * Z;
+            v = v > MathFast.EpsilonSqr ? 1f / (float) Math.Sqrt (v) : 0f;
+            res.X = X * v;
+            res.Y = Y * v;
+            res.Z = Z * v;
             return res;
         }
 
