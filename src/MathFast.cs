@@ -23,6 +23,11 @@ namespace Leopotam.Ecs.Types {
         public const float Epsilon = 1e-10f;
 
         /// <summary>
+        /// Square version of Epsilon.
+        /// </summary>
+        public const float EpsilonSqr = Epsilon * Epsilon;
+
+        /// <summary>
         /// PI constant.
         /// </summary>
         public const float Pi = (float) System.Math.PI;

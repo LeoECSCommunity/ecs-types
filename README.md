@@ -5,7 +5,20 @@ Unified engine independent types for using with [Entity Component System Framewo
 
 > Tested on unity 2018.3 (not dependent on it) and contains assembly definition for compiling to separate assembly file for performance reason.
 
-> **Its early work-in-progress stage, not recommended to use in real projects, any api / behaviour can change later.**
+# Installation
+
+## As unity module
+This repository can be installed as unity module directly from git url. In this way new line should be added to `Packages/manifest.json`:
+```
+"com.leopotam.ecs-types": "https://github.com/Leopotam/ecs-types.git",
+```
+By default last released version will be used. If you need trunk / developing version then `develop` name of branch should be added after hash:
+```
+"com.leopotam.ecs-types": "https://github.com/Leopotam/ecs-types.git#develop",
+```
+
+## As source
+If you can't / don't want to use unity modules, code can be downloaded as sources archive of required release from [Releases page](`https://github.com/Leopotam/ecs-types/releases`).
 
 # License
 The software released under the terms of the [MIT license](./LICENSE). Enjoy.

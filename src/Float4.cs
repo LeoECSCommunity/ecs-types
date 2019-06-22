@@ -58,11 +58,14 @@ namespace Leopotam.Ecs.Types {
         /// </summary>
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
         public void Normalize () {
-            var invMagnitude = 1f / (float) Math.Sqrt (X * X + Y * Y + Z * Z + W * W);
-            X *= invMagnitude;
-            Y *= invMagnitude;
-            Z *= invMagnitude;
-            W *= invMagnitude;
+            var v = X * X + Y * Y + Z * Z + W * W;
+            if (v > MathFast.EpsilonSqr) {
+                v = 1f / (float) Math.Sqrt (v);
+                X *= v;
+                Y *= v;
+                Z *= v;
+                W *= v;
+            }
         }
 
 #if DEBUG
@@ -123,11 +126,12 @@ namespace Leopotam.Ecs.Types {
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
         public Float4 GetNormalized () {
             Float4 res;
-            var invMagnitude = 1f / (float) Math.Sqrt (X * X + Y * Y + Z * Z + W * W);
-            res.X = X * invMagnitude;
-            res.Y = Y * invMagnitude;
-            res.Z = Z * invMagnitude;
-            res.W = W * invMagnitude;
+            var v = X * X + Y * Y + Z * Z + W * W;
+            v = v > MathFast.EpsilonSqr ? 1f / (float) Math.Sqrt (v) : 0f;
+            res.X = X * v;
+            res.Y = Y * v;
+            res.Z = Z * v;
+            res.W = W * v;
             return res;
         }
 
@@ -198,7 +202,7 @@ namespace Leopotam.Ecs.Types {
                 (lhs.X - rhs.X) * (lhs.X - rhs.X) +
                 (lhs.Y - rhs.Y) * (lhs.Y - rhs.Y) +
                 (lhs.Z - rhs.Z) * (lhs.Z - rhs.Z) +
-                (lhs.W - rhs.W) * (lhs.W - rhs.W)) < MathFast.Epsilon * MathFast.Epsilon;
+                (lhs.W - rhs.W) * (lhs.W - rhs.W)) < MathFast.EpsilonSqr;
         }
 
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
@@ -207,7 +211,7 @@ namespace Leopotam.Ecs.Types {
                 (lhs.X - rhs.X) * (lhs.X - rhs.X) +
                 (lhs.Y - rhs.Y) * (lhs.Y - rhs.Y) +
                 (lhs.Z - rhs.Z) * (lhs.Z - rhs.Z) +
-                (lhs.W - rhs.W) * (lhs.W - rhs.W)) >= MathFast.Epsilon * MathFast.Epsilon;
+                (lhs.W - rhs.W) * (lhs.W - rhs.W)) >= MathFast.EpsilonSqr;
         }
 
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
@@ -225,7 +229,7 @@ namespace Leopotam.Ecs.Types {
                 (X - rhs.X) * (X - rhs.X) +
                 (Y - rhs.Y) * (Y - rhs.Y) +
                 (Z - rhs.Z) * (Z - rhs.Z) +
-                (W - rhs.W) * (W - rhs.W)) < MathFast.Epsilon * MathFast.Epsilon;
+                (W - rhs.W) * (W - rhs.W)) < MathFast.EpsilonSqr;
         }
 
 #if UNITY_2018_3_OR_NEWER

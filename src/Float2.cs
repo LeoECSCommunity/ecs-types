@@ -67,9 +67,12 @@ namespace Leopotam.Ecs.Types {
         /// </summary>
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
         public void Normalize () {
-            var invMagnitude = 1f / (float) Math.Sqrt (X * X + Y * Y);
-            X *= invMagnitude;
-            Y *= invMagnitude;
+            var v = X * X + Y * Y;
+            if (v > MathFast.EpsilonSqr) {
+                v = 1f / (float) Math.Sqrt (v);
+                X *= v;
+                Y *= v;
+            }
         }
 
 #if DEBUG
@@ -154,9 +157,10 @@ namespace Leopotam.Ecs.Types {
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
         public Float2 GetNormalized () {
             Float2 res;
-            var invMagnitude = 1f / (float) Math.Sqrt (X * X + Y * Y);
-            res.X = X * invMagnitude;
-            res.Y = Y * invMagnitude;
+            var v = X * X + Y * Y;
+            v = v > MathFast.EpsilonSqr ? 1f / (float) Math.Sqrt (v) : 0f;
+            res.X = X * v;
+            res.Y = Y * v;
             return res;
         }
 
@@ -210,12 +214,12 @@ namespace Leopotam.Ecs.Types {
 
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
         public static bool operator == (in Float2 lhs, in Float2 rhs) {
-            return (lhs.X - rhs.X) * (lhs.X - rhs.X) + (lhs.Y - rhs.Y) * (lhs.Y - rhs.Y) < MathFast.Epsilon * MathFast.Epsilon;
+            return (lhs.X - rhs.X) * (lhs.X - rhs.X) + (lhs.Y - rhs.Y) * (lhs.Y - rhs.Y) < MathFast.EpsilonSqr;
         }
 
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
         public static bool operator != (in Float2 lhs, in Float2 rhs) {
-            return (lhs.X - rhs.X) * (lhs.X - rhs.X) + (lhs.Y - rhs.Y) * (lhs.Y - rhs.Y) >= MathFast.Epsilon * MathFast.Epsilon;
+            return (lhs.X - rhs.X) * (lhs.X - rhs.X) + (lhs.Y - rhs.Y) * (lhs.Y - rhs.Y) >= MathFast.EpsilonSqr;
         }
 
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
@@ -229,7 +233,7 @@ namespace Leopotam.Ecs.Types {
                 return false;
             }
             var rhs = (Float2) other;
-            return (X - rhs.X) * (X - rhs.X) + (Y - rhs.Y) * (Y - rhs.Y) < MathFast.Epsilon * MathFast.Epsilon;
+            return (X - rhs.X) * (X - rhs.X) + (Y - rhs.Y) * (Y - rhs.Y) < MathFast.EpsilonSqr;
         }
 
 #if UNITY_2018_3_OR_NEWER
