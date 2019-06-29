@@ -34,9 +34,19 @@ namespace Leopotam.Ecs.Types {
         public static readonly Float2 Right = new Float2 (1f, 0f);
 
         /// <summary>
+        /// Returns vector with (-1,0) values.
+        /// </summary>
+        public static readonly Float2 Left = new Float2 (-1f, 0f);
+
+        /// <summary>
         /// Returns vector with (0,1) values.
         /// </summary>
         public static readonly Float2 Up = new Float2 (0f, 1f);
+
+        /// <summary>
+        /// Returns vector with (0,-1) values.
+        /// </summary>
+        public static readonly Float2 Down = new Float2 (0f, -1f);
 
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
         public Float2 (float x, float y) {

@@ -35,14 +35,29 @@ namespace Leopotam.Ecs.Types {
         public static readonly Float3 Right = new Float3 (1f, 0f, 0f);
 
         /// <summary>
+        /// Returns vector with (-1,0,0) values.
+        /// </summary>
+        public static readonly Float3 Left = new Float3 (-1f, 0f, 0f);
+
+        /// <summary>
         /// Returns vector with (0,1,0) values.
         /// </summary>
         public static readonly Float3 Up = new Float3 (0f, 1f, 0f);
 
         /// <summary>
+        /// Returns vector with (0,-1,0) values.
+        /// </summary>
+        public static readonly Float3 Down = new Float3 (0f, -1f, 0f);
+
+        /// <summary>
         /// Returns vector with (0,0,1) values.
         /// </summary>
         public static readonly Float3 Forward = new Float3 (0f, 0f, 1f);
+
+        /// <summary>
+        /// Returns vector with (0,0,-1) values.
+        /// </summary>
+        public static readonly Float3 Back = new Float3 (0f, 0f, -1f);
 
         /// <summary>
         /// Creates new instance of vector.
