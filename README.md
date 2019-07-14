@@ -1,4 +1,5 @@
 [![gitter](https://img.shields.io/gitter/room/leopotam/ecs.svg)](https://gitter.im/leopotam/ecs)
+[![discord](https://img.shields.io/discord/404358247621853185.svg?label=discord)](https://discord.gg/5GZVde6)
 [![license](https://img.shields.io/github/license/Leopotam/ecs-types.svg)](https://github.com/Leopotam/ecs.types/blob/develop/LICENSE)
 # Types for LeoECS
 Unified engine independent types for using with [Entity Component System Framework](https://github.com/Leopotam/ecs).
