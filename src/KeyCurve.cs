@@ -10,6 +10,10 @@ namespace Leopotam.Ecs.Types {
     /// <summary>
     /// Key-value based 2d curve.
     /// </summary>
+#if ENABLE_IL2CPP
+    [Unity.IL2CPP.CompilerServices.Il2CppSetOption (Unity.IL2CPP.CompilerServices.Option.NullChecks, false)]
+    [Unity.IL2CPP.CompilerServices.Il2CppSetOption (Unity.IL2CPP.CompilerServices.Option.ArrayBoundsChecks, false)]
+#endif
     public sealed class KeyCurve {
         readonly Float4[] _data;
         readonly int _maxIndex;
@@ -57,10 +61,9 @@ namespace Leopotam.Ecs.Types {
         public float Evaluate (float v) {
             if (v <= _minKey) {
                 return _minValue;
-            } else {
-                if (v >= _maxKey) {
-                    return _maxValue;
-                }
+            }
+            if (v >= _maxKey) {
+                return _maxValue;
             }
             // binary search.
             var lo = 0;
