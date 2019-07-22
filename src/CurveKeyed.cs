@@ -14,7 +14,7 @@ namespace Leopotam.Ecs.Types {
     [Unity.IL2CPP.CompilerServices.Il2CppSetOption (Unity.IL2CPP.CompilerServices.Option.NullChecks, false)]
     [Unity.IL2CPP.CompilerServices.Il2CppSetOption (Unity.IL2CPP.CompilerServices.Option.ArrayBoundsChecks, false)]
 #endif
-    public sealed class KeyCurve {
+    public sealed class CurveKeyed {
         readonly Float4[] _data;
         readonly int _maxIndex;
         readonly float _minKey;
@@ -26,7 +26,7 @@ namespace Leopotam.Ecs.Types {
         /// Creates new instance of curve.
         /// </summary>
         /// <param name="keyframes">Key-value pairs.</param>
-        public KeyCurve (params Float2[] keyframes) {
+        public CurveKeyed (params Float2[] keyframes) {
 #if DEBUG
             if (keyframes == null || keyframes.Length < 2) { throw new Exception ("data should contains 2 keys or more"); }
 #endif
@@ -43,6 +43,9 @@ namespace Leopotam.Ecs.Types {
                 ref var a = ref _data[i];
                 ref var b = ref _data[i + 1];
                 // inv-key-diff * val-diff.
+#if DEBUG
+                if ((b.X - a.X) <= 0f) { throw new Exception ("Duplicate key " + a.X); }
+#endif
                 a.Z = 1f / (b.X - a.X) * (b.Y - a.Y);
                 // val - key * inv-key-diff * val-diff.
                 a.W = a.Y - a.X * a.Z;
