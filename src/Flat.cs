@@ -130,7 +130,7 @@ namespace Leopotam.Ecs.Types {
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
         public bool Raycast (in Beam3 beam, out float enter) {
             var vdot = Float3.Dot (beam.Direction, Normal);
-            if (vdot * vdot < MathFast.EpsilonSqr) {
+            if (vdot * vdot < MathFast.Epsilon) {
                 enter = 0f;
                 return false;
             }

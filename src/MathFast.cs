@@ -4,9 +4,7 @@
 // Copyright (c) 2017-2019 Leopotam <leopotam@gmail.com>
 // ----------------------------------------------------------------------------
 
-#if NET_4_6 || NET_STANDARD_2_0
 using System.Runtime.CompilerServices;
-#endif
 
 namespace Leopotam.Ecs.Types {
     /// <summary>
@@ -21,11 +19,6 @@ namespace Leopotam.Ecs.Types {
         /// Small float value, replacement for float.Epsilon due it can be zero for some reasons.
         /// </summary>
         public const float Epsilon = 1e-10f;
-
-        /// <summary>
-        /// Square version of Epsilon.
-        /// </summary>
-        public const float EpsilonSqr = Epsilon * Epsilon;
 
         /// <summary>
         /// PI constant.

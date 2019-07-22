@@ -34,9 +34,19 @@ namespace Leopotam.Ecs.Types {
         public static readonly Float2 Right = new Float2 (1f, 0f);
 
         /// <summary>
+        /// Returns vector with (-1,0) values.
+        /// </summary>
+        public static readonly Float2 Left = new Float2 (-1f, 0f);
+
+        /// <summary>
         /// Returns vector with (0,1) values.
         /// </summary>
         public static readonly Float2 Up = new Float2 (0f, 1f);
+
+        /// <summary>
+        /// Returns vector with (0,-1) values.
+        /// </summary>
+        public static readonly Float2 Down = new Float2 (0f, -1f);
 
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
         public Float2 (float x, float y) {
@@ -67,9 +77,12 @@ namespace Leopotam.Ecs.Types {
         /// </summary>
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
         public void Normalize () {
-            var invMagnitude = 1f / (float) Math.Sqrt (X * X + Y * Y);
-            X *= invMagnitude;
-            Y *= invMagnitude;
+            var v = X * X + Y * Y;
+            if (v > MathFast.Epsilon) {
+                v = 1f / (float) Math.Sqrt (v);
+                X *= v;
+                Y *= v;
+            }
         }
 
 #if DEBUG
@@ -154,9 +167,10 @@ namespace Leopotam.Ecs.Types {
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
         public Float2 GetNormalized () {
             Float2 res;
-            var invMagnitude = 1f / (float) Math.Sqrt (X * X + Y * Y);
-            res.X = X * invMagnitude;
-            res.Y = Y * invMagnitude;
+            var v = X * X + Y * Y;
+            v = v > MathFast.Epsilon ? 1f / (float) Math.Sqrt (v) : 0f;
+            res.X = X * v;
+            res.Y = Y * v;
             return res;
         }
 
@@ -210,12 +224,12 @@ namespace Leopotam.Ecs.Types {
 
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
         public static bool operator == (in Float2 lhs, in Float2 rhs) {
-            return (lhs.X - rhs.X) * (lhs.X - rhs.X) + (lhs.Y - rhs.Y) * (lhs.Y - rhs.Y) < MathFast.EpsilonSqr;
+            return (lhs.X - rhs.X) * (lhs.X - rhs.X) + (lhs.Y - rhs.Y) * (lhs.Y - rhs.Y) < MathFast.Epsilon;
         }
 
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
         public static bool operator != (in Float2 lhs, in Float2 rhs) {
-            return (lhs.X - rhs.X) * (lhs.X - rhs.X) + (lhs.Y - rhs.Y) * (lhs.Y - rhs.Y) >= MathFast.EpsilonSqr;
+            return (lhs.X - rhs.X) * (lhs.X - rhs.X) + (lhs.Y - rhs.Y) * (lhs.Y - rhs.Y) >= MathFast.Epsilon;
         }
 
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
@@ -229,7 +243,7 @@ namespace Leopotam.Ecs.Types {
                 return false;
             }
             var rhs = (Float2) other;
-            return (X - rhs.X) * (X - rhs.X) + (Y - rhs.Y) * (Y - rhs.Y) < MathFast.EpsilonSqr;
+            return (X - rhs.X) * (X - rhs.X) + (Y - rhs.Y) * (Y - rhs.Y) < MathFast.Epsilon;
         }
 
 #if UNITY_2018_3_OR_NEWER

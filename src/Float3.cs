@@ -35,14 +35,29 @@ namespace Leopotam.Ecs.Types {
         public static readonly Float3 Right = new Float3 (1f, 0f, 0f);
 
         /// <summary>
+        /// Returns vector with (-1,0,0) values.
+        /// </summary>
+        public static readonly Float3 Left = new Float3 (-1f, 0f, 0f);
+
+        /// <summary>
         /// Returns vector with (0,1,0) values.
         /// </summary>
         public static readonly Float3 Up = new Float3 (0f, 1f, 0f);
 
         /// <summary>
+        /// Returns vector with (0,-1,0) values.
+        /// </summary>
+        public static readonly Float3 Down = new Float3 (0f, -1f, 0f);
+
+        /// <summary>
         /// Returns vector with (0,0,1) values.
         /// </summary>
         public static readonly Float3 Forward = new Float3 (0f, 0f, 1f);
+
+        /// <summary>
+        /// Returns vector with (0,0,-1) values.
+        /// </summary>
+        public static readonly Float3 Back = new Float3 (0f, 0f, -1f);
 
         /// <summary>
         /// Creates new instance of vector.
@@ -79,10 +94,13 @@ namespace Leopotam.Ecs.Types {
         /// </summary>
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
         public void Normalize () {
-            var invMagnitude = 1f / (float) Math.Sqrt (X * X + Y * Y + Z * Z);
-            X *= invMagnitude;
-            Y *= invMagnitude;
-            Z *= invMagnitude;
+            var v = X * X + Y * Y + Z * Z;
+            if (v > MathFast.Epsilon) {
+                v = 1f / (float) Math.Sqrt (v);
+                X *= v;
+                Y *= v;
+                Z *= v;
+            }
         }
 
 #if DEBUG
@@ -182,10 +200,11 @@ namespace Leopotam.Ecs.Types {
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
         public Float3 GetNormalized () {
             Float3 res;
-            var invMagnitude = 1f / (float) Math.Sqrt (X * X + Y * Y + Z * Z);
-            res.X = X * invMagnitude;
-            res.Y = Y * invMagnitude;
-            res.Z = Z * invMagnitude;
+            var v = X * X + Y * Y + Z * Z;
+            v = v > MathFast.Epsilon ? 1f / (float) Math.Sqrt (v) : 0f;
+            res.X = X * v;
+            res.Y = Y * v;
+            res.Z = Z * v;
             return res;
         }
 
@@ -263,7 +282,7 @@ namespace Leopotam.Ecs.Types {
             return (
                 (lhs.X - rhs.X) * (lhs.X - rhs.X) +
                 (lhs.Y - rhs.Y) * (lhs.Y - rhs.Y) +
-                (lhs.Z - rhs.Z) * (lhs.Z - rhs.Z)) < MathFast.EpsilonSqr;
+                (lhs.Z - rhs.Z) * (lhs.Z - rhs.Z)) < MathFast.Epsilon;
         }
 
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
@@ -271,7 +290,7 @@ namespace Leopotam.Ecs.Types {
             return (
                 (lhs.X - rhs.X) * (lhs.X - rhs.X) +
                 (lhs.Y - rhs.Y) * (lhs.Y - rhs.Y) +
-                (lhs.Z - rhs.Z) * (lhs.Z - rhs.Z)) >= MathFast.EpsilonSqr;
+                (lhs.Z - rhs.Z) * (lhs.Z - rhs.Z)) >= MathFast.Epsilon;
         }
 
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
@@ -288,7 +307,7 @@ namespace Leopotam.Ecs.Types {
             return (
                 (X - rhs.X) * (X - rhs.X) +
                 (Y - rhs.Y) * (Y - rhs.Y) +
-                (Z - rhs.Z) * (Z - rhs.Z)) < MathFast.EpsilonSqr;
+                (Z - rhs.Z) * (Z - rhs.Z)) < MathFast.Epsilon;
         }
 
 #if UNITY_2018_3_OR_NEWER
