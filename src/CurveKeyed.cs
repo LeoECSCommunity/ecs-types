@@ -61,7 +61,16 @@ namespace Leopotam.Ecs.Types {
         /// Evaluates curve at position.
         /// </summary>
         /// <param name="v">Position.</param>
+        [Obsolete ("Use At method instead")]
         public float Evaluate (float v) {
+            return At (v);
+        }
+
+        /// <summary>
+        /// Evaluates curve at position.
+        /// </summary>
+        /// <param name="v">Position.</param>
+        public float At (float v) {
             if (v <= _minKey) {
                 return _minValue;
             }
