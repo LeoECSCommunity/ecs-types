@@ -261,7 +261,7 @@ namespace Leopotam.Ecs.Types {
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
         public static Float3 operator / (in Float3 lhs, float rhs) {
             Float3 res;
-            var invRhs = 1f / rhs;
+            rhs = 1f / rhs;
             res.X = lhs.X * rhs;
             res.Y = lhs.Y * rhs;
             res.Z = lhs.Z * rhs;
