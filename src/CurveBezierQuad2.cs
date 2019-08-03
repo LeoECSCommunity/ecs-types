@@ -64,7 +64,7 @@ namespace Leopotam.Ecs.Types {
                 return _p2;
             }
             
-            float t1 = 1f - t;
+            var t1 = 1f - t;
             return _p0 * t1 * t1 + _p1 * 2f * t * t1 + _p2 * t * t;
         }
     }

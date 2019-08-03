@@ -63,7 +63,7 @@ namespace Leopotam.Ecs.Types {
             _invStepKey = (keysCount - 1) / (_maxKey - _minKey);
 
             var stepKey = 1f / _invStepKey;
-            for (int i = 0; i <= keysCount; i++) {
+            for (var i = 0; i <= keysCount; i++) {
                 _data[i] = cb (_minKey + i * stepKey);
             }
         }

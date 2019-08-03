@@ -35,8 +35,8 @@ namespace Leopotam.Ecs.Types {
                 return GetVelocityAt(1f);
             }
             
-            float t1 = 1f - t;
-            float sqrT1 = t1 * t1;
+            var t1 = 1f - t;
+            var sqrT1 = t1 * t1;
             return (_p1 - _p0) * 3f * sqrT1  + (_p2 - _p1) * 6f * t1 * t + (_p3 - _p2) * 3f * t * t;
         }
         
@@ -69,9 +69,9 @@ namespace Leopotam.Ecs.Types {
                 return _p3;
             }
             
-            float t1 = 1f - t;
-            float sqrT1 = t1 * t1;
-            float sqrT = t * t;
+            var t1 = 1f - t;
+            var sqrT1 = t1 * t1;
+            var sqrT = t * t;
             return _p0 * sqrT1 * t1 + _p1 * 3f * t * sqrT1 + _p2 * 3f * sqrT * t1 + _p3 * sqrT * t;
         }
     }
