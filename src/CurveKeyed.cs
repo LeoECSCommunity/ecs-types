@@ -1,4 +1,4 @@
-﻿// ----------------------------------------------------------------------------
+// ----------------------------------------------------------------------------
 // The MIT License
 // Types for Entity Component System framework https://github.com/Leopotam/ecs
 // Copyright (c) 2017-2019 Leopotam <leopotam@gmail.com>
@@ -31,7 +31,7 @@ namespace Leopotam.Ecs.Types {
             if (keyframes == null || keyframes.Length < 2) { throw new Exception ("data should contains 2 keys or more"); }
 #endif
             _data = new Float4[keyframes.Length];
-            for (int i = 0; i < keyframes.Length; i++) {
+            for (var i = 0; i < keyframes.Length; i++) {
                 ref var d = ref _data[i];
                 ref var s = ref keyframes[i];
                 d.X = s.X;
@@ -61,7 +61,16 @@ namespace Leopotam.Ecs.Types {
         /// Evaluates curve at position.
         /// </summary>
         /// <param name="v">Position.</param>
+        [Obsolete ("Use At method instead")]
         public float Evaluate (float v) {
+            return At (v);
+        }
+
+        /// <summary>
+        /// Evaluates curve at position.
+        /// </summary>
+        /// <param name="v">Position.</param>
+        public float At (float v) {
             if (v <= _minKey) {
                 return _minValue;
             }

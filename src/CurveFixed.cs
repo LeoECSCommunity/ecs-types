@@ -1,4 +1,4 @@
-﻿// ----------------------------------------------------------------------------
+// ----------------------------------------------------------------------------
 // The MIT License
 // Types for Entity Component System framework https://github.com/Leopotam/ecs
 // Copyright (c) 2017-2019 Leopotam <leopotam@gmail.com>
@@ -63,7 +63,7 @@ namespace Leopotam.Ecs.Types {
             _invStepKey = (keysCount - 1) / (_maxKey - _minKey);
 
             var stepKey = 1f / _invStepKey;
-            for (int i = 0; i <= keysCount; i++) {
+            for (var i = 0; i <= keysCount; i++) {
                 _data[i] = cb (_minKey + i * stepKey);
             }
         }
@@ -72,7 +72,16 @@ namespace Leopotam.Ecs.Types {
         /// Evaluates curve at position.
         /// </summary>
         /// <param name="v">Position.</param>
+        [Obsolete ("Use At method instead")]
         public float Evaluate (float v) {
+            return At (v);
+        }
+
+        /// <summary>
+        /// Evaluates curve at position.
+        /// </summary>
+        /// <param name="v">Position.</param>
+        public float At (float v) {
             if (v <= _minKey) {
                 return _minValue;
             }
