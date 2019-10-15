@@ -149,7 +149,7 @@ namespace Leopotam.Ecs.Types {
             Int3 res;
             res.X = v.x;
             res.Y = v.y;
-            res.Z = v.y;
+            res.Z = v.z;
             return res;
         }
 #endif
