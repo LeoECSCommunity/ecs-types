@@ -37,8 +37,11 @@ namespace Leopotam.Ecs.Types {
                 d.X = s.X;
                 d.Y = s.Y;
             }
-            Array.Sort (_data, (a, b) => { var diff = a.X - b.X; return diff > 0f ? 1 : (diff < 0f ? -1 : 0); });
-            // precalculate math.
+            Array.Sort (_data, (a, b) => {
+                var diff = a.X - b.X;
+                return diff > 0f ? 1 : (diff < 0f ? -1 : 0);
+            });
+            // pre-calculate math.
             for (int i = 0, iMax = _data.Length - 1; i < iMax; i++) {
                 ref var a = ref _data[i];
                 ref var b = ref _data[i + 1];

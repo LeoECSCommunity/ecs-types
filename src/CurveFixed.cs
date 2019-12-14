@@ -51,8 +51,8 @@ namespace Leopotam.Ecs.Types {
         /// <param name="cb">Function callback to evaluate.</param>
         public CurveFixed (float keyMin, float keyMax, int keysCount, Func<float, float> cb) {
 #if DEBUG
-            if (cb == null) { throw new ArgumentNullException ("cb"); }
-            if (keysCount <= 1) { throw new Exception ("keys amount should be greate or equal 2."); }
+            if (cb == null) { throw new ArgumentNullException (nameof (cb)); }
+            if (keysCount <= 1) { throw new Exception ("keys amount should be greater or equal 2."); }
             if (keyMax < keyMin) { throw new Exception ("max should be greater than min."); }
 #endif
             _data = new float[keysCount];

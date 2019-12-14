@@ -91,10 +91,9 @@ namespace Leopotam.Ecs.Types {
         public static Float4 Lerp (in Float4 lhs, in Float4 rhs, float t) {
             if (t > 1f) {
                 return rhs;
-            } else {
-                if (t < 0f) {
-                    return lhs;
-                }
+            }
+            if (t < 0f) {
+                return lhs;
             }
             Float4 res;
             res.X = (rhs.X - lhs.X) * t + lhs.X;
@@ -198,25 +197,25 @@ namespace Leopotam.Ecs.Types {
 
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
         public static bool operator == (in Float4 lhs, in Float4 rhs) {
-            return (
-                (lhs.X - rhs.X) * (lhs.X - rhs.X) +
-                (lhs.Y - rhs.Y) * (lhs.Y - rhs.Y) +
-                (lhs.Z - rhs.Z) * (lhs.Z - rhs.Z) +
-                (lhs.W - rhs.W) * (lhs.W - rhs.W)) < MathFast.Epsilon;
+            return (lhs.X - rhs.X) * (lhs.X - rhs.X) +
+                   (lhs.Y - rhs.Y) * (lhs.Y - rhs.Y) +
+                   (lhs.Z - rhs.Z) * (lhs.Z - rhs.Z) +
+                   (lhs.W - rhs.W) * (lhs.W - rhs.W) < MathFast.Epsilon;
         }
 
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
         public static bool operator != (in Float4 lhs, in Float4 rhs) {
-            return (
-                (lhs.X - rhs.X) * (lhs.X - rhs.X) +
-                (lhs.Y - rhs.Y) * (lhs.Y - rhs.Y) +
-                (lhs.Z - rhs.Z) * (lhs.Z - rhs.Z) +
-                (lhs.W - rhs.W) * (lhs.W - rhs.W)) >= MathFast.Epsilon;
+            return (lhs.X - rhs.X) * (lhs.X - rhs.X) +
+                   (lhs.Y - rhs.Y) * (lhs.Y - rhs.Y) +
+                   (lhs.Z - rhs.Z) * (lhs.Z - rhs.Z) +
+                   (lhs.W - rhs.W) * (lhs.W - rhs.W) >= MathFast.Epsilon;
         }
 
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
         public override int GetHashCode () {
+            // ReSharper disable NonReadonlyMemberInGetHashCode
             return X.GetHashCode () ^ (Y.GetHashCode () << 2) ^ (Z.GetHashCode () >> 2) ^ (W.GetHashCode () >> 1);
+            // ReSharper restore NonReadonlyMemberInGetHashCode
         }
 
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
@@ -226,10 +225,10 @@ namespace Leopotam.Ecs.Types {
             }
             var rhs = (Float4) other;
             return (
-                (X - rhs.X) * (X - rhs.X) +
-                (Y - rhs.Y) * (Y - rhs.Y) +
-                (Z - rhs.Z) * (Z - rhs.Z) +
-                (W - rhs.W) * (W - rhs.W)) < MathFast.Epsilon;
+                       (X - rhs.X) * (X - rhs.X) +
+                       (Y - rhs.Y) * (Y - rhs.Y) +
+                       (Z - rhs.Z) * (Z - rhs.Z) +
+                       (W - rhs.W) * (W - rhs.W)) < MathFast.Epsilon;
         }
 
 #if UNITY_2018_3_OR_NEWER

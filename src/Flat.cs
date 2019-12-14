@@ -129,12 +129,12 @@ namespace Leopotam.Ecs.Types {
         /// <param name="enter">Result distance to plane.</param>
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
         public bool Raycast (in Beam3 beam, out float enter) {
-            var vdot = Float3.Dot (beam.Direction, Normal);
-            if (vdot * vdot < MathFast.Epsilon) {
+            var dot = Float3.Dot (beam.Direction, Normal);
+            if (dot * dot < MathFast.Epsilon) {
                 enter = 0f;
                 return false;
             }
-            enter = (-Float3.Dot (beam.Origin, Normal) - Distance) / vdot;
+            enter = (-Float3.Dot (beam.Origin, Normal) - Distance) / dot;
             return enter > 0f;
         }
 

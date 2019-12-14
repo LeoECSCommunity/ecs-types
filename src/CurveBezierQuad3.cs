@@ -19,8 +19,8 @@ namespace Leopotam.Ecs.Types {
         /// </summary>
         public readonly Float3 Acceleration;
 
-        private readonly Float3 _velocityAt0;
-        private readonly Float3 _velocityAt1;
+        readonly Float3 _velocityAt0;
+        readonly Float3 _velocityAt1;
 
         /// <summary>
         /// Create new instance of curve.

@@ -4,7 +4,7 @@
 # Types for LeoECS
 Unified engine independent types for using with [Entity Component System Framework](https://github.com/Leopotam/ecs).
 
-> Tested on unity 2018.3 (not dependent on it) and contains assembly definition for compiling to separate assembly file for performance reason.
+> Tested on unity 2019.1 (not dependent on it) and contains assembly definition for compiling to separate assembly file for performance reason.
 
 # Installation
 
@@ -20,7 +20,7 @@ By default last released version will be used. If you need trunk / developing ve
 
 ## As unity module from npm registry (Experimental)
 This repository can be installed as unity module from external npm registry with support of different versions. In this way new block should be added to `Packages/manifest.json` right after opening `{` bracket:
-```json
+```
   "scopedRegistries": [
     {
       "name": "Leopotam",
@@ -38,7 +38,7 @@ After this operation registry can be installed from list of packages from standa
 If you can't / don't want to use unity modules, code can be downloaded as sources archive of required release from [Releases page](`https://github.com/Leopotam/ecs-types/releases`).
 
 # License
-The software released under the terms of the [MIT license](./LICENSE). Enjoy.
+The software released under the terms of the [MIT license](./LICENSE.md). Enjoy.
 
 # Donate
 Its free opensource software, but you can buy me a coffee:

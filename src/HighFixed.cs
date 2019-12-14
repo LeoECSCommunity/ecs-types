@@ -24,6 +24,7 @@ namespace Leopotam.Ecs.Types {
 
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
         public override int GetHashCode () {
+            // ReSharper disable once NonReadonlyMemberInGetHashCode
             return Raw.GetHashCode ();
         }
 

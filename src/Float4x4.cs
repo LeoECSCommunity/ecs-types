@@ -14,6 +14,7 @@ namespace Leopotam.Ecs.Types {
     /// </summary>
     [Serializable]
     [StructLayout (LayoutKind.Sequential)]
+    // ReSharper disable once InconsistentNaming
     public struct Float4x4 {
         public float M11;
         public float M12;
@@ -83,6 +84,7 @@ namespace Leopotam.Ecs.Types {
         /// <summary>
         /// Transforms point without perspective correction.
         /// </summary>
+        /// <param name="mat">Transform matrix.</param>
         /// <param name="point">Point to transform.</param>
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
         public static Float3 TransformFast (in Float4x4 mat, in Float3 point) {
@@ -130,10 +132,9 @@ namespace Leopotam.Ecs.Types {
         }
 
         /// <summary>
-        /// Creates translate matrix from vector.
+        /// Creates translated matrix from position.
         /// </summary>
-        /// <param name="scale">Translate vector.</param>
-        /// <returns></returns>
+        /// <param name="point">Position point.</param>
         public static Float4x4 FromPosition (in Float3 point) {
             Float4x4 mat;
             mat.M11 = 0f;
@@ -156,6 +157,10 @@ namespace Leopotam.Ecs.Types {
             return mat;
         }
 
+        /// <summary>
+        /// Creates rotated matrix from quaternion.
+        /// </summary>
+        /// <param name="quat">Quaternion.</param>
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
         public static Float4x4 FromRotation (in Quat quat) {
             var x = quat.X * 2f;
@@ -194,7 +199,6 @@ namespace Leopotam.Ecs.Types {
         /// Creates scale matrix from vector.
         /// </summary>
         /// <param name="scale">Scale vector.</param>
-        /// <returns></returns>
         public static Float4x4 FromScale (in Float3 scale) {
             Float4x4 mat;
             mat.M11 = scale.X;
@@ -224,7 +228,7 @@ namespace Leopotam.Ecs.Types {
         /// <param name="rotate">Quaternion.</param>
         /// <param name="scale">Scale vector.</param>
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
-        public static Float4x4 FromTRS (in Float3 translate, in Quat rotate, in Float3 scale) {
+        public static Float4x4 FromTrs (in Float3 translate, in Quat rotate, in Float3 scale) {
             var rotX = rotate.X;
             var rotY = rotate.Y;
             var rotZ = rotate.Z;

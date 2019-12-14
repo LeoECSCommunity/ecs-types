@@ -14,6 +14,7 @@ namespace Leopotam.Ecs.Types {
     /// </summary>
     [Serializable]
     [StructLayout (LayoutKind.Sequential)]
+    // ReSharper disable once InconsistentNaming
     public struct Float3x3 {
         public float M11;
         public float M12;
@@ -133,7 +134,6 @@ namespace Leopotam.Ecs.Types {
         /// <summary>
         /// Calculates the inverse of a give matrix.
         /// </summary>
-        /// <param name="mat">The matrix to invert.</param>
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
         public Float3x3 GetInversed () {
             var invDet = 1f / (M11 * M22 * M33 - M11 * M23 * M32 - M12 * M21 * M33 + M12 * M23 * M31 + M13 * M21 * M32 - M13 * M22 * M31);

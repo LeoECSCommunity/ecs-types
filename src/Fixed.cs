@@ -15,7 +15,7 @@ namespace Leopotam.Ecs.Types {
     [Serializable]
     [StructLayout (LayoutKind.Sequential)]
     public struct Fixed {
-        public Int32 Raw;
+        public int Raw;
 
         const int FracBits = 16;
         const int FracRange = 1 << FracBits;
@@ -24,7 +24,8 @@ namespace Leopotam.Ecs.Types {
 
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
         public override int GetHashCode () {
-            return Raw.GetHashCode ();
+            // ReSharper disable once NonReadonlyMemberInGetHashCode
+            return Raw;
         }
 
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
@@ -62,7 +63,7 @@ namespace Leopotam.Ecs.Types {
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
         public static Fixed operator * (in Fixed lhs, in Fixed rhs) {
             Fixed res;
-            res.Raw = (int) (((long) lhs.Raw * (long) rhs.Raw) >> FracBits);
+            res.Raw = (int) ((lhs.Raw * (long) rhs.Raw) >> FracBits);
             return res;
         }
 

@@ -70,7 +70,7 @@ namespace Leopotam.Ecs.Types {
         }
 
         /// <summary>
-        /// Reverses vector direction inplace.
+        /// Reverses vector direction in-place.
         /// </summary>
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
         public void Neg () {
@@ -90,7 +90,7 @@ namespace Leopotam.Ecs.Types {
         }
 
         /// <summary>
-        /// Normalizes vector inplace.
+        /// Normalizes vector in-place.
         /// </summary>
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
         public void Normalize () {
@@ -166,10 +166,9 @@ namespace Leopotam.Ecs.Types {
         public static Float3 Lerp (in Float3 lhs, in Float3 rhs, float t) {
             if (t > 1f) {
                 return rhs;
-            } else {
-                if (t < 0f) {
-                    return lhs;
-                }
+            }
+            if (t < 0f) {
+                return lhs;
             }
             Float3 res;
             res.X = (rhs.X - lhs.X) * t + lhs.X;
@@ -280,22 +279,24 @@ namespace Leopotam.Ecs.Types {
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
         public static bool operator == (in Float3 lhs, in Float3 rhs) {
             return (
-                (lhs.X - rhs.X) * (lhs.X - rhs.X) +
-                (lhs.Y - rhs.Y) * (lhs.Y - rhs.Y) +
-                (lhs.Z - rhs.Z) * (lhs.Z - rhs.Z)) < MathFast.Epsilon;
+                       (lhs.X - rhs.X) * (lhs.X - rhs.X) +
+                       (lhs.Y - rhs.Y) * (lhs.Y - rhs.Y) +
+                       (lhs.Z - rhs.Z) * (lhs.Z - rhs.Z)) < MathFast.Epsilon;
         }
 
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
         public static bool operator != (in Float3 lhs, in Float3 rhs) {
             return (
-                (lhs.X - rhs.X) * (lhs.X - rhs.X) +
-                (lhs.Y - rhs.Y) * (lhs.Y - rhs.Y) +
-                (lhs.Z - rhs.Z) * (lhs.Z - rhs.Z)) >= MathFast.Epsilon;
+                       (lhs.X - rhs.X) * (lhs.X - rhs.X) +
+                       (lhs.Y - rhs.Y) * (lhs.Y - rhs.Y) +
+                       (lhs.Z - rhs.Z) * (lhs.Z - rhs.Z)) >= MathFast.Epsilon;
         }
 
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
         public override int GetHashCode () {
+            // ReSharper disable NonReadonlyMemberInGetHashCode
             return X.GetHashCode () ^ (Y.GetHashCode () << 2) ^ (Z.GetHashCode () >> 2);
+            // ReSharper restore NonReadonlyMemberInGetHashCode
         }
 
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
@@ -305,9 +306,9 @@ namespace Leopotam.Ecs.Types {
             }
             var rhs = (Float3) other;
             return (
-                (X - rhs.X) * (X - rhs.X) +
-                (Y - rhs.Y) * (Y - rhs.Y) +
-                (Z - rhs.Z) * (Z - rhs.Z)) < MathFast.Epsilon;
+                       (X - rhs.X) * (X - rhs.X) +
+                       (Y - rhs.Y) * (Y - rhs.Y) +
+                       (Z - rhs.Z) * (Z - rhs.Z)) < MathFast.Epsilon;
         }
 
 #if UNITY_2018_3_OR_NEWER

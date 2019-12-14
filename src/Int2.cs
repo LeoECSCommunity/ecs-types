@@ -33,7 +33,7 @@ namespace Leopotam.Ecs.Types {
         }
 
         /// <summary>
-        /// Reverses vector direction inplace.
+        /// Reverses vector direction in-place.
         /// </summary>
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
         public void Neg () {
@@ -116,7 +116,9 @@ namespace Leopotam.Ecs.Types {
 
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
         public override int GetHashCode () {
-            return X.GetHashCode () ^ (Y.GetHashCode () << 2);
+            // ReSharper disable NonReadonlyMemberInGetHashCode
+            return X ^ (Y << 2);
+            // ReSharper restore NonReadonlyMemberInGetHashCode
         }
 
         [MethodImpl (MethodImplOptions.AggressiveInlining)]

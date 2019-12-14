@@ -183,12 +183,11 @@ namespace Leopotam.Ecs.Types {
         public static float Lerp (float a, float b, float t) {
             if (t <= 0f) {
                 return a;
-            } else {
-                if (t >= 1f) {
-                    return b;
-                }
-                return a + (b - a) * t;
             }
+            if (t >= 1f) {
+                return b;
+            }
+            return a + (b - a) * t;
         }
 
         /// <summary>
@@ -201,6 +200,23 @@ namespace Leopotam.Ecs.Types {
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
         public static float LerpUnclamped (float a, float b, float t) {
             return a + (b - a) * t;
+        }
+
+        /// <summary>
+        /// Calculates linear parameter t that produces the interpolated value within the range [a, b].
+        /// </summary>
+        /// <param name="a">Start value.</param>
+        /// <param name="b">End value.</param>
+        /// <param name="value">Value between start and end.</param>
+        public static float LerpInveresed (float a, float b, float value) {
+            var data = (value - a) / (b - a);
+            if (data < 0f) {
+                return 0f;
+            }
+            if (data > 1f) {
+                return 1f;
+            }
+            return data;
         }
 
         /// <summary>
