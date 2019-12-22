@@ -133,7 +133,6 @@ namespace Leopotam.Ecs.Types {
         /// <summary>
         /// Gets width of box. Box should be valid before operation!
         /// </summary>
-        /// <param name="lhs">Box.</param>
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
         public int GetWidth () {
             return Max.X - Min.X;
@@ -142,7 +141,6 @@ namespace Leopotam.Ecs.Types {
         /// <summary>
         /// Gets height of box. Box should be valid before operation!
         /// </summary>
-        /// <param name="lhs">Box.</param>
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
         public int GetHeight () {
             return Max.Y - Min.Y;
@@ -151,8 +149,8 @@ namespace Leopotam.Ecs.Types {
         /// <summary>
         /// Is box contains point X,Y. Box should be valid before operation!
         /// </summary>
-        /// <param name="x">Point X coord.</param>
-        /// <param name="y">Point Y coord.</param>
+        /// <param name="x">Point X-coord.</param>
+        /// <param name="y">Point Y-coord.</param>
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
         public bool Contains (int x, int y) {
             return x >= Min.X && x <= Max.X && y >= Min.Y && y <= Max.Y;
@@ -217,7 +215,9 @@ namespace Leopotam.Ecs.Types {
 
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
         public override int GetHashCode () {
+            // ReSharper disable NonReadonlyMemberInGetHashCode
             return Min.GetHashCode () ^ (Max.GetHashCode () << 2);
+            // ReSharper restore NonReadonlyMemberInGetHashCode
         }
 
         [MethodImpl (MethodImplOptions.AggressiveInlining)]

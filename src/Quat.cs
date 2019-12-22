@@ -54,7 +54,6 @@ namespace Leopotam.Ecs.Types {
         /// <summary>
         /// Returns conjugate version of quaternion.
         /// </summary>
-        /// <param name="lhs">Quaternion.</param>
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
         public Quat GetConjugated () {
             Quat res;
@@ -77,14 +76,14 @@ namespace Leopotam.Ecs.Types {
             y *= MathFast.Deg2Rad;
             z *= MathFast.Deg2Rad;
             var yawHalf = x * 0.5f;
-            var cosYawHalf = (float) System.Math.Cos (yawHalf);
-            var sinYawHalf = (float) System.Math.Sin (yawHalf);
+            var cosYawHalf = (float) Math.Cos (yawHalf);
+            var sinYawHalf = (float) Math.Sin (yawHalf);
             var pitchHalf = y * 0.5f;
-            var cosPitchHalf = (float) System.Math.Cos (pitchHalf);
-            var sinPitchHalf = (float) System.Math.Sin (pitchHalf);
+            var cosPitchHalf = (float) Math.Cos (pitchHalf);
+            var sinPitchHalf = (float) Math.Sin (pitchHalf);
             var rollHalf = z * 0.5f;
-            var cosRollHalf = (float) System.Math.Cos (rollHalf);
-            var sinRollHalf = (float) System.Math.Sin (rollHalf);
+            var cosRollHalf = (float) Math.Cos (rollHalf);
+            var sinRollHalf = (float) Math.Sin (rollHalf);
             Quat result;
             result.X = sinYawHalf * cosPitchHalf * cosRollHalf + cosYawHalf * sinPitchHalf * sinRollHalf;
             result.Y = cosYawHalf * sinPitchHalf * cosRollHalf - sinYawHalf * cosPitchHalf * sinRollHalf;

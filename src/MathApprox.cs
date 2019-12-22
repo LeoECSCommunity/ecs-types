@@ -37,27 +37,27 @@ namespace Leopotam.Ecs.Types {
 
         const int SinCosIndexMask = ~(-1 << 12);
 
-        static readonly float[] _sinCache;
+        static readonly float[] SinCache;
 
-        static readonly float[] _cosCache;
+        static readonly float[] CosCache;
 
         const float SinCosIndexFactor = SinCosCacheSize / MathFast.Pi2;
 
         const int SinCosCacheSize = SinCosIndexMask + 1;
 
         static MathApprox () {
-            _sinCache = new float[SinCosCacheSize];
-            _cosCache = new float[SinCosCacheSize];
+            SinCache = new float[SinCosCacheSize];
+            CosCache = new float[SinCosCacheSize];
             int i;
             for (i = 0; i < SinCosCacheSize; i++) {
-                _sinCache[i] = (float) System.Math.Sin ((i + 0.5f) / SinCosCacheSize * MathFast.Pi2);
-                _cosCache[i] = (float) System.Math.Cos ((i + 0.5f) / SinCosCacheSize * MathFast.Pi2);
+                SinCache[i] = (float) Math.Sin ((i + 0.5f) / SinCosCacheSize * MathFast.Pi2);
+                CosCache[i] = (float) Math.Cos ((i + 0.5f) / SinCosCacheSize * MathFast.Pi2);
             }
 
             var factor = SinCosCacheSize / 360f;
             for (i = 0; i < 360; i += 90) {
-                _sinCache[(int) (i * factor) & SinCosIndexMask] = (float) System.Math.Sin (i * MathFast.Deg2Rad);
-                _cosCache[(int) (i * factor) & SinCosIndexMask] = (float) System.Math.Cos (i * MathFast.Deg2Rad);
+                SinCache[(int) (i * factor) & SinCosIndexMask] = (float) Math.Sin (i * MathFast.Deg2Rad);
+                CosCache[(int) (i * factor) & SinCosIndexMask] = (float) Math.Cos (i * MathFast.Deg2Rad);
             }
         }
 
@@ -91,7 +91,7 @@ namespace Leopotam.Ecs.Types {
         /// <param name="v">Angle in radians.</param>
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
         public static float Sin (float v) {
-            return _sinCache[(int) (v * SinCosIndexFactor) & SinCosIndexMask];
+            return SinCache[(int) (v * SinCosIndexFactor) & SinCosIndexMask];
         }
 
         /// <summary>
@@ -100,7 +100,7 @@ namespace Leopotam.Ecs.Types {
         /// <param name="v">Angle in radians.</param>
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
         public static float Cos (float v) {
-            return _cosCache[(int) (v * SinCosIndexFactor) & SinCosIndexMask];
+            return CosCache[(int) (v * SinCosIndexFactor) & SinCosIndexMask];
         }
 
         /// <summary>

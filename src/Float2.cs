@@ -55,7 +55,7 @@ namespace Leopotam.Ecs.Types {
         }
 
         /// <summary>
-        /// Reverses vector direction inplace.
+        /// Reverses vector direction in-place.
         /// </summary>
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
         public void Neg () {
@@ -73,7 +73,7 @@ namespace Leopotam.Ecs.Types {
         }
 
         /// <summary>
-        /// Normalizes vector inplace.
+        /// Normalizes vector in-place.
         /// </summary>
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
         public void Normalize () {
@@ -134,10 +134,9 @@ namespace Leopotam.Ecs.Types {
         public static Float2 Lerp (in Float2 lhs, in Float2 rhs, float t) {
             if (t > 1f) {
                 return rhs;
-            } else {
-                if (t < 0f) {
-                    return lhs;
-                }
+            }
+            if (t < 0f) {
+                return lhs;
             }
             Float2 res;
             res.X = (rhs.X - lhs.X) * t + lhs.X;
@@ -234,7 +233,9 @@ namespace Leopotam.Ecs.Types {
 
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
         public override int GetHashCode () {
+            // ReSharper disable NonReadonlyMemberInGetHashCode
             return X.GetHashCode () ^ (Y.GetHashCode () << 2);
+            // ReSharper restore NonReadonlyMemberInGetHashCode
         }
 
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
